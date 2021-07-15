@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="cpath" value="${pageContext.request.contextPath}"/>
+<c:set var="cpath" value="${pageContext.request.contextPath }"/>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>KREAM</title>
-	<link rel="stylesheet" href="${cpath }/resources/css/style.css">
+	<link rel="stylesheet" href="${cpath }/resources/css/style.css?ver=1">
 </head>
 <body>
     <header>
@@ -24,49 +24,37 @@
             <h1><a href="${cpath }">KREAM</a></h1>
             <nav>
                 <a href="#">STYLE</a>
-                <a href="#">SHOP</a>
+                <a href="${cpath }/search">SHOP</a>
                 <a href="#">ABOUT</a>
                 <div class="searchBtn"></div>
             </nav>
         </div>
     </header>
-    
+    <div class="guard"></div>
     <div class="searchWrap hidden">
         <div class="searchContainer">
             <div class="searchArea">
-                <div></div><input type="search" placeholder="브랜드명,모델명,모델번호 등">
+                <div></div>
+                <form id="searchForm" method="POST" action="${cpath }/search">
+	                <input id="inputSearch" type="text" name="keyword" placeholder="브랜드명, 모델명, 모델번호 등">
+                </form>
+                <div class="clearBtn hidden">×</div>
             </div>
             <button class="cancelBtn">취소</button>
         </div>
-        <div class="recommandItem">
-            <div>1</div>
-            <div>2</div>
-            <div>3</div>
-            <div>4</div>
-            <div>5</div>
-            <div>6</div>
+        <div class="recommendItem">
+            <div onclick="location.href ='${cpath}/search?keyword=Jordan'"><div></div><p>Jordan 1</p></div>
+            <div onclick="location.href ='${cpath}/search?keyword=지갑'"><div></div><p>지갑</p></div>
+            <div onclick="location.href ='${cpath}/search?keyword=Dunk'"><div></div><p>Dunk</p></div>
+            <div onclick="location.href ='${cpath}/search?keyword=Helinox'"><div></div><p>Helinox</p></div>
+            <div onclick="location.href ='${cpath}/search?keyword=메종 키츠네'"><div></div><p>메종키츠네</p></div>
+            <div onclick="location.href ='${cpath}/search?keyword=사카이'"><div></div><p>사카이</p></div>
         </div>
+        
+        <div class="searchResult hidden"></div>
+        
     </div>
-    <div class="overlay hidden""></div>
+    <div class="overlay hidden"></div>
     
-    <script>
-	    const searchBtn = document.querySelector('.searchBtn')
-	    const search = document.querySelector('.searchWrap')
-	    const overlay = document.querySelector('.overlay')
-	    const searchCancel = document.querySelector('.cancelBtn')
+	<script src="${cpath }/resources/js/search.js?ver=2"/></script>
 	
-	    searchBtn.onclick = function() {
-	        search.classList.remove('hidden')
-	        overlay.classList.remove('hidden')
-	    }
-	
-	    overlay.onclick = function() {
-	        search.classList.add('hidden')
-	        overlay.classList.add('hidden')
-	    }
-	    searchCancel.onclick = function() {
-	        search.classList.add('hidden')
-	        overlay.classList.add('hidden')
-	    }
-    </script>
-    
