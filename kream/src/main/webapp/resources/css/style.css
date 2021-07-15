@@ -6,20 +6,22 @@
         html, body {
             margin: 0;
             padding: 0;
-            width: 100%;
-            height: 100%;
         }
-        
         .hidden {
         	display: none;
         }
 
         /* header */
         header {
-            position: sticky;
+            position: fixed;
             top: 0;
+            width: 100%;
             background-color: white;
             border-bottom: 1px solid rgb(221, 221, 221);
+            z-index: 9;
+        }
+        .guard {
+        	height: 102px;
         }
         header .top {
             display: flex;
@@ -74,11 +76,12 @@
         /* search */
         .searchWrap {
 			width: 100%;
+			height: auto;
             padding: 20px;
             background-color: white;
             position: fixed;
             top: 0;
-            z-index: 2;
+            z-index: 10;
         }
         .searchContainer {
             display: flex;
@@ -92,13 +95,14 @@
             background-color: rgb(245, 245, 245);
             border-radius: 10px;
         }
-        .searchArea input {
+        #inputSearch {
             border: none;
             background-color: inherit;
-            width: 600px;
+            width: 565px;
+            height: 40px;
             outline: none;
         }
-        .searchArea div {
+        .searchArea div:first-child {
             background-image: url('https://i.imgur.com/Av9j7SQ.png');
             background-repeat: no-repeat;
             background-size: 55%;
@@ -107,17 +111,133 @@
             width: 40px;
             height: 40px;
         }
-        .recommandItem {
+        .clearBtn {
+            opacity: 0.6;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .recommendItem {
             display: flex;
             justify-content: center;
         }
-        .recommandItem div{
+        .recommendItem div {
             width: 100px;
             height: 100px;
-            background-color: gray;
+            background-color: rgb(244, 244, 244);
             margin: 10px;
             margin-top: 20px;
             border-radius: 10px;
+            cursor: pointer;
+        }
+        .recommendItem > div div{
+            width: 70px;
+            height: 70px;
+        	background-repeat: no-repeat;
+            background-size: 100%;
+            background-position: center;
+            margin: auto;
+            margin-top: 3px;
+        }
+        .recommendItem > div:nth-child(1) div{
+        background-image: url("https://kream-phinf.pstatic.net/MjAyMTA1MjZfOTQg/MDAxNjIyMDI0MTM3MzI5.t26Ls40IwBtfC9TFzUvC5yRLoae4sYf1BzNGQFSOY58g.apdLq7biCgFViqXSkOBX6KsBaJMWbVm9a2MnLjzsYDIg.PNG/p_f813766f0c694f138ea7f56acaefc4d2.png");
+        }
+        .recommendItem > div:nth-child(2) div{
+        background-image: url("https://kream-phinf.pstatic.net/MjAyMTA3MDJfMjg3/MDAxNjI1MjI2MjM3NTUx.dMU9QJTzGwfJMXwk6MH5oMfCcUnDUxb-iV3ZURLhyHog.k8WOOqonlxb3U6WecuNjpPGYrQyxh7N8_SCaaqUS83Ug.PNG/p_4f213a0866354fa39e72f459f3374589.png");
+        }
+        .recommendItem > div:nth-child(3) div{
+        background-image: url("https://kream-phinf.pstatic.net/MjAyMTA0MDlfMjI5/MDAxNjE3OTU0NzEyODQ1.sbIVaYXvZJMWcy77AFAF6M8XTEUvgMK1ufBgnIDtfXEg.5moF7jzHWbCi4jb4ZLJVVNmm2zNJ6v6k3HOrpj2NE4Ig.PNG/p_7a30ca3381504b60a57788c71dc09494.png");
+        }
+        .recommendItem > div:nth-child(4) div{
+        background-image: url("https://kream-phinf.pstatic.net/MjAyMTA3MDdfMTE1/MDAxNjI1NjUwOTEzMDA0.J3KThZ0ChOAkNQl2FZNo8jDMJ7s4l7GwqEacQo9Um9Qg.151gcBv1D56qHTO9k5FuL5wNS-JWxMh2ohqb8Nl2Uo0g.PNG/p_23cbfa7113e046a993851ee64daccce8.png");
+        }
+        .recommendItem > div:nth-child(5) div{
+        background-image: url("https://kream-phinf.pstatic.net/MjAyMTA2MjFfMjU4/MDAxNjI0MjQxMjMzNjcx.FSSr64oYupdRK2J15HdOmkAEeFlBn80r0lBP_Mrm-B8g.HqfQGPewoc_fQkXQJuRsjM0jMJEqXyVff_GOuy1RtBAg.PNG/d_561597b7668c4efc910cd9f649597da3.png");
+        }
+        .recommendItem > div:nth-child(6) div{
+        background-image: url("https://kream-phinf.pstatic.net/MjAyMTA2MTBfODgg/MDAxNjIzMjU3MDM1OTk4.FjQCM_lleVlUSMB4n0SnAYC2IVkX6NMNEe06n-b0CTcg.jtxlzocLcyMrs6H7tbx4PN0Bsf52YPgohtBr6wqnaQUg.PNG/p_0141f0539fe44feeb196105851bd14b5.png");
+        }
+        .recommendItem div p {
+        	text-align: center;
+        	font-size: 12px;
+        	font-weight: 300;
+        	margin-top: 0;
+        }
+        .searchResult {
+        	width: 700px;
+        	height: auto;
+        	margin: auto;
+        	box-sizing: border-box;
+        }
+        .searchResult p {
+        	text-align: center;
+        }
+        .searchResult p:first-child {
+        	font-weight: 400;
+        	color: #444444;
+        	margin-bottom: 5px;
+        }
+        .searchResult p:last-child {
+        	font-weight: 300;
+        	font-size: 13px;
+        	color: #a4a4a4;
+        	margin-top: 0;
+        }
+        /* 검색 리스트 */
+        .suggestWrap {
+        	width: 650px;
+        	margin-top: 20px;
+        	font-size: 13px;
+        	display: flex;
+        	align-items: center;
+        	justify-content: space-between;
+        	border-bottom: 1px solid #e0e0e0;
+        	padding-bottom: 10px;
+        }
+        .suggestTitle {
+        	font-weight: 500;
+        	width: 300px;
+        	height: 25px;
+        }
+        .listCount {
+        	display: flex;
+        	cursor: pointer;
+        }
+        .listArrow {
+        	background-image: url("https://imgur.com/Hk59pVl.png");
+        	width: 25px;
+        	height: 20px;
+        	background-size: 35%;
+        	background-repeat: no-repeat;
+        	background-position: center;
+        }
+        .searchListItemWrap {
+        	display: flex;
+        	border-bottom: 1px solid #e0e0e0;
+        	align-items: center;
+        	padding: 3px 0;
+        }
+        .searchListItemThumb {
+        	width: 70px;
+        	height: 70px; 
+        	margin-right: 7px;
+        	border-radius: 7px;
+        	overflow: hidden;
+        }
+        .searchListItemName p {
+       		text-align: left;
+       		letter-spacing: -0.5px;
+        }
+        .searchListItemName p:first-child {
+       		margin: 0;
+       		font-size: 14px;
+        }
+        .searchListItemName p:last-child {
+       		margin: 0;
+       		font-size: 12px;
         }
         .cancelBtn {
             border: none;
@@ -129,6 +249,7 @@
             height: 100%;
             position: fixed;
             background-color: rgba(99, 99, 99, 0.452);
+            z-index: 8;
         }
 
         /* banner */
@@ -296,20 +417,6 @@
         .sns a:nth-child(3) div{
             background-image: url('https://i.imgur.com/twUXiUS.png');
 
-        }
-
-
-        /*slide banner*/
-        .main {
-            overflow: hidden;
-        }
-        .slideList{
-            width: 500%;
-            display: flex;
-        }
-        .slide-content {
-            float: left;
-            width: 100%;
         }
         
         /* policy */
