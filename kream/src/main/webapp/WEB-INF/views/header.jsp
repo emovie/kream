@@ -56,5 +56,5 @@
     </div>
     <div class="overlay hidden"></div>
     
-	<script src="${cpath }/resources/js/search.js?ver=2"/></script>
+	<script src="${cpath }/resources/js/search.js?ver=1"/></script>
 	
