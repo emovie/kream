@@ -18,6 +18,11 @@ public class HomeController {
 	
 	@Autowired private MainpageService ms;
 	
+	@GetMapping("/")
+	public String home() {
+		return "home";
+	}
+	
 	@GetMapping("/products")
 	public String products() {
 		return "/products/products";

@@ -12,7 +12,7 @@ public interface ProductDAO {
 	@Select("select * from product where lower(productname) like '%'||lower(#{keyword})||'%' or lower(krname) like '%'||lower(#{keyword})||'%' or lower(model) like '%'||lower(#{keyword})||'%' or lower(category) like '%'||lower(#{keyword})||'%'")
 	List<ProductDTO> search(String keyword);
 
-	@Select("select * from product order by rdate desc")
+	@Select("select * from (select * from product order by rdate desc) where rownum <= 12")
 	List<ProductDTO> justDropped();
 
 	@Select("select * from product order by rdate asc")
