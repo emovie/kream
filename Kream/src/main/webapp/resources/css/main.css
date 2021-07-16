@@ -1,0 +1,159 @@
+@charset "utf-8";
+
+		/* slide banner */
+		.slideWrapper {
+            position: relative;
+            width: 100%;
+            height: 480px;
+            overflow: hidden;
+            margin-bottom: 35px;
+        }
+        .slide {
+            padding: 0;
+            margin: 0;
+            display: flex;
+            position: absolute;
+            width: 600%;
+            left: 0;
+            top: 0;
+        }
+        .animated {
+            transition: 0.5s ease-out;
+            /* transition: opacity 600ms ease 0s, visibility 600ms ease 0s; */
+        }
+        .slide li {
+            list-style: none;
+            width: 100%;
+            height: 480px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 530px;
+            
+        }
+        
+        .bannerBtn {
+            text-align: center;
+            display: flex;
+            width: 100%;
+            height: 480px;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .bannerBtn div {
+            width: 80px;
+            height: 80px;
+            z-index: 1;
+        	background-size: 40%;
+        	background-repeat: no-repeat;
+        	background-position: center;
+        }
+        .prev {
+        	background-image: url('https://imgur.com/SNyVFfi.png');
+        }
+        .next {
+        	background-image: url('https://imgur.com/f67UiuT.png');
+        }
+        
+        /* img banner */
+        
+        .imgBanner {
+        	width: 100%;
+        	height: 480px;
+        	margin-bottom: 35px;
+        	background-repeat: no-repeat;
+        	background-size: 530px;
+        	background-position: center;
+        }
+        .img1 {
+        	background-image: url('https://kream-phinf.pstatic.net/MjAyMTA3MDlfNDkg/MDAxNjI1ODE3MjA0Mzk4.a171UxZnexspaYZh0961GLWd-GyKW5L4M2H7AEAbWl0g.N-ru_KQhOpBOFyiU6XzamsW-jYz76f6tmwhCq_uIPq8g.PNG/p_b38cf48683a6400da25e902205da4006.png');
+        	background-color: #159198;
+        }
+        
+        /* main items */
+        
+        .MainItem {
+        	width: 1185px;
+        	height: auto;
+        	margin: auto;
+        	margin-bottom: 120px;
+        }
+        
+        .MainItemTitle p {
+        	margin: 0;
+        }
+        .MainItemTitle p:first-child {
+	 		font-weight: 600;
+	 		font-size: 19px;
+	 		letter-spacing: -0.5px;
+		}
+        .MainItemTitle p:last-child {
+	 		font-weight: 300;
+	 		font-size: 14px;
+	 		letter-spacing: -0.5px;
+	 		color: gray;
+		}
+		.ItemList {
+			display: flex;
+			justify-content: space-between;
+			width: 100%;
+			height: auto;
+			flex-wrap: wrap;
+		}
+		.ItemList div p {
+        	font-size: 14px;
+        	width: 240px;
+        	height: 45px;
+        	margin-top: 8px;
+        }
+        .thumbWrap {
+        	width: 280px;
+        	height: 280px;
+        	background-color: rgb(244, 244, 244);
+        	border-radius: 12px;
+        	overflow: hidden;
+        	margin-top: 20px;
+        	display: flex;
+        	justify-content: center;
+        	align-items: center;
+        }
+        .thumbnail {
+        	width: 230px;
+        	height: 230px;
+        }
+        .brandWrap {
+        	width: 280px;
+        	margin-top: 10px; 
+        	display: flex;
+        	justify-content: space-between;
+        }
+        .brandWrap div:first-child {
+        	font-size: 13px;		
+		}
+        .brandWrap div:last-child {
+			width: 23px;
+			height: 23px;
+			
+			/* checked mark */
+			/* background-image: url("https://imgur.com/tiurw8c.png"); */
+
+			background-image: url("https://imgur.com/ZvqIAuS.png");
+			
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: 100%;
+		}
+		.moreBtn {
+			background-color: inherit;
+			width: 90px;
+			height: 40px;
+			border: 1px solid #d5d5d5;
+			border-radius: 10px;
+			text-align: center;
+			margin: auto;
+			color: #5d5d5d;
+			font-size: 13px;
+			line-height: 40px;
+			cursor: pointer;
+		}
+        
+        
