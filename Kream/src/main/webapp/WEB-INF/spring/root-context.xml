@@ -14,10 +14,10 @@
 			class="com.mchange.v2.c3p0.ComboPooledDataSource"
 			destroy-method="close">
 		<!-- 스프링 빈으로 객체를 선언하고, property 태그로 setter를 통해 값을 지정할 수 있다 -->
-		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />		
-		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:xe" />		
-		<property name="user" value="c##kream"/>		
-		<property name="password" value="kream" />		
+		<property name="driverClass" value="${spring.datasource.driverClassName}" />		
+		<property name="jdbcUrl" value="${spring.datasource.url}" />		
+		<property name="user" value="${spring.datasource.username}"/>		
+		<property name="password" value="${spring.datasource.password}" />		
 		<property name="maxPoolSize" value="30" />		
 		<property name="maxIdleTime" value="600" />		
 		<property name="idleConnectionTestPeriod" value="300" />		
