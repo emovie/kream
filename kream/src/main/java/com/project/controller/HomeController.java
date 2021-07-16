@@ -6,17 +6,21 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.project.model.KreamDTO;
 import com.project.model.ProductDTO;
+import com.project.service.KreamService;
 import com.project.service.MainpageService;
 
 @Controller
 public class HomeController {
 	
 	@Autowired private MainpageService ms;
+	@Autowired private KreamService ks;
 	
 	@GetMapping("/")
 	public String home() {
@@ -58,5 +62,11 @@ public class HomeController {
 		
 		mav.addObject("list",list);
 		return mav;
+	}
+	
+	@GetMapping("/list")
+	public void list(Model model) {
+		List<KreamDTO> list = ks.selectList();
+		model.addAttribute("list", list);
 	}
 }
