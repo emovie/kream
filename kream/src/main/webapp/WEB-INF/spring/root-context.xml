@@ -11,27 +11,29 @@
 		<context:property-placeholder location="WEB-INF//config/*.properties" /> 
 		<context:component-scan base-package="com.project.service" />
 		<mybatis-spring:scan base-package="com.project.model"/>
+		
 		<bean id="dataSource"
 			class="com.mchange.v2.c3p0.ComboPooledDataSource"
 			destroy-method="close">
 		<!-- 스프링 빈으로 객체를 선언하고, property 태그로 setter를 통해 값을 지정할 수 있다 -->
-		<property name="driverClass" value="${spring.datasource.driverClassName}" />		
-		<property name="jdbcUrl" value="${spring.datasource.url}" />		
-		<property name="user" value="${spring.datasource.username}" />		
-		<property name="password" value="${spring.datasource.password}" />		
-		<property name="maxPoolSize" value="30" />		
+		<property name="driverClass" value="oracle.jdbc.driver.OracleDriver" />		
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@localhost:1521:xe" />		
+		<property name="user" value="c##kream" />		
+		<property name="password" value="k1" />		
+		<property name="maxPoolSize" value="30" />
 		<property name="maxIdleTime" value="600" />		
 		<property name="idleConnectionTestPeriod" value="300" />		
 	</bean>
 	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-<!-- 		<property name="configLocation" value="com.itbank.model" /> -->
+		<property name="configLocation" value="classpath:config/mybatis.xml" />
 		<property name="mapperLocations">
 			<list>
+				<value>classpath:config/mapper-member.xml</value>
 			</list>
 		</property>
-	</bean>
+	</bean> 
 	
 	<bean id="sqlSessionTemplate"
 			class="org.mybatis.spring.SqlSessionTemplate"
