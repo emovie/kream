@@ -16,7 +16,9 @@
                 <a href="#">고객센터</a>
                 <a href="#">관심상품</a>
                 <a href="#">마이페이지</a>
-                <a href="#">로그인</a>
+                <a href="${cpath }/member/${not empty login ? 'logout' : 'login'}">
+					${not empty login ? '로그아웃' : '로그인'}
+				</a>
                 <!-- 로그인 세션 있을 경우 로그아웃으로 텍스트 변경 (로그인 기능 구현 후 작성必) -->
             </nav>
         </div>
@@ -24,7 +26,7 @@
             <h1><a href="${cpath }">KREAM</a></h1>
             <nav>
                 <a href="#">STYLE</a>
-                <a href="${cpath }/search">SHOP</a>
+                <a href="${cpath }/list">SHOP</a>
                 <a href="#">ABOUT</a>
                 <div class="searchBtn"></div>
             </nav>
