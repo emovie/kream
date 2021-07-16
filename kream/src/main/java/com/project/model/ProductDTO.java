@@ -15,8 +15,8 @@ public class ProductDTO {
 	
 //  ImgList 
 	
-	private int idx, price;
-	private String productName, krName, Model, Brand, color, rdate, category;
+	private int idx;
+	private String productName, krName, Model, Brand, color, rdate, category, price;
 	private List<ProductImgDTO> imgList;
 
 	public int getIdx() {
@@ -25,10 +25,10 @@ public class ProductDTO {
 	public void setIdx(int idx) {
 		this.idx = idx;
 	}
-	public int getPrice() {
+	public String getPrice() {
 		return price;
 	}
-	public void setPrice(int price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 	public String getProductName() {
