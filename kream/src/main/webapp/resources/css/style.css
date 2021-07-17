@@ -197,6 +197,7 @@
         	border-bottom: 1px solid #e0e0e0;
         	padding-bottom: 10px;
         }
+       
         .suggestTitle {
         	font-weight: 500;
         	width: 300px;
@@ -219,7 +220,12 @@
         	border-bottom: 1px solid #e0e0e0;
         	align-items: center;
         	padding: 3px 0;
+        	cursor: pointer;
         }
+        .searchListItemWrap:hover {
+        	background-color: #fafafa;
+        }
+        
         .searchListItemThumb {
         	width: 70px;
         	height: 70px; 
