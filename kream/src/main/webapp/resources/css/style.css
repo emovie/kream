@@ -8,7 +8,15 @@
             padding: 0;
         }
         .hidden {
-        	display: none;
+        	display: none !important;
+        }
+        a {
+        	color: inherit;
+        	text-decoration: none;
+        }
+        ul {
+        	list-style: none;
+        	padding: 0;
         }
 
         /* header */

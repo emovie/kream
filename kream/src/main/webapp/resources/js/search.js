@@ -1,8 +1,4 @@
-function getContextPath() {
-	return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2))
-}
 
-const cpath = getContextPath()
 
 // 검색 관련 스크립트
 
