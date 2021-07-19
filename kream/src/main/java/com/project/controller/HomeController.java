@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -30,6 +31,14 @@ public class HomeController {
 	@GetMapping("/products")
 	public String products() {
 		return "/products/products";
+	}
+	
+	// 현재 상품 페이지가 미완이기 때문에 상품 idx를 파라미터로 받아오기만 함
+	// 차후에 인덱스에 맞는 상품을 호출할 수 있도록 수정해야 함
+	@GetMapping("/products/{prodIdx}")
+	public ModelAndView product(@PathVariable int prodIdx) {
+		ModelAndView mav = new ModelAndView("/products/products");
+		return mav;
 	}
 	
 	@GetMapping("/policy/privacy")
