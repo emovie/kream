@@ -2,37 +2,35 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="cpath" value="${pageContext.request.contextPath }" />    
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
 
+<%@ include file="../header.jsp" %>
+
+<link rel="stylesheet" href="${cpath }/resources/css/style.css?ver=1">
 <style>
-body {
+	/* body {
 		display: flex;
-		justify-content: center;
-	} 
-	div, .help_title, .help_notice, .notice_txt, form.login-form {
+	}  */
+	/* div, .help_title, .help_notice, .notice_txt, form.login-form {
 		width: 400px;
-	}
-	div {
+	} */
+	/* div {
 		height: 361px;
-	}
-	.help_title {
+	} */
+	/* .help_title {
 		border-bottom: 2px solid black;
 		height: 81px;
 		text-align: center;
 		font-size: 30px;
-	}
-	#logo_img {
+	} */
+	/* #logo_img {
 		margin: 40px 0px 40px 0px;
-	}
+	} */
 	
 	input[type="text"], input[type="password"] {
 		all: unset;
 		width: 400px;
-		border-bottom: 2px solid black;
+		border-bottom: 2px solid;
+		
 		padding-bottom: 8px;
 		margin : 0;
 	}
@@ -50,6 +48,7 @@ body {
 		color: white;
 		background-color: #e2e2e2;
 		border-radius: 12px;
+		
 	}
 	input[type="submit"]:disabled {
 		background-color: #e2e2e2;
@@ -63,7 +62,7 @@ body {
 		font-weight: 900;
 		margin: 0;
 		padding: 0;
-	}
+	} */
 </style>
 </head>
 <body>
@@ -82,7 +81,7 @@ body {
 		<p><span id="checkEmailMsg"></span></p>
 		<p><h4>비밀번호</h4></p>
 		<p><input type="password" name="pw" oninput="funcCheckPw()"  placeholder="영문, 숫자, 특수문자 조합 8~16자" required></p>
-		<span id="checkPwMsg"></span>
+		<div><span id="checkPwMsg"></span></div>
 		<input type="submit" value="로그인">
 		
 		<div id="naver_id_login">
@@ -112,11 +111,12 @@ body {
 			color ='red';
 		}else {
 			ans = '';
-			color = 'blue';
+			color = 'black';
 			idpass = true;
 		}
 			$('#checkEmailMsg').text(ans);
 			$('#checkEmailMsg').css('color', color);	
+			$('input[name=email]').css('border-bottom-color', color);
 	}
 
 
@@ -134,11 +134,12 @@ body {
 		}
 		else {
 			ans = '';
-			color = 'blue';
+			color = 'black';
 			pwpass = true;
 		}
 	$('#checkPwMsg').text(ans);
 	$('#checkPwMsg').css('color', color);
+	$('input[name=pw]').css('border-bottom-color', color);
 	}
 
 	/* $('#register_submit').click(function(){
@@ -147,5 +148,4 @@ body {
 	})	 */
 </script>
 
-</body>
-</html>
+<%@ include file="../footer.jsp" %>
