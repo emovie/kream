@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <title>KREAM</title>
-	<link rel="stylesheet" href="${cpath }/resources/css/style.css?ver=1">
+	<link rel="stylesheet" href="${cpath }/resources/css/style.css?ver=2">
 </head>
 <body>
     <header>

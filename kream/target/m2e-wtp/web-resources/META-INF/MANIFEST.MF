@@ -1,5 +1,10 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Built-By: kimsalja
 Build-Jdk: 11.0.9
+=======
+Built-By: ￬ﾕﾈ￭ﾝﾬ￪ﾲﾽ
+Build-Jdk: 1.8.0_281
+>>>>>>> main
 Created-By: Maven Integration for Eclipse
 
