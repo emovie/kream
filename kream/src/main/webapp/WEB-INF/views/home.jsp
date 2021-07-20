@@ -46,7 +46,7 @@
     </div>
     
     
-    <script src="${cpath }/resources/js/mainItem.js"/></script>
+    <script src="${cpath }/resources/js/mainItem.js?ver=1"/></script>
     <script src="${cpath }/resources/js/slideBanner.js"/></script>
 
 <%@ include file="footer.jsp" %>

@@ -24,25 +24,36 @@ public class HomeController {
 		return "home";
 	}
 	
-	@GetMapping("/products")
-	public String products() {
-		return "/products/products";
-	}
-	
-	// 현재 상품 페이지가 미완이기 때문에 상품 idx를 파라미터로 받아오기만 함
-	// 차후에 인덱스에 맞는 상품을 호출할 수 있도록 수정해야 함
 	@GetMapping("/products/{prodIdx}")
 	public ModelAndView product(@PathVariable int prodIdx) {
 		ModelAndView mav = new ModelAndView("/products/products");
 		return mav;
 	}
 	
+	// user 
+	@GetMapping("/my")
+	public String myPage() {
+		return "/user/mypage";
+	}
+	
+	@GetMapping("/login")
+	public String login() {
+		return "/user/login";
+	}
+	
+	@GetMapping("/login/find_password")
+	public String findPassword() {
+		return "/user/findPassword";
+	}
+	
+	// policy
 	@GetMapping("/policy/privacy")
 	public void privacy() {}
 
 	@GetMapping("/policy/agreement")
 	public void agreement() {}
 	
+	// shop
 	@GetMapping("/search")
 	public ModelAndView getList(HttpServletRequest req) {
 		String keyword = req.getParameter("keyword");
@@ -68,4 +79,5 @@ public class HomeController {
 		mav.addObject("list",list);
 		return mav;
 	}
+	
 }

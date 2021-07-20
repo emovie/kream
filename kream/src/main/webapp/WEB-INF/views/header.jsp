@@ -15,8 +15,9 @@
             <nav>
                 <a href="#">고객센터</a>
                 <a href="#">관심상품</a>
-                <a href="#">마이페이지</a>
-                <a href="#">로그인</a>
+                <!-- 로그인 세션 확인 후 로그인 or 마이페이지로 이동 -->
+                <a href="${cpath }/my">마이페이지</a>
+                <a href="${cpath }/login">로그인</a>
                 <!-- 로그인 세션 있을 경우 로그아웃으로 텍스트 변경 (로그인 기능 구현 후 작성必) -->
             </nav>
         </div>
@@ -56,5 +57,11 @@
     </div>
     <div class="overlay hidden"></div>
     
-	<script src="${cpath }/resources/js/search.js?ver=1"/></script>
+	<script src="${cpath }/resources/js/search.js?ver=2"/></script>
+	<script>
+		function getContextPath() {
+			return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2))
+		}
 	
+		const cpath = getContextPath()
+	</script>
