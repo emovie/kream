@@ -3,7 +3,6 @@ package com.project.service;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Scanner;
@@ -82,6 +81,11 @@ public class MailService {
 		for(int i = 0; i < 10; i++) {
 			tempPw += charSet[ran.nextInt(charSet.length)];
 		}
+		
+		tempPw += charSet[ran.nextInt(9)];
+		tempPw += charSet[ran.nextInt(26) + 10];
+		tempPw += charSet[ran.nextInt(26) + 36];
+		tempPw += charSet[ran.nextInt(7) + 62];
 		
 		return tempPw;
 	}

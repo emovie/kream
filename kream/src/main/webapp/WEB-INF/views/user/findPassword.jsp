@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp" %>
-<link rel="stylesheet" href="${cpath }/resources/css/findPassword.css">
+<link rel="stylesheet" href="${cpath }/resources/css/findPassword.css?ver=2">
 
 <div class="findPw">
 	<h1>비밀번호 찾기</h1>

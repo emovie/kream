@@ -36,9 +36,44 @@ public class HomeController {
 		return "/user/mypage";
 	}
 	
+	@GetMapping("/my/buying")
+	public String myBuying() {
+		return "/user/buying";
+	}
+
+	@GetMapping("/my/selling")
+	public String mySelling() {
+		return "/user/selling";
+	}
+	
+	@GetMapping("/my/wish")
+	public String myWish() {
+		return "/user/wish";
+	}
+	
+	@GetMapping("/my/profile")
+	public String myProfile() {
+		return "/user/profile";
+	}
+	
+	@GetMapping("/my/address")
+	public String myAddress() {
+		return "/user/address";
+	}
+	
+	@GetMapping("/my/payment")
+	public String myPayment() {
+		return "/user/payment";
+	}
+	
+	@GetMapping("/my/account")
+	public String myAccount() {
+		return "/user/account";
+	}
+	
 	@GetMapping("/login")
 	public String login() {
-		return "/user/login";
+		return "/member/login";
 	}
 	
 	@GetMapping("/login/find_password")
