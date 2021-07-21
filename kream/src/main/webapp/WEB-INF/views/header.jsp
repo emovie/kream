@@ -7,18 +7,16 @@
 <head>
     <meta charset="UTF-8">
     <title>KREAM</title>
-	<link rel="stylesheet" href="${cpath }/resources/css/style.css?ver=2">
+	<link rel="stylesheet" href="${cpath }/resources/css/style.css?ver=1">
 </head>
 <body>
     <header>
         <div class="top">
             <nav>
                 <a href="#">고객센터</a>
-                <a href="#">관심상품</a>
-                <!-- 로그인 세션 확인 후 로그인 or 마이페이지로 이동 -->
-                <a href="${cpath }/my">마이페이지</a>
-                <a href="${cpath }/login">로그인</a>
-                <!-- 로그인 세션 있을 경우 로그아웃으로 텍스트 변경 (로그인 기능 구현 후 작성必) -->
+                <a href="${cpath }${empty login ? '/login' : '/my/wish'}">관심상품</a>
+                <a href="${cpath }${empty login ? '/login' : '/my'}">마이페이지</a>
+                <a href="${cpath }/login">${empty login ? '로그인' : '로그아웃'}</a>
             </nav>
         </div>
         <div>
