@@ -401,6 +401,10 @@
 		$('.layer').addClass('hidden');
 	})
 	
+	$('.layer').click(function(){
+		$('.layer').addClass('hidden');
+	})
+	
 
 	$("#check_all_1").click(function(){
 		$('.checkbox_sub1:not(:disabled)').not(this).prop('checked', this.checked);
