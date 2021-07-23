@@ -15,7 +15,7 @@ public class ProductDTO {
 	
 //  ImgList 
 	
-	private int idx;
+	private int idx ;
 	private String productName, krName, Model, Brand, color, rdate, category, price;
 	private List<ProductImgDTO> imgList;
 

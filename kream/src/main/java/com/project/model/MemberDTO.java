@@ -14,7 +14,7 @@ public class MemberDTO {
 //    profileimage varchar2(255)
 	
 	private int idx;
-	private String email, pw, name, phonenumber,accountname, accountbank, accountnumber, profileiamge;
+	private String email, pw, name, phonenumber,accountname, accountbank, accountnumber, profileimage;
 	private char consent;
 	
 	public int getIdx() {
@@ -65,17 +65,18 @@ public class MemberDTO {
 	public void setAccountnumber(String accountnumber) {
 		this.accountnumber = accountnumber;
 	}
-	public String getProfileiamge() {
-		return profileiamge;
-	}
-	public void setProfileiamge(String profileiamge) {
-		this.profileiamge = profileiamge;
-	}
+	
 	public char getConsent() {
 		return consent;
 	}
 	public void setConsent(char consent) {
 		this.consent = consent;
+	}
+	public String getProfileimage() {
+		return profileimage;
+	}
+	public void setProfileimage(String profileimage) {
+		this.profileimage = profileimage;
 	}
 	
 }

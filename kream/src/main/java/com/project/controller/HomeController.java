@@ -6,47 +6,90 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.project.model.KreamDTO;
 import com.project.model.ProductDTO;
-import com.project.service.KreamService;
 import com.project.service.MainpageService;
 
 @Controller
 public class HomeController {
 	
 	@Autowired private MainpageService ms;
-	@Autowired private KreamService ks;
 	
 	@GetMapping("/")
 	public String home() {
 		return "home";
 	}
 	
-	@GetMapping("/products")
-	public String products() {
-		return "/products/products";
-	}
-	
-	// 현재 상품 페이지가 미완이기 때문에 상품 idx를 파라미터로 받아오기만 함
-	// 차후에 인덱스에 맞는 상품을 호출할 수 있도록 수정해야 함
 	@GetMapping("/products/{prodIdx}")
 	public ModelAndView product(@PathVariable int prodIdx) {
 		ModelAndView mav = new ModelAndView("/products/products");
 		return mav;
 	}
 	
+	// user 
+	@GetMapping("/my")
+	public String myPage() {
+		return "/user/mypage";
+	}
+	
+	@GetMapping("/my/buying")
+	public String myBuying() {
+		return "/user/buying";
+	}
+
+	@GetMapping("/my/selling")
+	public String mySelling() {
+		return "/user/selling";
+	}
+	
+	@GetMapping("/my/wish")
+	public String myWish() {
+		return "/user/wish";
+	}
+	
+	@GetMapping("/my/profile")
+	public String myProfile() {
+		return "/user/profile";
+	}
+	
+	@GetMapping("/my/address")
+	public String myAddress() {
+		return "/user/address";
+	}
+	
+	@GetMapping("/my/payment")
+	public String myPayment() {
+		return "/user/payment";
+	}
+	
+	@GetMapping("/my/account")
+	public String myAccount() {
+		return "/user/account";
+	}
+	
+	
+	@GetMapping("/login")
+	public String login() {
+		return "/member/login";
+	}
+	
+	@GetMapping("/login/find_password")
+	public String findPassword() {
+		return "/user/findPassword";
+	}
+	
+	// policy
 	@GetMapping("/policy/privacy")
 	public void privacy() {}
 
 	@GetMapping("/policy/agreement")
 	public void agreement() {}
 	
+	// shop
 	@GetMapping("/search")
 	public ModelAndView getList(HttpServletRequest req) {
 		String keyword = req.getParameter("keyword");
@@ -73,9 +116,4 @@ public class HomeController {
 		return mav;
 	}
 	
-	@GetMapping("/list")
-	public void list(Model model) {
-		List<KreamDTO> list = ks.selectList();
-		model.addAttribute("list", list);
-	}
 }

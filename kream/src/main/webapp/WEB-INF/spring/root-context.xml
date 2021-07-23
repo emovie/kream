@@ -11,7 +11,6 @@
 		<context:property-placeholder location="WEB-INF//config/*.properties" /> 
 		<context:component-scan base-package="com.project.service" />
 		<mybatis-spring:scan base-package="com.project.model"/>
-		
 		<bean id="dataSource"
 			class="com.mchange.v2.c3p0.ComboPooledDataSource"
 			destroy-method="close">
@@ -33,7 +32,7 @@
 				<value>classpath:config/mapper-member.xml</value>
 			</list>
 		</property>
-	</bean> 
+	</bean>
 	
 	<bean id="sqlSessionTemplate"
 			class="org.mybatis.spring.SqlSessionTemplate"
@@ -47,5 +46,5 @@
 		<property name="maxUploadSize" value="10485760" />
 		<property name="maxInMemorySize" value="10485760" />
 		<property name="defaultEncoding" value="utf-8" />
-	</bean>	
+	</bean>		
 </beans>

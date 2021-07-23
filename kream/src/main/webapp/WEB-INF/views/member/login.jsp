@@ -7,99 +7,151 @@
 
 <link rel="stylesheet" href="${cpath }/resources/css/style.css?ver=1">
 <style>
-	/* body {
-		display: flex;
-	}  */
-	/* div, .help_title, .help_notice, .notice_txt, form.login-form {
+	.loginWrap {
 		width: 400px;
-	} */
-	/* div {
-		height: 361px;
-	} */
-	/* .help_title {
-		border-bottom: 2px solid black;
-		height: 81px;
+		height: auto;
+		margin: auto;
+		margin-top: 60px;
+		margin-bottom: 60px;
+	}
+	.loginWrap > div:first-child {
+		width: 300px;
 		text-align: center;
-		font-size: 30px;
-	} */
-	/* #logo_img {
-		margin: 40px 0px 40px 0px;
-	} */
-	
-	input[type="text"], input[type="password"] {
-		all: unset;
-		width: 400px;
-		border-bottom: 2px solid;
-		
-		padding-bottom: 8px;
-		margin : 0;
+		margin: auto;
+		margin-bottom: 50px; 
 	}
-	
-	input[type="submit"] {
-		all: unset;
-		font-size: 15px;
- 		width: 400px;
-		height: 40px;
-		margin-top: 50px;
- 		padding: 5px 0;
-		text-align: center;
-		font-weight: bold;
-		cursor: pointer;
-		color: white;
-		background-color: #e2e2e2;
-		border-radius: 12px;
-		
+	.loginWrap img {
+		width: 250px;
 	}
-	input[type="submit"]:disabled {
-		background-color: #e2e2e2;
-		cursor: default;
-	}
-	input:focus::-webkit-input-placeholder {
-	 	color: transparent;
-	}
-	form.login-form .pnum, .mail {
+	.login_form p {
 		font-size: 13px;
-		font-weight: 900;
+		font-weight: 500;
 		margin: 0;
-		padding: 0;
-	} */
+	}
+	.login_form div > p:first-child {
+		margin-top: 20px; 
+		margin-bottom: 5px;
+	}
+	.login_form input {
+		width: 400px;
+		height: 30px;
+		border: none;
+		border-bottom: 1px solid #ebebeb;
+		outline: none;
+		padding-left: 0;
+		box-sizing: border-box;
+	}
+	.login_form input:focus {
+		border-bottom: 2px solid black;
+	}
+	.login_form input::placeholder {
+		color: #cecece;
+		font-size: 15px;
+		font-weight: 300;
+	}
+	.login_form > div:nth-child(2) {
+		margin-bottom: 60px;
+	}
+	.login_form > div > p:last-child {
+		height: 40px;
+		box-sizing: border-box;
+	}
+	
+	#login_submit, #naver_id_login {
+		width: 400px;
+		height: 50px;
+		color: white;
+		background-color: #cecece;
+		border-radius: 15px;  
+		border: none;
+		cursor: pointer;
+		margin-bottom: 8px;
+		font-size: 16px;
+	}
+	
+	#naver_id_login{
+		text-align: center;
+		line-height: 50px;
+		background-color: #5ac451;
+	}
+	.loginMenu {
+		width: 350px;
+		margin: auto;
+		margin-top: 20px;
+		margin-bottom: 120px;
+		display: flex;
+		justify-content: space-between;
+	}
+	.loginMenu div{
+		width: 100px;
+		text-align: center;
+		font-size: 13px;
+		cursor: pointer;
+	}
+	.loginMenu div:nth-child(2) {
+		border-left: 1px solid #cecece;
+		border-right: 1px solid #cecece;
+		padding: 0 10px;
+	}
+	
+	
 </style>
 </head>
 <body>
 
+<c:if test="${not empty login }">
+	<%	session.invalidate();%>
+	<script>
+		location.href = "${cpath }/login";
+	</script>
+</c:if>
 
-<div>
-	<h2 class="help_title">로그인</h2>
-	
+<div class="loginWrap">	
+	<div><img src="https://kream.co.kr/_nuxt/img/login_title.9f9ccc8.png"></div>
+
 	<form action="${cpath }/member/loginPost" method="POST" class="login_form">
-		<p id="logo_img">
-			logo_img
-		</p>
-		
-		<p><h4>이메일 주소</h4></p>
-		<p><input type="text" name="email" oninput="funcCheckEmail()" placeholder="예)itbank@itbank.co.kr" required autofocus></p>
-		<p><span id="checkEmailMsg"></span></p>
-		<p><h4>비밀번호</h4></p>
-		<p><input type="password" name="pw" oninput="funcCheckPw()"  placeholder="영문, 숫자, 특수문자 조합 8~16자" required></p>
-		<div><span id="checkPwMsg"></span></div>
-		<input type="submit" value="로그인">
-		
-		<div id="naver_id_login">
-		<a href="${cpath }/member/naver_login">
-		<img width="223" src="https://developers.naver.com/doc/review_201802/CK_bEFnWMeEBjXpQ5o8N_20180202_7aot50.png"/>
-		</a>
+		<div>
+			<p>이메일 주소</p>
+			<p>
+				<input type="text" name="email" id="email" class="login" oninput="funcCheckEmail()" placeholder="예) Email@Email.co.kr" onfocus="this.placeholder=''" onblur="this.placeholder='예) Email@Email.co.kr'"required>
+				<span id="checkEmailMsg"></span>
+			</p>
 		</div>
-		<p>
-			<a href="${cpath }/member/register">이메일 가입</a> |
-			<a href="${cpath }/member/findId">아이디 찾기</a> |
-			<a href="${cpath }/member/findPw">비밀번호 찾기</a>
-		</p>
-	
-</form>
+		
+		<div>
+			<p>비밀번호</p>
+			<p>
+				<input type="password" name="pw" id="pw" oninput="funcCheckPw()" class="login" required>
+				<span id="checkPwMsg"></span>
+			</p>
+		</div>
+		<input type="submit" id="login_submit" value="로그인" disabled="disabled">
+	</form>
+
+	<div id="naver_id_login" onclick="location.href='${cpath }/member/naver_login'">
+		네이버 로그인
+	</div>
+	<div class="loginMenu">
+		<div onclick="location.href='${cpath }/register'">이메일 가입</div>
+		<div onclick="location.href='${cpath }/findId'">아이디 찾기</div>
+		<div onclick="location.href='${cpath }/login/find_password'">비밀번호 찾기</div>
+	</div>
 </div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
-	var idPass;
+
+	$('.login').focus(function(e){
+		e.preventDefault();
+		$(this).css('border-bottom', '2px solid black')
+	})
+	
+	$('.login').blur(function(e){
+		e.preventDefault();
+		$(this).css('border-bottom', '1px solid #e2e2e2')
+	})
+	
+	var idpass;
 	function funcCheckEmail(){
 		var reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
 		var color;
@@ -108,7 +160,7 @@
 		var email = $('input[name=email]').val();
 		if(!reg_email.test(email)){
 			ans = '이메일 주소를 정확히 입력해주세요';
-			color ='red';
+			color ='#f15746';
 		}else {
 			ans = '';
 			color = 'black';
@@ -116,7 +168,7 @@
 		}
 			$('#checkEmailMsg').text(ans);
 			$('#checkEmailMsg').css('color', color);	
-			$('input[name=email]').css('border-bottom-color', color);
+			$('#checkEmailMsg').css('font-size', '11px');	
 	}
 
 
@@ -129,23 +181,30 @@
 		
 		if(!pwRegex.test(pw)) {
 			ans = '영문, 숫자, 특수문자를 조합하여 입력해주세요 (8~16자)';
-			color ='red';
+			color ='#f15746';
 			pwpass = false;
 		}
 		else {
 			ans = '';
 			color = 'black';
 			pwpass = true;
+			
 		}
-	$('#checkPwMsg').text(ans);
-	$('#checkPwMsg').css('color', color);
-	$('input[name=pw]').css('border-bottom-color', color);
-	}
-
-	/* $('#register_submit').click(function(){
-		event.preventDefault();
+		$('#checkPwMsg').text(ans);
+		$('#checkPwMsg').css('color', color);
+		$('#checkPwMsg').css('font-size', '11px');
 		
-	})	 */
+	
+		if (idpass && pwpass ) {
+			$('#login_submit').attr('disabled', false);
+			$('#login_submit').css('background-color', 'black');
+			
+		}else {
+			$('#login_submit').attr('disabled', true);
+			$('#login_submit').css('background-color', '#e2e2e2');
+		}
+	}
+	
 </script>
 
 <%@ include file="../footer.jsp" %>

@@ -16,7 +16,7 @@ import com.project.service.Hash;
 import com.project.service.MemberService;
 
 @Controller
-@RequestMapping("/member")
+@RequestMapping("/")
 public class UserRegisterController {
 	
 	private final MemberService ms;
@@ -47,7 +47,7 @@ public class UserRegisterController {
 		ms.register(dto);
 		ra.addFlashAttribute("msg", "REGISTERED");
 		
-		return "redirect:/member/login";			
+		return "redirect:/login";			
 	}
 	
 	@GetMapping("emailCheck")
