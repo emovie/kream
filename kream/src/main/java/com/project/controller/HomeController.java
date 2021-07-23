@@ -24,12 +24,6 @@ public class HomeController {
 		return "home";
 	}
 	
-	@GetMapping("/products/{prodIdx}")
-	public ModelAndView product(@PathVariable int prodIdx) {
-		ModelAndView mav = new ModelAndView("/products/products");
-		return mav;
-	}
-	
 	// user 
 	@GetMapping("/my")
 	public String myPage() {
