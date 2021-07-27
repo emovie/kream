@@ -15,7 +15,7 @@
 	<div class="topline"></div>
     <footer>
         <div class="f-top">
-            <div>
+            <div> 
                 <div>
                     <h4>이용안내</h4>
                     <ul>

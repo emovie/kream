@@ -23,7 +23,6 @@
 	
 	<context:component-scan base-package="com.project.controller" />
 	<view-controller path="/" view-name="home"/>
-	
 	<interceptors>
 	 	<interceptor>
 	 		<mapping path="/member/loginPost"/>
@@ -33,4 +32,6 @@
 	 </interceptors>
 	 
 	 <beans:bean id="naverLoginBO" class="com.project.controller.NaverLoginBO"></beans:bean>
+	
+	
 </beans:beans>

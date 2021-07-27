@@ -36,9 +36,6 @@ public class UserLoginController {
 	@RequestMapping(value="/loginPost", method = RequestMethod.POST)
 	public void loginPOST(LoginDTO logindto, HttpSession session, Model model) throws Exception {
 		
-		if(ms.checkEmail(logindto.getEmail()) == 0 )
-			return;
-		
 		MemberDTO dto = ms.login(logindto);
 
 		String hashedPw = Hash.getHash(logindto.getPw());

@@ -99,9 +99,6 @@
 			height: auto;
 			flex-wrap: wrap;
 		}
-		.ItemList > div {
-			cursor: pointer;
-		}
 		.ItemList div p {
         	font-size: 14px;
         	width: 240px;
@@ -132,18 +129,18 @@
         .brandWrap div:first-child {
         	font-size: 13px;		
 		}
-		.wishMark {
+        .brandWrap div:last-child {
 			width: 23px;
 			height: 23px;
+			
+			/* checked mark */
+			/* background-image: url("https://imgur.com/tiurw8c.png"); */
+
+			background-image: url("https://imgur.com/ZvqIAuS.png");
+			
 			background-repeat: no-repeat;
 			background-position: center;
 			background-size: 100%;
-		}
-        .wishMark.off {
-			background-image: url("https://imgur.com/ZvqIAuS.png");
-		}
-		.wishMark.on {
-			background-image: url("https://imgur.com/tiurw8c.png");
 		}
 		.moreBtn {
 			background-color: inherit;

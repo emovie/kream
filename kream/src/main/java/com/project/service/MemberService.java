@@ -14,7 +14,5 @@ public interface MemberService {
 
 	int checkEmail(String email) throws Exception;
 
-	int checkPw(String email) throws Exception;
-
 	
 }

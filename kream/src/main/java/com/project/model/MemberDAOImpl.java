@@ -38,11 +38,6 @@ public class MemberDAOImpl implements MemberDAO {
 		return sql.selectOne(NAMESPACE + ".checkEmail", email);
 	}
 
-	@Override
-	public int checkPw(String email) throws Exception {
-		return sql.selectOne(NAMESPACE + ".checkPw", email);
-	}
-
 	
 	
 }

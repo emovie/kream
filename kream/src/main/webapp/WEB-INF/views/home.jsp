@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="header.jsp" %>
-<link rel="stylesheet" href="${cpath }/resources/css/main.css?ver=1">
+<link rel="stylesheet" href="${cpath }/resources/css/main.css?ver=2">
 
 	<div class="slideWrapper">
         <ul class="slide">
@@ -46,7 +46,7 @@
     </div>
     
     
-    <script src="${cpath }/resources/js/mainItem.js?ver=1"/></script>
+    <script src="${cpath }/resources/js/mainItem.js"/></script>
     <script src="${cpath }/resources/js/slideBanner.js"/></script>
 
 <%@ include file="footer.jsp" %>

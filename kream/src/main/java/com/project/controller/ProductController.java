@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.project.model.BuySellDTO;
 import com.project.model.ProductDTO;
 import com.project.service.ProductService;
 
@@ -25,6 +26,12 @@ public class ProductController {
 		
 		ProductDTO product = ps.getProductInfo(idx);
 		mav.addObject("product", product);
+		
+		String conclusionPrice = ps.getConclusionPrice(idx);
+		mav.addObject("conclusionPrice", conclusionPrice);
+		
+		String buyPrice = ps.getBuyPrice(idx);
+		mav.addObject("buyPrice", buyPrice);
 		
 		String sellPrice = ps.getSellPrice(idx);
 		mav.addObject("sellPrice", sellPrice);
@@ -41,6 +48,21 @@ public class ProductController {
 		ArrayList<String> categorySize = ps.categorySize(product.getCategory());
 		mav.addObject("categorySize", categorySize);
 		
+		ArrayList<BuySellDTO> conclusionList = ps.getConclusionList(idx);
+		mav.addObject("conclusionList", conclusionList);
+		
+		ArrayList<BuySellDTO> sellList = ps.getSellList(idx,"all");
+		mav.addObject("sellList", sellList);
+		
+		ArrayList<BuySellDTO> buyList = ps.getBuyList(idx,"all");
+		mav.addObject("buyList", buyList);
+		
+		ArrayList<String> chartXData = ps.getChartXData(idx,"chartAll");
+		mav.addObject("chartXData", chartXData);
+		
+		ArrayList<String> chartYData = ps.getChartYData(idx,"chartAll");
+		mav.addObject("chartYData", chartYData);
+		
 		return mav;
 	}
 	
@@ -48,6 +70,7 @@ public class ProductController {
 	@ResponseBody
 	public ArrayList<String> sizeSelectPrice(@PathVariable int idx, @PathVariable String size) {
 		ArrayList<String> priceList = new ArrayList<String>();
+		System.out.println("seizeSelectPrice size : "+size);
 		if(size.equals("all") || size.equals("모든 사이즈")) {
 			priceList = ps.sizeAllPrice(idx);
 		} else {
@@ -85,5 +108,42 @@ public class ProductController {
 		ps.insertProductWish(productIdx,memberIdx,size);
 	}
 	
+	@GetMapping("/conclusionList/{productIdx}/{size}")
+	@ResponseBody
+	public ArrayList<BuySellDTO> conclusionList(@PathVariable int productIdx,@PathVariable String size) {
+		ArrayList<BuySellDTO> conclusionList = new ArrayList<BuySellDTO>();
+		if(size.equals("all") || size.equals("모든 사이즈")) {
+			conclusionList = ps.getConclusionList(productIdx);
+		} else {
+			conclusionList = ps.getConclusionList(productIdx,size);
+		}
+		for(BuySellDTO dto : conclusionList) {
+			System.out.println(dto.getpSize());
+			System.out.println(dto.getPrice());
+			System.out.println(dto.getEndDate());
+		}
+		return conclusionList;
+	}
+	
+	@GetMapping("/sellList/{productIdx}/{size}")
+	@ResponseBody
+	public ArrayList<BuySellDTO> sellList(@PathVariable int productIdx, @PathVariable String size) {
+		return ps.getSellList(productIdx, size);
+	}
+	
+	@GetMapping("/buyList/{productIdx}/{size}")
+	@ResponseBody
+	public ArrayList<BuySellDTO> buyList(@PathVariable int productIdx, @PathVariable String size) {
+		return ps.getBuyList(productIdx, size);
+	}
+	
+	@GetMapping("/chartData/{productIdx}/{tabId}")
+	@ResponseBody
+	public ArrayList<ArrayList<String>> chartData(@PathVariable int productIdx,@PathVariable String tabId) {
+		ArrayList<ArrayList<String>> list = new ArrayList<ArrayList<String>>();
+		list.add(ps.getChartXData(productIdx, tabId));
+		list.add(ps.getChartYData(productIdx, tabId));
+		return list;
+	}
 	
 }

@@ -3,19 +3,18 @@ package com.project.model;
 import java.util.List;
 
 public class ProductDTO {
-//	IDX         NOT NULL NUMBER        
-//	PRODUCTNAME NOT NULL VARCHAR2(200) 
-//	KRNAME      NOT NULL VARCHAR2(200) 
-//	MODEL       NOT NULL VARCHAR2(200) 
-//	BRAND       NOT NULL VARCHAR2(200) 
-//	COLOR       NOT NULL VARCHAR2(200) 
-//	RDATE       NOT NULL VARCHAR2(200) 
-//	PRICE       NOT NULL NUMBER        
-//	CATEGORY    NOT NULL VARCHAR2(200)
-	
+//	IDX         NOT NULL NUMBER         
+//	PRODUCTNAME NOT NULL VARCHAR2(3000) 
+//	KRNAME      NOT NULL VARCHAR2(3000) 
+//	MODEL       NOT NULL VARCHAR2(500)  
+//	BRAND       NOT NULL VARCHAR2(500)  
+//	COLOR       NOT NULL VARCHAR2(500)  
+//	RDATE       NOT NULL VARCHAR2(200)  
+//	PRICE       NOT NULL VARCHAR2(500)  
+//	CATEGORY    NOT NULL VARCHAR2(1000) 
 //  ImgList 
 	
-	private int idx ;
+	private int idx;
 	private String productName, krName, Model, Brand, color, rdate, category, price;
 	private List<ProductImgDTO> imgList;
 

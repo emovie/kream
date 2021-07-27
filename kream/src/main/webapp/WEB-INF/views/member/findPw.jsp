@@ -44,7 +44,7 @@
 		font-weight: bold;
 		cursor: pointer;
 		color: white;
-		background-color: black;
+		background-color: #e2e2e2;
 		border-radius: 12px;
 	}
 	form.find-form input[type="submit"]:disabled {
@@ -54,7 +54,7 @@
 	input:focus::-webkit-input-placeholder {
 	 	color: transparent;
 	}
-	form.find-form .pnum {
+	form.find-form .pnum, .mail {
 		font-size: 13px;
 		font-weight: 900;
 		margin: 0;
@@ -64,27 +64,21 @@
 </head>
 <body>
 	<div>
-		<h2 class="help_title">이메일 아이디 찾기</h2>
-
+		<h2 class="help_title">비밀번호 찾기</h2>
 		<p class="notice_text">
-			가입 시 등록한 휴대폰 번호를 입력하면<br>
-			이메일 주소의 일부를 알려드립니다.
+			가입 시 등록하신 휴대폰 번호와 이메일을 입력하시면,<br>
+			휴대폰으로 임시 비밀번호를 전송해 드립니다
 		</p>
-		<form class="find-form">	
+		<form class="find-form">
 			<p class="pnum">휴대폰 번호</p>
 			<p><input type="text" name="phonenumber" placeholder="가입하신 휴대폰 번호"></p>
-			<p><input type="submit" disabled="disabled" class="btn" value="이메일 아이디 찾기"></p>
+		
+			<p class="mail">이메일 주소</p>
+			<p><input type="text" name="email" placeholder="예) kream@kream.co.kr"></p>
+			
+			<p><input type="submit" disabled="disabled" value="문자 발송하기"></p>
 		</form>
 	</div>
-	<script>
-		const input = document.getElementByName('phonenumber')
-		const target = document.getElementByClassName('btn');
-		
-		function btnActive() {
-			
-			target.disabled = false;
-// 			target.disabled = true;
-		}
-	</script>
+	
 </body>
 </html>
