@@ -117,6 +117,7 @@
 				<span id="checkEmailMsg"></span>
 			</p>
 		</div>
+		
 		<div>
 			<p>비밀번호</p>
 			<p>
@@ -131,8 +132,8 @@
 		네이버 로그인
 	</div>
 	<div class="loginMenu">
-		<div onclick="location.href='${cpath }/member/register'">이메일 가입</div>
-		<div onclick="location.href='${cpath }/findId'">아이디 찾기</div>
+		<div onclick="location.href='${cpath }/register'">이메일 가입</div>
+		<div onclick="location.href='${cpath }/login/find_email'">아이디 찾기</div>
 		<div onclick="location.href='${cpath }/login/find_password'">비밀번호 찾기</div>
 	</div>
 </div>

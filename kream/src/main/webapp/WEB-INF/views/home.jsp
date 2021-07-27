@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@ include file="header.jsp" %>
 <link rel="stylesheet" href="${cpath }/resources/css/main.css?ver=1">
-
 	<div class="slideWrapper">
         <ul class="slide">
             <li style="background-color: rgb(235, 235, 223);

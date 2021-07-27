@@ -10,34 +10,50 @@
 		
 		const email = event.target.querySelector('input[name="email"]')
 		const phoneNumber = event.target.querySelector('input[name="phoneNumber"]')
+
+		const SocialCheck = email.value
 		
-		const url = cpath + '/login/find_password/'
+		const url = cpath + '/my/profile/check/' + SocialCheck + '/'
 		const opt = {
-			method: 'POST',
-			body: formData,
+				method: 'GET'
 		}
-		fetch(url, opt).then(resp => resp.text())
- 		.then(text => {
- 			if(text == 1) {	// DB에 일치하는 이메일 정보가 있다면
- 				// 임시 비밀번호 전송
- 				const url = cpath + '/login/find_password/accord/' + email.value + '/' + phoneNumber.value + '/'
-				const opt = {
-					method: 'GET',
-				}
- 				fetch(url, opt).then(resp => resp.text())
- 				.then(text => {
- 					console.log(text)
- 					if(text == 1) {
- 						findPw.classList.add('hidden')
- 						sendWrap.classList.remove('hidden')
- 					}
- 					else {
- 						alert('메일 발송에 실패하였습니다.')	
- 					}
- 				})
+		fetch(url, opt)
+		.then(resp => resp.text())
+		.then(text => {
+			if(text == 0) {
+				console.log(SocialCheck)
+				alert('소셜아이디로 가입된 계정입니다.')
 			}
-			else {	// DB에 일치하는 이메일 정보가 없다면
-				alert('일치하는 사용자 정보를 찾을 수 없습니다.')	
+			else{
+				const url = cpath + '/login/find_password/'
+				const opt = {
+					method: 'POST',
+					body: formData,
+				}
+				fetch(url, opt).then(resp => resp.text())
+		 		.then(text => {
+		 			if(text == 1) {	// DB에 일치하는 이메일 정보가 있다면
+		 				// 임시 비밀번호 전송
+		 				const url = cpath + '/login/find_password/accord/' + email.value + '/' + phoneNumber.value + '/'
+						const opt = {
+							method: 'GET',
+						}
+		 				fetch(url, opt).then(resp => resp.text())
+		 				.then(text => {
+		 					console.log(text)
+		 					if(text == 1) {
+		 						findPw.classList.add('hidden')
+		 						sendWrap.classList.remove('hidden')
+		 					}
+		 					else {
+		 						alert('메일 발송에 실패하였습니다.')	
+		 					}
+		 				})
+					}
+					else {	// DB에 일치하는 이메일 정보가 없다면
+						alert('일치하는 사용자 정보를 찾을 수 없습니다.')	
+					}
+				})
 			}
 		})
 	}

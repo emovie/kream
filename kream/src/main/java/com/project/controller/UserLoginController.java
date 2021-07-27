@@ -32,6 +32,7 @@ public class UserLoginController {
 		return "/member/login";
 	}
 	
+	
 	// 로그인 처리
 	@RequestMapping(value="/loginPost", method = RequestMethod.POST)
 	public void loginPOST(LoginDTO logindto, HttpSession session, Model model) throws Exception {

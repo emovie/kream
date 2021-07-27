@@ -2,6 +2,7 @@ package com.project.service;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Properties;
 import java.util.Random;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.service.Hash;
 import com.project.model.UserDAO;
 
 @Service
@@ -34,7 +36,7 @@ public class MailService {
 		return userdao.checkEmail(map);
 	}
 
-	public int changePw(String email, String phoneNumber, HttpSession session) throws FileNotFoundException {
+	public int changePw(String email, String phoneNumber, HttpSession session) throws IOException {
 		
 		String tempPw = getTempPw();
 		String hashNumber = Hash.getHash(tempPw);
@@ -52,19 +54,55 @@ public class MailService {
 		}
 		sc.close();
 		
-		String result = sendMail(email, tempPw, account);
+		
+		String result = sendMail(email, tempPw, account, 0);
 
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("email", email);
 		map.put("phoneNumber", phoneNumber);
 		map.put("pw", hashNumber);
-		if(result.equals(tempPw)) {		// 정상적으로 메일을 발송했다면 인증번호가 반환되어서 브라우저에게는 hash값을 전달한다
+		if(result.equals(tempPw)) {
 			return userdao.changeTempPw(map);
 		}
 		else {
 			System.out.println("발송 실패");
 			System.out.println(result);
-			return 0;					// 아니라면 상태를 알리는 문자열 메시지를 반환한다.
+			return 0;					
+		}
+		
+	}
+	
+	public String modifyEmail(String email, HttpSession session) throws IOException {
+		
+		String authNum = getAuthNumber();
+		String hashNumber = Hash.getHash(authNum);
+		
+		session.setAttribute("hashNumber", hashNumber);
+		
+		String account = null;
+		String filePath = session.getServletContext().getRealPath("/WEB-INF/config/mailAccount.dat");
+		File f = new File(filePath);
+		if(f.exists() == false) {
+			return "메일 전송에 필요한 계정 정보를 찾을 수 없습니다.";
+		}
+		Scanner sc = new Scanner(f);
+		while(sc.hasNextLine()) {
+			account = sc.nextLine();
+		}
+		sc.close();
+		
+		String result = sendMail(email, authNum, account, 1);
+
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("email", email);
+		map.put("pw", hashNumber);
+		if(result.equals(authNum)) {
+			return hashNumber;
+		}
+		else {
+			System.out.println("발송 실패");
+			System.out.println(result);
+			return result;
 		}
 		
 	}
@@ -76,21 +114,32 @@ public class MailService {
 		char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 									'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
 									'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-									'!', '@', '#', '$', '%', '^', '&' };
+									'!', '@', '#', '$', '^', '&' };
 		
-		for(int i = 0; i < 10; i++) {
+		for(int i = 0; i < 6; i++) {
 			tempPw += charSet[ran.nextInt(charSet.length)];
 		}
 		
-		tempPw += charSet[ran.nextInt(9)];
-		tempPw += charSet[ran.nextInt(26) + 10];
+		tempPw += charSet[ran.nextInt(6) + 61];
 		tempPw += charSet[ran.nextInt(26) + 36];
-		tempPw += charSet[ran.nextInt(7) + 62];
+		tempPw += charSet[ran.nextInt(26) + 10];
+		tempPw += charSet[ran.nextInt(9)];
 		
 		return tempPw;
 	}
 	
-	public String sendMail(String mailAddress, String tempPw, String account) {
+	private String getAuthNumber() {
+		Random ran = new Random();
+		String authNumber = "";
+		
+		for(int i = 0; i < 6; i++) {
+			authNumber += ran.nextInt(9);
+		}
+		
+		return authNumber;
+	}
+	
+	public String sendMail(String mailAddress, String tempPw, String account, int checkModify) {
 		// 메일을 발송하는 데에 사용하는 코드
 		String host = "smtp.naver.com";
 		int port = 465;
@@ -98,8 +147,16 @@ public class MailService {
 		final String username = account.split("/")[0];
 		final String password = account.split("/")[1];
 		
-		String subject = "[KREAM] 임시 비밀번호입니다.";
-		String body = String.format("임시 비밀번호는 [%s] 입니다.", tempPw);
+		String subject = "";
+		String body = "";
+		if(checkModify == 0) {
+			subject = "[KREAM] 임시 비밀번호입니다.";
+			body = String.format("임시 비밀번호는 [%s] 입니다.", tempPw);			
+		}
+		else {
+			subject = "[KREAM] 인증번호입니다.";
+			body = String.format("인증번호는 [%s] 입니다.", tempPw);			
+		}
 		
 		// 메일을 발송하는 서버에 대한 인증과 속성을 설정하기
 		Properties props = System.getProperties();
@@ -120,7 +177,6 @@ public class MailService {
 				return new PasswordAuthentication(un, pw);
 			}
 		});
-		mailSession.setDebug(true);		// 메일을 보내는 과정 주의 디버깅을 콘솔에 출력한다
 		
 		// 보내는 메일 내용 구성하기
 		Message mimeMessage = new MimeMessage(mailSession);
@@ -141,6 +197,5 @@ public class MailService {
 		}
 		return tempPw;
 	}
-
 
 }

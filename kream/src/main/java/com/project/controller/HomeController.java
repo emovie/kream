@@ -24,6 +24,8 @@ public class HomeController {
 		return "home";
 	}
 	
+
+	
 	// user 
 	@GetMapping("/my")
 	public String myPage() {
@@ -74,6 +76,10 @@ public class HomeController {
 	public String findPassword() {
 		return "/user/findPassword";
 	}
+	@GetMapping("/login/find_email")
+	public String findEmail() {
+		return "/user/findEmail";
+	}
 	
 	// policy
 	@GetMapping("/policy/privacy")
@@ -89,23 +95,30 @@ public class HomeController {
 		ModelAndView mav = new ModelAndView("search");
 		if(keyword != null) {
 			List<ProductDTO> list = ms.search(keyword);
-			mav.addObject("list",list);
+//			mav.addObject("list",list);
+			mav.addObject("keyword",keyword);
+			mav.addObject("productCount",list.size());
 			return mav; 
 		}
 		else {
 			List<ProductDTO> list = ms.getList();
-			mav.addObject("list",list);
+//			mav.addObject("list",list);
+			mav.addObject("keyword",keyword);
+			mav.addObject("productCount",list.size());
 			return mav; 
 		}
 	}
 	
+	// search
 	@PostMapping("/search")
 	public ModelAndView search(String keyword) {
 		ModelAndView mav = new ModelAndView("search");
 		
 		List<ProductDTO> list = ms.search(keyword);
 		
-		mav.addObject("list",list);
+//		mav.addObject("list",list);
+		mav.addObject("keyword",keyword);
+		mav.addObject("productCount",list.size());
 		return mav;
 	}
 	

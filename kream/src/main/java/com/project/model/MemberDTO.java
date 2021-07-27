@@ -1,5 +1,7 @@
 package com.project.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class MemberDTO {
 	
 //	  idx         number      PRIMARY KEY,
@@ -16,6 +18,7 @@ public class MemberDTO {
 	private int idx;
 	private String email, pw, name, phonenumber,accountname, accountbank, accountnumber, profileimage;
 	private char consent;
+	private MultipartFile profileFile;
 	
 	public int getIdx() {
 		return idx;
@@ -77,6 +80,12 @@ public class MemberDTO {
 	}
 	public void setProfileimage(String profileimage) {
 		this.profileimage = profileimage;
+	}
+	public MultipartFile getProfileFile() {
+		return profileFile;
+	}
+	public void setProfileFile(MultipartFile profileFile) {
+		this.profileFile = profileFile;
 	}
 	
 }

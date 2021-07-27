@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp" %>
-<link rel="stylesheet" href="${cpath }/resources/css/mypage.css?ver=2" />
+<link rel="stylesheet" href="${cpath }/resources/css/mypage.css?ver=1" />
+<c:if test="${empty login }">
+	<script>
+		location.href = '${cpath }/login'; 
+	</script>
+</c:if>
 <div class="myWrap">
 	<div class="myMenu">
 		<h1><a href="${cpath }/my">MY PAGE</a></h1>
@@ -30,7 +35,7 @@
 		<div class="profile">
 			<!-- 저장된 로그인 세션을 통해 유저 정보 가져오기 -->
 			<div class="profileImg">
-				<img src="${login.profileimage }">
+				<img class="${login.profileimage == 'default.jpg' ? 'defaultImg' : 'existImg' }" src="${cpath }/upload/${login.profileimage }">
 			</div>
 			<div class="userInfo">
 				<p>${login.name }</p>
@@ -43,11 +48,11 @@
 				<div>구매 내역</div>
 				<div>
 					<!-- buying 테이블에서 로그인 세션 유저 정보로 select -->
-					<div>더보기</div>
+					<div onclick="location.href='${cpath}/my/buying'">더보기</div>
 					<div class="listArrow"></div>
 				</div>
 			</div>
-			<div class="historySum">
+			<div class="historySum" onclick="location.href='${cpath}/my/buying'">
 			<!-- 마찬가지.. 해당하는 데이터 count 값 넣어주기 -->
 				<div>
 					<div>
@@ -78,11 +83,11 @@
 				<div>판매 내역</div>
 				<div>
 					<!-- selling 테이블에서 로그인 세션 유저 정보로 select -->
-					<div>더보기</div>
+					<div onclick="location.href='${cpath}/my/selling'">더보기</div>
 					<div class="listArrow"></div>
 				</div>
 			</div>
-			<div class="historySum">
+			<div class="historySum" onclick="location.href='${cpath}/my/selling'">
 				<div>
 					<div>
 						<p>전체</p>
@@ -110,6 +115,11 @@
 		<!-- 유저 데이터 가져오기.. -->
 		<div class="wish">
 			<div>관심 상품</div>
+			<div>
+				<!-- buying 테이블에서 로그인 세션 유저 정보로 select -->
+				<div onclick="location.href='${cpath}/my/buying'">더보기</div>
+				<div class="listArrow"></div>
+			</div>
 			<div class="wishBox">
 				<div>
 					<p>추가하신 관심 상품이 없습니다.</p>
