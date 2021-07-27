@@ -55,7 +55,7 @@
     </div>
     <div class="overlay hidden"></div>
     
-	<script src="${cpath }/resources/js/search.js?ver=2"/></script>
+	<script src="${cpath }/resources/js/search.js?ver=3"/></script>
 	<script>
 		function getContextPath() {
 			return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2))

@@ -1,0 +1,89 @@
+@charset "utf-8";
+	.myprofile {
+		width: 1000px;
+		height: auto;
+		padding: 10px 0;
+		margin-bottom: 100px;
+	}
+	.myprofile h2 {
+		font-size: 28px;
+	}
+	.profileContent {
+		width: inherit;
+		height: auto;
+	}
+	.profileImgBox {
+		display: flex;
+		width: inherit;
+		height: 170px;
+		align-items: center;
+		border-bottom: 1px solid #d5d5d5;
+	}
+	.profileImgBox > div {
+		margin-left: 0;
+	}
+	.userInfo .userName {
+		font-size: 25px;
+		font-weight: 600;
+		margin-top: 10px;
+		margin-bottom: 10px;
+		text-align: left;
+	}
+	.profileContent h3 {
+		font-size: 18px;
+		margin-top: 40px;
+		margin-bottom: 25px;
+	}
+	.profileContent span {
+		line-height: 35px;
+	}
+	.loginInfo p, .privacyInfo p {
+		font-size: 13px;
+		color: gray;
+		margin-bottom: 5px;
+	}
+	.loginInfo > div, .privacyInfo > div {
+		width: 480px;
+		border-bottom: 1px solid #d5d5d5;
+		padding-bottom: 10px;
+		margin-bottom: 30px;
+	}
+	.loginInfo button, .privacyInfo button {
+		margin: 0;
+	}
+	.loginInfo > div > div, .privacyInfo > div > div {
+		display: flex;
+		justify-content: space-between;
+	}
+	.myEmailModify, .myPwModify, .myNameModify, .myEmailModifyAuthNum {
+		border: none !important;
+	}
+	.authNumSubmitBtn {
+		cursor: default;
+	}
+	
+	.myWrap input {
+		width: 480px;
+		height: 30px;
+		border: none;
+		outline: none;
+		border-bottom: 1px solid #d5d5d5;
+	}
+	.modifyRegMsg {
+		margin-top: 0;
+		margin-bottom: 20px !important;
+		color: #f15746 !important; 
+		font-size: 11px !important;
+	}
+	.modifyInputWrap {
+		margin-bottom: 0;
+	}
+	.sendModifyEmailBtn, .authNumSubmitBtn, .saveModifyPwBtn, .saveModifyNameBtn {
+		background-color: #ebebeb;
+		color: white;
+		cursor: default;
+		border: none;
+	}
+	.modifyTitle {
+		color: black !important;
+	}

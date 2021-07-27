@@ -10,7 +10,9 @@ import org.apache.ibatis.annotations.Select;
 
 public interface ProductDAO {
 
-	@Select("select * from product order by idx asc")
+	// 안희경
+//	@Select("select * from product order by idx asc")
+	@Select("select * from (select * from product order by idx asc) where rownum <= 40")
 	List<ProductDTO> getList();
 
 	@Select("select * from product where lower(productname) like '%'||lower(#{keyword})||'%' or lower(krname) like '%'||lower(#{keyword})||'%' or lower(model) like '%'||lower(#{keyword})||'%' or lower(category) like '%'||lower(#{keyword})||'%'")
@@ -26,6 +28,16 @@ public interface ProductDAO {
 	@Select("select * from productimg where productidx = #{idx}")
 	List<ProductImgDTO> getImg(int idx);
 
+	@Select("select * from product where idx = #{productIdx}")
+	ProductDTO getProdDTO(int productIdx);
+	
+	@Select("select * from productwish where memberidx = #{loginIdx}")
+	List<ProductWishDTO> getWishList(int loginIdx);
+
+	// 안희경
+	
+	
+	
 	@Select("select * from product where idx=#{idx}")
 	ProductDTO getProduct(int idx);
 

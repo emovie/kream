@@ -23,20 +23,21 @@ public class NaverLoginBO {
 	
 	private final static String CLIENT_ID = "x8c8b_vEHqxVlX_8sPBS";
 	private final static String CLIENT_SECRET = "7Hp0uBSJS6";                      
-    private final static String REDIRECT_URI = "http://localhost:8082/kream/member/callback";
+    private final static String REDIRECT_URI = "/kream/member/callback";
     private final static String SESSION_STATE = "oauth_state";
+    
     /* 프로필 조회 API URL */
     private final static String PROFILE_API_URL = "https://openapi.naver.com/v1/nid/me";
     
-    public String getAuthorizationUrl(HttpSession session) {
+    public String getAuthorizationUrl(HttpSession session, String serverUrl) {
     	
     	String state = generateRandomString();
     	setSession(session, state);
     	
-    OAuth20Service oauthService = new ServiceBuilder()
+    	OAuth20Service oauthService = new ServiceBuilder()
     		.apiKey(CLIENT_ID)
     		.apiSecret(CLIENT_SECRET)
-    		.callback(REDIRECT_URI)
+    		.callback(serverUrl + REDIRECT_URI)
     		.state(state)
     		.build(NaverLoginApi.instance());
     	
@@ -44,7 +45,7 @@ public class NaverLoginBO {
     	
     }
 
-    public OAuth2AccessToken getAccessToken(HttpSession session, String code, String state) throws IOException{
+    public OAuth2AccessToken getAccessToken(HttpSession session, String code, String state, String serverUrl) throws IOException{
 
         String sessionState = getSession(session);
         if(StringUtils.pathEquals(sessionState, state)){
@@ -52,7 +53,7 @@ public class NaverLoginBO {
             OAuth20Service oauthService = new ServiceBuilder()
             	.apiKey(CLIENT_ID)
                 .apiSecret(CLIENT_SECRET)
-                .callback(REDIRECT_URI)
+                .callback(serverUrl + REDIRECT_URI)
                 .state(state)
                 .build(NaverLoginApi.instance());
 
@@ -64,12 +65,12 @@ public class NaverLoginBO {
     }
     
     /* Access Token을 이용하여 네이버 사용자 프로필 API를 호출 */
-    public String getUserProfile(OAuth2AccessToken oauthToken) throws IOException{
+    public String getUserProfile(OAuth2AccessToken oauthToken, String serverUrl) throws IOException{
 
         OAuth20Service oauthService =new ServiceBuilder()
                 .apiKey(CLIENT_ID)
                 .apiSecret(CLIENT_SECRET)
-                .callback(REDIRECT_URI).build(NaverLoginApi.instance());
+                .callback(serverUrl + REDIRECT_URI).build(NaverLoginApi.instance());
 
             OAuthRequest request = new OAuthRequest(Verb.GET, PROFILE_API_URL, oauthService);
         oauthService.signRequest(oauthToken, request);

@@ -3,7 +3,11 @@
 <%@ include file="../header.jsp" %>
 <link rel="stylesheet" href="${cpath }/resources/css/mypage.css?ver=1" />
 <link rel="stylesheet" href="${cpath }/resources/css/myHistory.css?ver=1" />
-
+<c:if test="${empty login }">
+	<script>
+		location.href = "${cpath }/login";
+	</script>
+</c:if>
 <div class="myWrap">
 	<div class="myMenu">
 		<h1><a href="${cpath }/my">MY PAGE</a></h1>

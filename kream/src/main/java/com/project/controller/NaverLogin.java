@@ -3,6 +3,8 @@ package com.project.controller;
 
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -40,8 +42,16 @@ public class NaverLogin {
 	
 	
 	@RequestMapping(value = "/member/naver_login", method= {RequestMethod.GET, RequestMethod.POST})
-	public String naver_login(Model model, HttpSession session) { 
-		String naverAuthUrl = bo.getAuthorizationUrl(session);
+	public String naver_login(HttpServletRequest request, HttpServletResponse response,Model model, HttpSession session) { 
+	
+		String serverUrl = request.getScheme() + "://"+request.getServerName();
+	
+		if(request.getServerPort() != 80) {
+			serverUrl = serverUrl + ":" + request.getServerPort();
+		}
+		
+		
+		String naverAuthUrl = bo.getAuthorizationUrl(session, serverUrl);
 		System.out.println("네이버 : " + naverAuthUrl);
 		
 		model.addAttribute("url",naverAuthUrl);
@@ -51,14 +61,21 @@ public class NaverLogin {
 	
 	
 	@RequestMapping(value = "/member/callback", method= {RequestMethod.GET, RequestMethod.POST})
-	public String callback(Model model, @RequestParam String code, @RequestParam String state, HttpSession session) 
-		throws Exception{
+	public String callback(HttpServletRequest request, HttpServletResponse response, 
+			Model model, @RequestParam String code, @RequestParam String state, HttpSession session) 
+			throws Exception{
 		
-		System.out.println("callback");
+		String serverUrl = request.getScheme() + "://"+request.getServerName();
+		
+		if(request.getServerPort() != 80) {
+			serverUrl = serverUrl + ":" + request.getServerPort();
+		}
+		
+		System.out.println("serverUrl: " + serverUrl);
 		OAuth2AccessToken oauthToken;
-	    oauthToken = bo.getAccessToken(session, code, state);
+	    oauthToken = bo.getAccessToken(session, code, state, serverUrl);
 	    //로그인 사용자 정보를 읽어온다.
-	    apiResult = bo.getUserProfile(oauthToken);
+	    apiResult = bo.getUserProfile(oauthToken, serverUrl);
 	    System.out.println("result: " + apiResult);
 	    
 	    // String 형식을 JSON형태로 변환
@@ -70,13 +87,13 @@ public class NaverLogin {
 			e.printStackTrace();
 		}
 	    JSONObject json_obj = (JSONObject) obj;
-	    JSONObject response = (JSONObject) json_obj.get("response");
-	    System.out.println(response);
+	    JSONObject json_resp = (JSONObject) json_obj.get("response");
+	    System.out.println(json_resp);
 	    
-	    String email = (String) response.get("email");
-	    String name = (String) response.get("name");
-	    String profileimage = (String) response.get("profile_image");
-	    String phonenumber = (String) response.get("mobile"); 
+	    String email = (String) json_resp.get("email");
+	    String name = (String) json_resp.get("name");
+	    String profileimage = (String) json_resp.get("profile_image");
+	    String phonenumber = (String) json_resp.get("mobile"); 
 
 	    
 	    System.out.printf("email: %s, name: %s, profileimage: %s, phonenumber: %s\n", email, name, profileimage, phonenumber);
@@ -97,6 +114,8 @@ public class NaverLogin {
 	    System.out.println(dto.getPhonenumber());
  
 	    int dupli_pw = ms.checkPw(email);
+	    
+	    System.out.println("dupli_pw" + dupli_pw);
 	    if(dupli_mail == 0 ) {
 	    	
 	    	/* 수정 사항 : 

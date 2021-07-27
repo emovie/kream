@@ -27,6 +27,6 @@
 </div>
 
 
-<script src="${cpath }/resources/js/findPassword.js"/></script>
+<script src="${cpath }/resources/js/findPassword.js?ver=1"/></script>
 
 <%@ include file="../footer.jsp" %>
