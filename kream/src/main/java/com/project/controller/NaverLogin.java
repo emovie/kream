@@ -47,8 +47,6 @@ public class NaverLogin {
 		model.addAttribute("url",naverAuthUrl);
 		
 		return "/member/naver_login";
-		
-		
 	}
 	
 	
@@ -85,30 +83,45 @@ public class NaverLogin {
 
 	    
 	    // 이메일 중복 체크
-	    int result = ms.checkEmail(email);
-	    System.out.println(result);
+	    int dupli_mail = ms.checkEmail(email);
+	    System.out.println(dupli_mail);
 	    
 	    
 	   // 계정의 DB등록 
-	    if(result == 0) {
-	    	MemberDTO dto = new MemberDTO();
-	    	dto.setEmail(email);
-	    	dto.setName(name);
-	    	dto.setProfileiamge(profileimage);	
+	    MemberDTO dto = new MemberDTO();
+	    dto.setEmail(email);
+	    dto.setName(name);
+	    dto.setProfileimage(profileimage);	
+	    dto.setPhonenumber(phonenumber.replaceAll("[^0-9]", ""));
+
+	    System.out.println(dto.getPhonenumber());
+ 
+	    int dupli_pw = ms.checkPw(email);
+	    if(dupli_mail == 0 ) {
 	    	
 	    	/* 수정 사항 : 
 	    	 1. 프로필 이미지만 넣으면 밑에 오류가 뜸  
 	    	 org.apache.ibatis.reflection.ReflectionException: There is no getter for property named
 	    	 
-	    	 2. result 값이 1일경우  (= db에 같은 이메일주소가 중복인 경우) 이미 가입된 메일 입니다라는 팝업 띄우기
-	    	*/  
-	    	dto.setPhonenumber(phonenumber);
+	    	 
+	    	 네이버 아이디로 로그인 했다 => 네아로로 회원 가입이 되어 있는 경우 = > 로그인 
+									dupli_mail = 1, dupli_pw == null;
+
+							  => 미리 회원 가입이 안되어있는 경우 => 회원가입 (db저장) = > 로그인
+									dupli_mail = 0, dupli_pw == null;
+
+							  => 같은 계정으로 회원가입이 되어 있는 경우 => 회원가입 불가. 									dupli_mail = 1, dupli_pw != null;
+  								dupli_mail = 1, dupli_pw != null;
+	    	*/
 	    	ms.naver_register(dto);
-			session.setAttribute("login", dto);
+	    	session.setAttribute("login", dto);
 	    	
-	    }
-	    
-//	    session.setAttribute("login", )
+	    } else if(dupli_pw != 0) {
+	    	System.out.println("중복된 아이디가 있음");
+	    	
+	    	return "member/naverFail";
+	    } else 
+	    	session.setAttribute("login", dto);
 	    
 	    
 	    model.addAttribute("result", apiResult);

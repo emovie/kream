@@ -1,8 +1,4 @@
-function getContextPath() {
-	return window.location.pathname.substring(0, window.location.pathname.indexOf("/",2))
-}
 
-const cpath = getContextPath()
 
 // 검색 관련 스크립트
 
@@ -38,7 +34,7 @@ const searchResult = document.querySelector('.searchResult')
 function search(event) {
 	searchResult.classList.add('hidden')
 	
-	
+	// 검색 인풋에 입력값이 있을 때
 	if(inputSearch.value.length > 0) {
 		searchWrap.style.height = '315px'
     	clearBtn.classList.remove('hidden')
@@ -46,6 +42,8 @@ function search(event) {
 	    	e.classList.add('hidden')
     	})
     }
+	
+	// 검색 인풋에 입력값이 없을 때
     else {
     	clearBtn.classList.add('hidden')
     	recommendItems.forEach(e => {
@@ -54,6 +52,7 @@ function search(event) {
     	searchWrap.style.height = 'auto'
     }
 	
+	// 현재 입력한 값을 키워드로 받아서 ajax를 통해 전달
 	const keyword = event.target.value
 	const url = cpath + '/search/' + keyword + '/'
 	const opt = {
@@ -83,6 +82,7 @@ function search(event) {
 			const listCount = document.createElement('div')
 			
 			listCount.classList.add('listCount')
+			// 검색 결과수를 클릭하면 서브밋
 			listCount.onclick = searchSubmit
 			
 			suggestWrap.classList.add('suggestWrap')
@@ -105,6 +105,7 @@ function search(event) {
 			if(Object.keys(e).length > 10){
 				// 최근 순으로 10개만 출력
 				for(let i = 0; i < 10; i++){
+					
 					const searchListItemWrap = document.createElement('div')
 					searchListItemWrap.classList.add('searchListItemWrap')
 					const searchListItemThumb = document.createElement('img')
@@ -112,6 +113,12 @@ function search(event) {
 					const searchListItemName = document.createElement('div')
 					searchListItemName.classList.add('searchListItemName')
 
+					// 판매페이지 연결
+					const prodIdx = e[i].idx
+					searchListItemWrap.onclick = function() {
+						location.href = cpath + '/products/' + prodIdx
+					}
+					
 					// 상품 이미지 null 체크
 					if(e[i].imgList != null) {
 						searchListItemThumb.src = e[i].imgList[0].img
@@ -142,6 +149,7 @@ function search(event) {
 			// 검색 결과가 10건 미만인 경우
 			else{
     			for(let i = 0; i < Object.keys(e).length; i++){
+    				
     				const searchListItemWrap = document.createElement('div')
 					searchListItemWrap.classList.add('searchListItemWrap')
 					const searchListItemThumb = document.createElement('img')
@@ -149,6 +157,12 @@ function search(event) {
 					const searchListItemName = document.createElement('div')
 					searchListItemName.classList.add('searchListItemName')
     				
+					// 판매페이지 연결
+					const prodIdx = e[i].idx
+					searchListItemWrap.onclick = function() {
+						location.href = cpath + '/products/' + prodIdx
+					}
+					
     				// 상품 이미지 null 체크
 					if(e[i].imgList != null) {
 						searchListItemThumb.src = e[i].imgList[0].img
@@ -177,6 +191,7 @@ function search(event) {
 			}
 		}
 		
+		// 검색 결과가 없는 경우
 		else {
 			searchResult.innerHTML = ''
 			const pMain = document.createElement('p')
@@ -211,15 +226,13 @@ function clear() {
 clearBtn.onclick = clear
 
 
-//Ajax 검색 리스트로 바로가기 (form submit)
+// Ajax 검색 리스트로 바로가기 (form submit)
 const searchForm = document.getElementById('searchForm')
-
 function searchSubmit() {
 	searchForm.submit()
 }
 
 // 최근 검색어
-
 searchForm.onsubmit = function(event) {
 	console.log(event.target.value)
 }

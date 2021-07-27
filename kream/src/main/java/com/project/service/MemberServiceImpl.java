@@ -37,4 +37,9 @@ public class MemberServiceImpl implements MemberService {
 	public int checkEmail(String email) throws Exception {
 		return dao.checkEmail(email);
 	}
+
+	@Override
+	public int checkPw(String email) throws Exception {
+		return dao.checkPw(email);
+	}
 }

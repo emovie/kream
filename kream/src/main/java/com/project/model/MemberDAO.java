@@ -6,7 +6,9 @@ public interface MemberDAO {
 	
 	MemberDTO login(LoginDTO dto) throws Exception;
 
+	void naver_register(MemberDTO dto) throws Exception;
+
 	int checkEmail(String email) throws Exception;
 
-	void naver_register(MemberDTO dto) throws Exception;
+	int checkPw(String email) throws Exception;
 }

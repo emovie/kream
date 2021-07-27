@@ -27,6 +27,10 @@
 		select count(*) from member where email =#{email}
 	</select>
 	
+	
+	<select id="checkPw" resultType="int" >
+    	select count(*) from member where (pw is not null AND email = #{email})
+	</select>
 
 	
 	
