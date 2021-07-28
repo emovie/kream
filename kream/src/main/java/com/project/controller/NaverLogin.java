@@ -86,12 +86,24 @@ public class NaverLogin {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
+		
+		
 	    JSONObject json_obj = (JSONObject) obj;
 	    JSONObject json_resp = (JSONObject) json_obj.get("response");
 	    System.out.println(json_resp);
 	    
 	    String email = (String) json_resp.get("email");
-	    String name = (String) json_resp.get("name");
+	    String name;
+	    
+	    
+	    if (json_resp.get("name") == null ) {
+	    	
+			int idx = email.indexOf("@");
+			name = email.substring(0, idx);
+	    	
+	    }else 
+	    	name = (String) json_resp.get("name");
+	    
 	    String profileimage = (String) json_resp.get("profile_image");
 	    String phonenumber = (String) json_resp.get("mobile"); 
 
@@ -115,7 +127,7 @@ public class NaverLogin {
  
 	    int dupli_pw = ms.checkPw(email);
 	    
-	    System.out.println("dupli_pw" + dupli_pw);
+	    System.out.println("dupli_pw : " + dupli_pw);
 	    if(dupli_mail == 0 ) {
 	    	
 	    	/* 수정 사항 : 
@@ -133,18 +145,22 @@ public class NaverLogin {
   								dupli_mail = 1, dupli_pw != null;
 	    	*/
 	    	ms.naver_register(dto);
-	    	session.setAttribute("login", dto);
+	    	
+	    	
 	    	
 	    } else if(dupli_pw != 0) {
 	    	System.out.println("중복된 아이디가 있음");
-	    	
 	    	return "member/naverFail";
-	    } else 
-	    	session.setAttribute("login", dto);
+	    } 
 	    
-	    
+	    int memberIdx = ms.getIdx(email); 
+    	System.out.println("memberIdx: " + memberIdx);
+    	dto.setIdx(memberIdx);
+    	
+    	
+	    session.setAttribute("login", dto);
+	    System.out.println("dto.getIdx():" + dto.getIdx());
 	    model.addAttribute("result", apiResult);
-	        
 	        
 	        
 	    return "member/naverSuccess";

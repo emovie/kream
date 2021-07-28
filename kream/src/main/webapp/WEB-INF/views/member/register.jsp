@@ -326,7 +326,7 @@
 		</div>
 		
 		
-		<!-- <div class="modal_overlay"></div> -->
+		
 		<div id="layer" class="layer hidden">
 			<div class="layer_container">
 				<div class="layer_header">
@@ -384,7 +384,7 @@
 					
 		</div>
 		
-		<input type="submit" id="regist_submit" value="가입" disabled="disabled">
+		<input type="submit" id="regist_submit" value="가입" disabled="">
 	</form>
 </div>
 
@@ -392,7 +392,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <script>
-
+	
+	
 	$('.modal_btn').click(function(){
 		$('.layer').removeClass('hidden');
 	})
@@ -408,19 +409,12 @@
 
 	$("#check_all_1").click(function(){
 		$('.checkbox_sub1:not(:disabled)').not(this).prop('checked', this.checked);
+		judgeSubmit();
 	})
 	
 	$(".checkbox_sub1").click(function(){
 		if($(".checkbox_sub1:not(:disabled)").length == $('.checkbox_sub1:checked').length) {
 			$('#check_all_1').prop('checked', true);
-			if (idpass && pwpass) {
-				$('#regist_submit').attr('disabled', false);
-				$('#regist_submit').css('background-color', 'black');
-			}
-			else {
-				$('#regist_submit').attr('disabled', true);
-				$('#regist_submit').css('background-color', '#cecece');
-			}
 		}
 		else {
 			$('#check_all_1').prop('checked', false);
@@ -466,17 +460,9 @@
 		
 	});
 	
-	
-	/* $(".checkbox_group").on("click", ".normal", function() {
-		var is_checked = true;
-		$(".checkbox_group .normal").each(function(){
-			is_checked = is_checked && $(this).is(":checked");
-		});
-		$("#check_all").prop("checked", is_checked);
-	}); */
-	
 
-	var idpass;
+
+	var idpass = false;
 	function funcCheckEmail(){
 		var reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
 		var color;
@@ -507,8 +493,9 @@
 			color ='red';
 			$('#checkEmailMsg').text(ans);
 			$('#checkEmailMsg').css('color', color);
-			$('input[name=email]').css('border-bottom-color');
+			$('input[name=email]').css('border-bottom-color', color);
 		}
+		judgeSubmit();
 	}                 
 
 
@@ -534,18 +521,46 @@
 		$('input[name=pw]').css('border-bottom-color', color);
 		$('intput[type=submit]').css('background-color', color);
 		
+		judgeSubmit();
 	}
-/* 	if($('check_all_1').is(':checked')) {
-		 if (idpass && pwpass) {
-				$('#regist_submit').attr('disabled', false);
-				$('#regist_submit').css('background-color', 'black');
-			}
-			
-	}else {
+	
+	
+	function judgeSubmit() {
+		if(idpass && pwpass && $('#check_all_1').prop("checked") ) {
+			SbmEnabled();
+		} else {
+			SbmDisabled();
+		}
+	}
+	
+	function SbmDisabled() {
+		//console.log('sbmDisabled')
 		$('#regist_submit').attr('disabled', true);
 		$('#regist_submit').css('background-color', '#cecece');
 	}
- */
+	
+	function SbmEnabled() {
+		//console.log("sbmEnabled")
+		$('#regist_submit').attr('disabled', false);
+		$('#regist_submit').css('background-color', 'black');
+	}
+	
+	/*
+	 $('#check_all_1').click(function() {
+		console.log(idpass);
+		if ($(this).prop("checked") == true && idpass && pwpass) {
+			console.log("true")
+			$('#regist_submit').attr('disabled', false);
+			$('#regist_submit').css('background-color', 'black');
+		}
+		else {
+			$('#regist_submit').attr('disabled', true);
+			$('#regist_submit').css('background-color', '#cecece');
+		}
+	});
+	*/
+	
+
 	
 
 	
