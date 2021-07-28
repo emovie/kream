@@ -1,8 +1,6 @@
 package com.project.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -10,10 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.model.BuySellDTO;
-import com.project.model.BuyingDTO;
 import com.project.model.ProductDAO;
 import com.project.model.ProductDTO;
-import com.project.model.SellingDTO;
 
 @Service
 public class ProductService {
@@ -196,7 +192,7 @@ public class ProductService {
 		}
 		return sizeList;
 	}
-	
+
 	public ArrayList<BuySellDTO> getConclusionList(int productIdx) {
 		return dao.getConclusionList(productIdx);
 	}
@@ -218,11 +214,18 @@ public class ProductService {
 	public ArrayList<String> getChartXData(int idx,String tab) {
 		ArrayList<String> list = new ArrayList<String>();
 		ArrayList<String> Xlist = new ArrayList<String>();
+		
 		if(tab.equals("chartAll")) {
 			list = dao.getChartXData(idx);
 		} else {
 			String date = tabCalendar(tab);
 			list = dao.getChartSelectXData(idx,date);
+		}
+		
+		if(list.size()==0) {
+			for(int i=6;i>0;i--) {
+				list.add(process.addDate(0, 0, -i));
+			}
 		}
 		
 		for(String date : list) {
@@ -233,12 +236,20 @@ public class ProductService {
 
 	public ArrayList<String> getChartYData(int idx, String tab) {
 		ArrayList<String> list = new ArrayList<String>();
+		
 		if(tab.equals("chartAll")) {
 			list = dao.getChartYData(idx);
 		} else {
 			String date = tabCalendar(tab);
 			list = dao.getChartSelectYData(idx,date);
 		}
+		
+		if(list.size()==0) {
+			for(int i=6;i>0;i--) {
+				list.add("0");
+			}
+		}
+		
 		return list;
 	}
 	
@@ -262,7 +273,6 @@ public class ProductService {
 		}
 		return date;
 	}
-
 	public void deleteProductWish(int productIdx, int memberIdx, String size) {
 		dao.deleteProductWish(productIdx,memberIdx,size);
 	}

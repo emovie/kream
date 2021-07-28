@@ -70,7 +70,6 @@ public class ProductController {
 	@ResponseBody
 	public ArrayList<String> sizeSelectPrice(@PathVariable int idx, @PathVariable String size) {
 		ArrayList<String> priceList = new ArrayList<String>();
-		System.out.println("seizeSelectPrice size : "+size);
 		if(size.equals("all") || size.equals("모든 사이즈")) {
 			priceList = ps.sizeAllPrice(idx);
 		} else {
@@ -92,9 +91,6 @@ public class ProductController {
 	@ResponseBody
 	public void sizeWishOff(@PathVariable int productIdx,@PathVariable String size) {
 		int memberIdx = 1;
-		System.out.println("off");
-		System.out.println("productIdx : " + productIdx);
-		System.out.println("size : "+size);
 		ps.deleteProductWish(productIdx,memberIdx,size);
 	}
 	
@@ -102,9 +98,6 @@ public class ProductController {
 	@ResponseBody
 	public void sizeWishOn(@PathVariable int productIdx,@PathVariable String size) {
 		int memberIdx = 1;
-		System.out.println("on");
-		System.out.println("productIdx : " + productIdx);
-		System.out.println("size : "+size);
 		ps.insertProductWish(productIdx,memberIdx,size);
 	}
 	
@@ -116,11 +109,6 @@ public class ProductController {
 			conclusionList = ps.getConclusionList(productIdx);
 		} else {
 			conclusionList = ps.getConclusionList(productIdx,size);
-		}
-		for(BuySellDTO dto : conclusionList) {
-			System.out.println(dto.getpSize());
-			System.out.println(dto.getPrice());
-			System.out.println(dto.getEndDate());
 		}
 		return conclusionList;
 	}

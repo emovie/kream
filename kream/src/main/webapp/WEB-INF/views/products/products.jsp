@@ -574,6 +574,7 @@
 			display: flex;
 			flex-flow: column;
 			margin-left: 8px;
+			justify-content: center;
 		}
 		.layer_header_info > p {
 			margin : 0;
@@ -899,8 +900,7 @@
 					<span class="title_txt">최근 거래가</span>
 					<span class="price">
 						<div class="title_price">
-							<span class="num">${conclusionPrice }</span>
-							<span class="won">원</span>
+							<span class="num">${conclusionPrice }</span><span class="won">원</span>
 						</div>
 						<div>
 							<p class="fluctuation">0원 (0%)</p>
@@ -1243,12 +1243,12 @@
 								<div class="layer_header_info">
 									<p>${product.productName }</p>
 									<p class="layer_krName">${product.krName }</p>
-									<select name="size" class="select_size_btn">
-										<option class="modal_size modal_size_all">모든 사이즈</option>
-										<c:forEach items="${categorySize }" var="size">
-											<option class="modal_size modal_size_${size }">${size}</option>
-										</c:forEach>
-									</select>
+<!-- 									<select name="size" class="select_size_btn"> -->
+<!-- 										<option class="modal_size modal_size_all">모든 사이즈</option> -->
+<%-- 										<c:forEach items="${categorySize }" var="size"> --%>
+<%-- 											<option class="modal_size modal_size_${size }">${size}</option> --%>
+<%-- 										</c:forEach> --%>
+<!-- 									</select> -->
 								</div>
 							</div>
 						</div>
@@ -1427,7 +1427,6 @@
 	}
 	
 	function slideMove(event) {
-		console.log(event.target)
 		let imgIndex = Number(document.querySelector('.slide_on').id)
 		if(event.target.classList.contains('preBtn')) {
 			imgIndex = ( imgIndex-1 < 0 ? imgLastIndex : imgIndex-1)
@@ -1450,18 +1449,26 @@
 
 <!-- loginCheck -->
 <script>
-	var login = <%=(String)session.getAttribute("login")%>
-	const loginCheck = document.querySelectorAll('.login_check')
+	const loginIdx = '${login.idx}'
+	const loginEmail = '${login.email}'
+	const loginCheck = document.querySelector('.login_check')
+	const loginCheck2 = document.querySelector('.login_check2')
+	console.log()
 	
-	if(login == null) {
+	
+	if(loginEmail == '') {
+		// 로그인이 없을 시 layer가 나타남
 		loginCheck.classList.remove('hidden')
-		
+		loginCheck2.classList.remove('hidden')
 	} else {
+		// 로그인이 있다면 layer hidden
 		loginCheck.classList.add('hidden')
+		loginCheck2.classList.add('hidden')
 	}
 	
 	function loginPage() {
-		if(login == null) {
+		// 로그인이 없다면 로그인 페이지로 이동
+		if(loginEmail == '') {
 			location.replace('${cpath}/member/login')
 		}
 	}
@@ -1480,7 +1487,8 @@
 	
 	wishCheck()
 	function wishCheck() {
-		if(login != null) {
+		// 로그인이 있다면 fetch 실행 후 wish가 있는 지 확인
+		if(loginEmail != '') {
 			const url = '${cpath}/sizeWishList/' + ${product.idx}
 			const opt = {
 					method : 'GET'
@@ -1498,7 +1506,8 @@
 	}
 	
 	function wishModal(event) {
-		if(login == null) {
+		// 로그인이 없다면 로그인페이지로 이동
+		if(loginEmail == '') {
 			location.href = '${cpath}/member/login'
 		} else {
 			document.getElementById('layer_wish').classList.remove('hidden')
@@ -1725,7 +1734,8 @@
 		const selectSize = btnSize.innerText.replace(/\s▽$/,'')
 		switch (event.target.className) {
 		case 'division_buy' :
-			if(login == null) {
+			// 로그인이 없다면 로그인 페이지로 이동
+			if(loginEmail == '') {
 				location.href = '${cpath}/member/login'
 			} else {
 				if(selectSize == "모든 사이즈") {
@@ -1743,11 +1753,10 @@
 			}
 			break;
 		case 'division_sell' :
-			if(login == null) {
+			if(loginEmail == '') {
 				location.href = '${cpath}/member/login'				
 			} else {
-				if(selectSize == "모든 사이즈 ▽") {
-					console.log(btnSize.innerText)
+				if(selectSize == "모든 사이즈") {
 					divisionSell.classList.remove('hidden')
 					sizePrice.forEach(element => {
 						if(element.innerText != '판매 입찰' && element.innerText != '-') {
@@ -1850,7 +1859,6 @@
 		const url = '${cpath}/chartData/'+${product.idx} + '/' + tabId
 		fetch(url,{method:'GET'}).then(resp => resp.json())
 		.then(json => {
-			console.log(json)
 			document.querySelector('.chart_div').innerHTML = '<canvas id="chart" height="136" width="570"></canvas>'
 			chart(json[0],json[1])
 		})
