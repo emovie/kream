@@ -125,7 +125,7 @@
 				<span id="checkPwMsg"></span>
 			</p>
 		</div>
-		<input type="submit" id="login_submit" value="로그인" disabled="disabled">
+		<input type="submit" id="login_submit" value="로그인" disabled="">
 	</form>
 
 	<div id="naver_id_login" onclick="location.href='${cpath }/member/naver_login'">
@@ -141,7 +141,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
 
-	$('.login').focus(function(e){
+	/* $('.login').focus(function(e){
 		e.preventDefault();
 		$(this).css('border-bottom', '2px solid black')
 	})
@@ -150,8 +150,9 @@
 		e.preventDefault();
 		$(this).css('border-bottom', '1px solid #e2e2e2')
 	})
+	*/
 	
-	var idpass;
+	var idpass = false;
 	function funcCheckEmail(){
 		var reg_email = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
 		var color;
@@ -161,14 +162,20 @@
 		if(!reg_email.test(email)){
 			ans = '이메일 주소를 정확히 입력해주세요';
 			color ='#f15746';
+			idpass = false;
+			// judgeSubmit();
+			$('#checkEmailMsg').text(ans);
+			$('#checkEmailMsg').css('color', color);
+			$('input[name=email]').css('border-bottom-color', color);
+			
 		}else {
 			ans = '';
 			color = 'black';
 			idpass = true;
 		}
-			$('#checkEmailMsg').text(ans);
-			$('#checkEmailMsg').css('color', color);	
-			$('#checkEmailMsg').css('font-size', '11px');	
+			judgeSubmit();
+			
+			
 	}
 
 
@@ -183,6 +190,9 @@
 			ans = '영문, 숫자, 특수문자를 조합하여 입력해주세요 (8~16자)';
 			color ='#f15746';
 			pwpass = false;
+			$('#checkPwMsg').text(ans);
+			$('#checkPwMsg').css('color', color);
+			$('input[name=pw]').css('border-bottom-color', color);
 		}
 		else {
 			ans = '';
@@ -190,19 +200,28 @@
 			pwpass = true;
 			
 		}
-		$('#checkPwMsg').text(ans);
-		$('#checkPwMsg').css('color', color);
-		$('#checkPwMsg').css('font-size', '11px');
 		
+		judgeSubmit();
+	}
 	
-		if (idpass && pwpass ) {
-			$('#login_submit').attr('disabled', false);
-			$('#login_submit').css('background-color', 'black');
-			
-		}else {
-			$('#login_submit').attr('disabled', true);
-			$('#login_submit').css('background-color', '#e2e2e2');
+	function judgeSubmit() {
+		if(idpass && pwpass) {
+			SbmEnabled();
+		} else {
+			SbmDisabled();
 		}
+	}
+	
+	function SbmDisabled() {
+		//console.log('sbmDisabled')
+		$('#login_submit').attr('disabled', true);
+		$('#login_submit').css('background-color', '#cecece');
+	}
+	
+	function SbmEnabled() {
+		//console.log("sbmEnabled")
+		$('#login_submit').attr('disabled', false);
+		$('#login_submit').css('background-color', 'black');
 	}
 	
 </script>

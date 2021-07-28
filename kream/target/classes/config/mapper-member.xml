@@ -6,11 +6,12 @@
 <mapper namespace="com.project.model.MemberDAO">
 	
 	<insert id="register" parameterType="com.project.model.MemberDTO">
-		insert into member (idx, email, pw, name) values (
+		insert into member (idx, email, pw, name, phonenumber) values (
 			member_seq.nextval,
 			#{email}, 
 			#{pw}, 
-			#{name} 
+			#{name},
+			'010-0000-0000'
 			)
 	</insert>
 	
@@ -32,6 +33,11 @@
     	select count(*) from member where (pw is not null AND email = #{email})
 	</select>
 
+	<select id="getIdx" resultType="int" >
+    	select idx from member where email = #{email}
+	</select>
+	
+	
 	
 	
 	

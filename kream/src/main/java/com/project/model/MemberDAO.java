@@ -11,6 +11,8 @@ public interface MemberDAO {
 	int checkEmail(String email) throws Exception;
 
 	int checkPw(String email) throws Exception;
+
+	int getIdx(String email) throws Exception;
 	
 	
 }

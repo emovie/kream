@@ -43,6 +43,11 @@ public class MemberDAOImpl implements MemberDAO {
 		return sql.selectOne(NAMESPACE + ".checkPw", email);
 	}
 
+	@Override
+	public int getIdx(String email) throws Exception {
+		return sql.selectOne(NAMESPACE + ".getIdx", email);
+	}
+
 	
 	
 }
