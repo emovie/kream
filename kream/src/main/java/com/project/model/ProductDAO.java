@@ -62,13 +62,13 @@ public interface ProductDAO {
 	Integer sizelatelyPrice(@Param("idx") int idx,@Param("size") String size);
 	
 	@Select("select psize from productwish where productidx=#{productIdx} and memberidx=#{memberIdx}")
-	ArrayList<String> getSizeWishList(@Param("productIdx") int productIdx,@Param("memberIdx") int memberIdx);
+	ArrayList<String> getSizeWishList(@Param("productIdx") String productIdx,@Param("memberIdx") String memberIdx);
 	
 	@Delete("delete from productwish where productidx=#{productIdx} and memberidx=#{memberIdx} and psize=#{size}")
-	void deleteProductWish(@Param("productIdx") int productIdx,@Param("memberIdx") int memberIdx,@Param("size") String size);
+	void deleteProductWish(@Param("productIdx") String productIdx,@Param("memberIdx") String memberIdx,@Param("size") String size);
 	
 	@Insert("insert into productwish values (productwish_seq.nextval,#{productIdx},#{memberIdx},#{size})")
-	void insertProductWish(@Param("productIdx") int productIdx,@Param("memberIdx") int memberIdx,@Param("size") String size);
+	void insertProductWish(@Param("productIdx") String productIdx,@Param("memberIdx") String memberIdx,@Param("size") String size);
 
 	@Select("select pSize, price, endDate from buying where productidx=#{productIdx} and step='배송완료' order by endDate desc FETCH FIRST 30 ROWS ONLY")
 	ArrayList<BuySellDTO> getConclusionList(@Param("productIdx") int productIdx);

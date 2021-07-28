@@ -161,7 +161,7 @@ public class ProductService {
 		return result;
 	}
 
-	public ArrayList<String> getSizeWishList(int productIdx, int memberIdx) {
+	public ArrayList<String> getSizeWishList(String productIdx, String memberIdx) {
 		return dao.getSizeWishList(productIdx,memberIdx);
 	}
 
@@ -273,11 +273,11 @@ public class ProductService {
 		}
 		return date;
 	}
-	public void deleteProductWish(int productIdx, int memberIdx, String size) {
+	public void deleteProductWish(String productIdx, String memberIdx, String size) {
 		dao.deleteProductWish(productIdx,memberIdx,size);
 	}
 
-	public void insertProductWish(int productIdx, int memberIdx, String size) {
+	public void insertProductWish(String productIdx, String memberIdx, String size) {
 		dao.insertProductWish(productIdx,memberIdx,size);
 	}
 	

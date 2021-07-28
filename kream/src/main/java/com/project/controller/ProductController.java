@@ -3,11 +3,16 @@ package com.project.controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -78,26 +83,29 @@ public class ProductController {
 		return priceList;
 	}
 	
-	@GetMapping("/sizeWishList/{idx}")
+	@PostMapping("/sizeWishList")
 	@ResponseBody
-	public ArrayList<String> getSizeWishList(@PathVariable int idx) {
-		int memberIdx = 1;
-		System.out.println("productIdx : "+idx);
-		System.out.println("memberIdx : "+memberIdx);
-		return ps.getSizeWishList(idx,memberIdx);
+	public ArrayList<String> getSizeWishList(@RequestBody Map<String, String> data) {
+		String productIdx = data.get("productIdx");
+		String memberIdx = data.get("memberIdx");
+		return ps.getSizeWishList(productIdx,memberIdx);
 	}
 	
-	@GetMapping("/sizeWishOff/{productIdx}/{size}")
+	@PostMapping("/sizeWishOff")
 	@ResponseBody
-	public void sizeWishOff(@PathVariable int productIdx,@PathVariable String size) {
-		int memberIdx = 1;
+	public void sizeWishOff(@RequestBody Map<String, String> data) {
+		String productIdx = data.get("productIdx");
+		String memberIdx = data.get("memberIdx");
+		String size = data.get("size");
 		ps.deleteProductWish(productIdx,memberIdx,size);
 	}
 	
-	@GetMapping("/sizeWishOn/{productIdx}/{size}")
+	@PostMapping("/sizeWishOn")
 	@ResponseBody
-	public void sizeWishOn(@PathVariable int productIdx,@PathVariable String size) {
-		int memberIdx = 1;
+	public void sizeWishOn(@RequestBody Map<String, String> data) {
+		String productIdx = data.get("productIdx");
+		String memberIdx = data.get("memberIdx");
+		String size = data.get("size");
 		ps.insertProductWish(productIdx,memberIdx,size);
 	}
 	

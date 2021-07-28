@@ -1449,33 +1449,30 @@
 
 <!-- loginCheck -->
 <script>
-	const loginIdx = '${login.idx}'
-	const loginEmail = '${login.email}'
+	const login = '${login.idx}'
+	console.log(login == null)
+	console.log(login == '')
+	
 	const loginCheck = document.querySelector('.login_check')
 	const loginCheck2 = document.querySelector('.login_check2')
-	console.log()
 	
-	
-	if(loginEmail == '') {
-		// 로그인이 없을 시 layer가 나타남
+	// 로그인이 비었다면 실행 히든을 삭제해서 layer를 보여라
+	if(login == '') {
 		loginCheck.classList.remove('hidden')
 		loginCheck2.classList.remove('hidden')
 	} else {
-		// 로그인이 있다면 layer hidden
 		loginCheck.classList.add('hidden')
 		loginCheck2.classList.add('hidden')
 	}
 	
 	function loginPage() {
-		// 로그인이 없다면 로그인 페이지로 이동
-		if(loginEmail == '') {
+		if(login == '') {
 			location.replace('${cpath}/member/login')
 		}
 	}
-</script>
+
 
 <!-- wish -->
-<script>
 	const wishIcon = document.querySelector('.icon_wish')
 	const wishBtn = document.querySelector('.interest_close')
 	const btnInterest = document.querySelectorAll('.btn_interest')
@@ -1488,10 +1485,16 @@
 	wishCheck()
 	function wishCheck() {
 		// 로그인이 있다면 fetch 실행 후 wish가 있는 지 확인
-		if(loginEmail != '') {
-			const url = '${cpath}/sizeWishList/' + ${product.idx}
+		if(login != '') {
+			const url = '${cpath}/sizeWishList'
 			const opt = {
-					method : 'GET'
+					method : 'POST',
+					body :  JSON.stringify({
+						productIdx : ${product.idx},
+						memberIdx : login }),
+					headers: {
+		                'Content-Type': 'application/json',
+		            },
 			}
 			fetch(url,opt)
 			.then(resp => resp.json())
@@ -1506,14 +1509,19 @@
 	}
 	
 	function wishModal(event) {
-		// 로그인이 없다면 로그인페이지로 이동
-		if(loginEmail == '') {
+		if(login == '') {
 			location.href = '${cpath}/member/login'
 		} else {
 			document.getElementById('layer_wish').classList.remove('hidden')
-			const url = '${cpath}/sizeWishList/' + ${product.idx}
+			const url = '${cpath}/sizeWishList'
 			const opt = {
-					method : 'GET'
+					method : 'POST',
+					body :  JSON.stringify({
+						productIdx : ${product.idx},
+						memberIdx : login }),
+					headers: {
+		                'Content-Type': 'application/json',
+		            },
 			}
 			fetch(url,opt)
 			.then(resp => resp.json())
@@ -1531,7 +1539,7 @@
 			})
 		}
 	}
-	
+		
 	function wishSelect(event) {
 		var url
 		var wrap
@@ -1544,17 +1552,37 @@
 		}
 		const wishSize = wrap.querySelector('.info_txt').innerText
 		const wishImg = wrap.querySelector('.interest_icon')
-		
+		let opt
 		if(wrap.classList.contains('onWish')) {
-			url = '${cpath}/sizeWishOff/' + ${product.idx} + '/' + wishSize
+			url = '${cpath}/sizeWishOff'
+			opt = {
+					method : 'POST',
+					body :  JSON.stringify({
+						productIdx : ${product.idx},
+						memberIdx : login,
+						size : wishSize}),
+					headers: {
+		                'Content-Type': 'application/json',
+		            },	
+			}
 			wishImg.src = "https://i.ibb.co/T2pr057/mark.png"
 			wrap.classList.remove('onWish')
 		} else {
-			url = '${cpath}/sizeWishOn/' + ${product.idx} + '/' + wishSize
+			url = '${cpath}/sizeWishOn'
+			opt = {
+				method : 'POST',
+				body :  JSON.stringify({
+					productIdx : ${product.idx},
+					memberIdx : login,
+					size : wishSize}),
+				headers: {
+		            'Content-Type': 'application/json',
+		        },	
+			}	
 			wishImg.src = "https://i.ibb.co/ckMWtxK/mark.png";
 			wrap.classList.add('onWish')
 		}
-		fetch(url,{method:'GET'})
+		fetch(url,opt)
 	}
 	
 	function wishModalClose() {
@@ -1734,8 +1762,7 @@
 		const selectSize = btnSize.innerText.replace(/\s▽$/,'')
 		switch (event.target.className) {
 		case 'division_buy' :
-			// 로그인이 없다면 로그인 페이지로 이동
-			if(loginEmail == '') {
+			if(login == '') {
 				location.href = '${cpath}/member/login'
 			} else {
 				if(selectSize == "모든 사이즈") {
@@ -1753,7 +1780,7 @@
 			}
 			break;
 		case 'division_sell' :
-			if(loginEmail == '') {
+			if(login == '') {
 				location.href = '${cpath}/member/login'				
 			} else {
 				if(selectSize == "모든 사이즈") {
