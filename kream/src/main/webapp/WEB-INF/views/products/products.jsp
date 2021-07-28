@@ -1450,11 +1450,10 @@
 
 <!-- loginCheck -->
 <script>
-	const login = '${login.idx}'
-	console.log(login)
+	var login = <%=(String)session.getAttribute("login")%>
 	const loginCheck = document.querySelectorAll('.login_check')
 	
-	if(login == "") {
+	if(login == null) {
 		loginCheck.classList.remove('hidden')
 		
 	} else {
@@ -1462,7 +1461,7 @@
 	}
 	
 	function loginPage() {
-		if(login == "") {
+		if(login == null) {
 			location.replace('${cpath}/member/login')
 		}
 	}
@@ -1481,7 +1480,7 @@
 	
 	wishCheck()
 	function wishCheck() {
-		if(login != "") {
+		if(login != null) {
 			const url = '${cpath}/sizeWishList/' + ${product.idx}
 			const opt = {
 					method : 'GET'
@@ -1499,7 +1498,7 @@
 	}
 	
 	function wishModal(event) {
-		if(login == "") {
+		if(login == null) {
 			location.href = '${cpath}/member/login'
 		} else {
 			document.getElementById('layer_wish').classList.remove('hidden')
@@ -1576,7 +1575,6 @@
 <!-- chart.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <script>
-	
 	chart(${chartXData}, ${chartYData})
 	function chart(xData,yData) {
 		let chartX = xData
@@ -1727,7 +1725,7 @@
 		const selectSize = btnSize.innerText.replace(/\s▽$/,'')
 		switch (event.target.className) {
 		case 'division_buy' :
-			if(login == "") {
+			if(login == null) {
 				location.href = '${cpath}/member/login'
 			} else {
 				if(selectSize == "모든 사이즈") {
@@ -1745,7 +1743,7 @@
 			}
 			break;
 		case 'division_sell' :
-			if(login == "") {
+			if(login == null) {
 				location.href = '${cpath}/member/login'				
 			} else {
 				if(selectSize == "모든 사이즈 ▽") {

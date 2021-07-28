@@ -49,4 +49,8 @@ public class MainpageService {
 		return dao.mostPopular();
 	}
 
+	public ProductDTO getProdDTO(int productIdx) {
+		return dao.getProdDTO(productIdx);
+	}
+
 }

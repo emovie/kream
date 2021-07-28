@@ -1,8 +1,8 @@
 package com.project.service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -10,13 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.project.model.BuySellDTO;
+import com.project.model.BuyingDTO;
 import com.project.model.ProductDAO;
 import com.project.model.ProductDTO;
+import com.project.model.SellingDTO;
 
 @Service
 public class ProductService {
 
 	@Autowired private ProductDAO dao;
+	@Autowired ProductProcess process = new ProductProcess();
 	
 	public ProductDTO getProductInfo(int idx) {
 		ProductDTO product = dao.getProduct(idx);
@@ -193,15 +196,7 @@ public class ProductService {
 		}
 		return sizeList;
 	}
-
-	public void deleteProductWish(int productIdx, int memberIdx, String size) {
-		dao.deleteProductWish(productIdx,memberIdx,size);
-	}
-
-	public void insertProductWish(int productIdx, int memberIdx, String size) {
-		dao.insertProductWish(productIdx,memberIdx,size);
-	}
-
+	
 	public ArrayList<BuySellDTO> getConclusionList(int productIdx) {
 		return dao.getConclusionList(productIdx);
 	}
@@ -251,16 +246,16 @@ public class ProductService {
 		String date;
 		switch (tab) {
 		case "chart1Y":
-			date = addDate(-1,0,0);
+			date = process.addDate(-1,0,0);
 			break;
 		case "chart6m":
-			date = addDate(0,-6,0);
+			date = process.addDate(0,-6,0);
 			break;
 		case "chart3m":
-			date = addDate(0,-3,0);
+			date = process.addDate(0,-3,0);
 			break;
 		case "chart1m":
-			date = addDate(0,-1,0);
+			date = process.addDate(0,-1,0);
 			break;
 		default:
 			date = null;
@@ -268,15 +263,13 @@ public class ProductService {
 		return date;
 	}
 
-	public String addDate(int year, int month, int day) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
-		Calendar cal = Calendar.getInstance();
-		
-		cal.add(Calendar.YEAR, year);
-		cal.add(Calendar.MONTH, month);
-		cal.add(Calendar.DATE, day);
-		
-		return sdf.format(cal.getTime());
+	public void deleteProductWish(int productIdx, int memberIdx, String size) {
+		dao.deleteProductWish(productIdx,memberIdx,size);
 	}
+
+	public void insertProductWish(int productIdx, int memberIdx, String size) {
+		dao.insertProductWish(productIdx,memberIdx,size);
+	}
+	
 	
 }

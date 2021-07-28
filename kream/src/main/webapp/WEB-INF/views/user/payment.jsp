@@ -2,7 +2,11 @@
     pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp" %>
 <link rel="stylesheet" href="${cpath }/resources/css/mypage.css" />
-
+<c:if test="${empty login }">
+	<script>
+		location.href = "${cpath }/login";
+	</script>
+</c:if>
 <div class="myWrap">
 	<div class="myMenu">
 		<h1><a href="${cpath }/my">MY PAGE</a></h1>

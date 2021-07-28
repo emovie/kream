@@ -8,21 +8,21 @@ const searchWrap = document.querySelector('.searchWrap')
 const overlay = document.querySelector('.overlay')
 const searchCancel = document.querySelector('.cancelBtn')
 
-function open() {
+function searchopen() {
 	searchWrap.classList.remove('hidden')
     overlay.classList.remove('hidden')
     clear()
 }
 
-function close() {
+function searchclose() {
 	searchWrap.classList.add('hidden')
     overlay.classList.add('hidden')
     clear()
 }
 
-searchBtn.onclick = open
-overlay.onclick = close
-searchCancel.onclick = close 
+searchBtn.onclick = searchopen
+overlay.onclick = searchclose
+searchCancel.onclick = searchclose 
 
 // 검색 리스트
 const inputSearch = document.querySelector('#inputSearch')

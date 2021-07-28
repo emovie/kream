@@ -58,6 +58,15 @@
 		overflow: hidden;
 		margin: 0 20px;
 	}
+	.existImg {
+		height: 100%;
+		position: relative;
+	    left: 100%;
+	    margin-left: -125%;
+	}
+	.defaultImg {
+		height: 100%;
+	}
 	.myPagebutton{
 		background-color: inherit;
 		height: 35px;
@@ -77,6 +86,7 @@
 		height: 100px;
 		display: flex;
 		align-items: center;
+		cursor: pointer;
 	}
 	.historySum > div {
 		display: flex;
@@ -118,6 +128,9 @@
 		font-size: 13px;
 		font-weight: 300;
 	}
+	.historyTitle > div:nth-child(2) > div:first-child {
+		cursor: pointer;
+	}
 	.historyList {
 		width: inherit;
 		height: 200px;
@@ -143,7 +156,7 @@
 		justify-content: center;
 		text-align: center;
 	}
-	.wish div{
+	.wish > div{
 		font-size: 18px;
 		font-weight: 600;
 		margin-bottom: 15px;

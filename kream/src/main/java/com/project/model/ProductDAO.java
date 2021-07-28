@@ -10,11 +10,14 @@ import org.apache.ibatis.annotations.Select;
 
 public interface ProductDAO {
 
-	@Select("select * from product order by idx asc")
+	// 안희경
+//	@Select("select * from product order by idx asc")
+	@Select("select * from (select * from product order by idx asc) where rownum <= 40")
 	List<ProductDTO> getList();
 
 	@Select("select * from product where lower(productname) like '%'||lower(#{keyword})||'%' or lower(krname) like '%'||lower(#{keyword})||'%' or lower(model) like '%'||lower(#{keyword})||'%' or lower(category) like '%'||lower(#{keyword})||'%'")
 	List<ProductDTO> search(String keyword);
+
 
 	@Select("select * from (select * from product order by rdate desc) where rownum <= 12")
 	List<ProductDTO> justDropped();
@@ -25,6 +28,15 @@ public interface ProductDAO {
 	@Select("select * from productimg where productidx = #{idx}")
 	List<ProductImgDTO> getImg(int idx);
 
+	@Select("select * from product where idx = #{productIdx}")
+	ProductDTO getProdDTO(int productIdx);
+	
+	@Select("select * from productwish where memberidx = #{loginIdx}")
+	List<ProductWishDTO> getWishList(int loginIdx);
+
+	// 안희경
+	
+	
 	@Select("select * from product where idx=#{idx}")
 	ProductDTO getProduct(int idx);
 	
@@ -87,6 +99,5 @@ public interface ProductDAO {
 	
 	@Select("select MAX(price) from buying where productidx=${idx} and step='배송완료' and endDate>'${date}' group by endDate order by endDate")
 	ArrayList<String> getChartSelectYData(@Param("idx") int idx,@Param("date") String tab);
-
 
 }
