@@ -1,0 +1,169 @@
+@charset "UTF-8";
+
+	.myWrap {
+		display: flex;
+		justify-content: center;
+	}
+	.mypage {
+		width: 1000px;
+		height: auto;
+		padding: 30px 0;
+	}
+	.myMenu {
+		width: 200px;
+		height: 400px;
+	}
+	.myMenu ul {
+		margin-top: 0;
+	}
+	.myMenu li {
+		color: gray;
+		font-weight: 300;
+		font-size: 15px;
+		margin-bottom: 5px;
+	}
+	.myMenu p {
+		margin-bottom: 10px;
+	}
+	
+	.myContentLine {
+		width: 100%;
+		border-bottom: 3px solid black;
+	}
+	
+	.profile {
+		display: flex;
+		align-items: center;
+		border: 1px solid #d5d5d5;
+		border-radius: 10px;
+		width: inherit;
+		height: 150px;
+		overflow: hidden;
+	}
+	.profile p:first-child {
+		font-weight: 700;
+		font-size: 20px;
+		margin: 0;
+	}
+	.profile p:nth-child(2) {
+		font-weight: 400;
+		font-size: 13px;
+		color: gray;
+		margin-top: 0;
+	}
+	.profileImg {
+		width: 100px;
+		height: 100px;
+		border-radius: 50%;
+		overflow: hidden;
+		margin: 0 20px;
+	}
+	.existImg {
+		height: 100%;
+		position: relative;
+	    left: 100%;
+	    margin-left: -125%;
+	}
+	.defaultImg {
+		height: 100%;
+	}
+	.myPagebutton{
+		background-color: inherit;
+		height: 35px;
+		padding: 0 15px;
+		border: 1px solid #d5d5d5;
+		border-radius: 10px;
+		text-align: center;
+		margin: auto;
+		color: #5d5d5d;
+		font-size: 12px;
+		cursor: pointer;
+	}
+	.historySum {
+		background-color: #f9f9f9;
+		border-radius: 10px;
+		width: inherit;
+		height: 100px;
+		display: flex;
+		align-items: center;
+		cursor: pointer;
+	}
+	.historySum > div {
+		display: flex;
+		justify-content: space-between;
+		text-align: center;	
+		width: 800px;
+		margin: auto;
+	}
+	.historySum p {
+		margin: 0;
+	}
+	
+	.historySum p:first-child {
+		font-size: 13px;
+		font-weight: 300;
+	}
+	.historySum p:last-child {
+		font-size: 20px;
+		font-weight: 600;
+	}
+	
+	.historyTitle {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 40px;
+		margin-bottom: 15px;
+	}
+	.historyTitle > div:first-child {
+		font-size: 18px;
+		font-weight: 600;
+	}
+	.historyTitle > div:nth-child(2){
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	.historyTitle > div:nth-child(2) > div{
+		color: gray;
+		font-size: 13px;
+		font-weight: 300;
+	}
+	.historyTitle > div:nth-child(2) > div:first-child {
+		cursor: pointer;
+	}
+	.historyList {
+		width: inherit;
+		height: 200px;
+	}
+	.historyList p {
+		text-align: center;
+		line-height: 200px;
+		color: gray;
+		font-size: 13px;
+		font-weight: 300;
+	}
+	.wish {
+		margin-top: 40px;
+		margin-bottom: 100px;
+	}
+	.wishBox {
+		width: inherit;
+		height: 230px;
+		background-color: #f9f9f9;
+		border-radius: 10px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+	}
+	.wish > div{
+		font-size: 18px;
+		font-weight: 600;
+		margin-bottom: 15px;
+	}
+	.wish p {
+		color: gray;
+		font-size: 13px;
+		font-weight: 300;
+	}
+	
