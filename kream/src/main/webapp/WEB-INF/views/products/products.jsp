@@ -34,7 +34,6 @@
 			align-items: center;
 		}
 		
-		/* login check */
 		.login_check, .login_check2 {
 			background-color: rgba(255,255,255,0.7);
 			width : 100%;

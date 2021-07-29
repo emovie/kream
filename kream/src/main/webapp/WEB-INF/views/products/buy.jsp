@@ -382,17 +382,17 @@
 							<div class="tab_list">
 								<ul>
 									<li class="tab">
-										<a href="#" class="item_link">판매 입찰</a>
+										<a href="#" class="item_link">구매 입찰</a>
 									</li>
 									<li class="tab">
-										<a href="#" class="item_link">즉시 판매</a>
+										<a href="#" class="item_link">즉시 구매</a>
 									</li>
 								</ul>
 							</div>
 							<div class="price_now">
-								<span class="price_now_title">즉시 판매가</span>
+								<span class="price_now_title">즉시 구매가</span>
 								<span class="price">
-									<span class="amount">${sellPrice }</span><span class="unit">원</span>
+									<span class="amount">${buyPrice }</span><span class="unit">원</span>
 								</span>
 							</div>
 							<div class="price_bind">
@@ -401,18 +401,14 @@
 									<span class="price_text">무료</span>
 								</div>
 								<div class="price_addition">
-									<span class="price_title">판매 수수료</span>
-									<span class="price_text">무료 이벤트</span>
-								</div>
-								<div class="price_addition">
 									<span class="price_title">배송비</span>
-									<span class="price_text">판매자 부담</span>
+									<span class="price_text">무료 이벤트</span>
 								</div>
 							</div>
 							<div class="price_total">
-								<span class="price_title">총 정산금액</span>
+								<span class="price_title">총 결제금액</span>
 								<span class="price">
-									<span class="amount">${sellPrice }</span><span class="unit">원</span>
+									<span class="amount">${buyPrice }</span><span class="unit">원</span>
 								</span>
 							</div>
 						</div>
@@ -432,19 +428,7 @@
 						</div>					
 					</section>
 					<section class="column_box">
-						<div class="section_title">판매 정산 계좌</div>
-						<div class="setion_content">
-							<div class="settlement_account">
-								<div class="account_box">
-									<span class="acc_bank">국민은행</span>
-									<span class="acc_number">************000</span>								
-								</div>
-								<button class="btn outlinegrey medium">변경</button>
-							</div>
-						</div>					
-					</section>
-					<section class="column_box">
-						<div class="section_title">반송 주소</div>
+						<div class="section_title">배송 주소</div>
 						<div class="setion_content">
 							<div class="delivery_info">
 								<div class="address_info">
@@ -518,60 +502,11 @@
 					</section>
 					<div class="buy_check">
 						<div class="btn confirm">
-							<a type="button" class="btn solid">판매 입찰 계속</a>
+							<a type="button" class="btn solid">구매 입찰 계속</a>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	<!-- modal -->
-	<div class="layer hidden">
-		<div class="modal account">
-			<div class="modal_header title">정산 계좌 변경</div>
-			<div class="modal_content">
-				<div class="account_registration">
-					<div class="input_box">
-						<h3 class="input_title">은행명</h3>
-						<div class="input_item">
-							<select class="input_txt">
-								<option>은행을 선택하세요</option>
-								<option value="국민은행">국민은행</option>
-								<option value="신한은행">신한은행</option>
-								<option value="우리은행">우리은행</option>
-								<option value="하나은행">하나은행</option>
-								<option value="기업은행">기업은행</option>
-								<option value="농협은행">농협은행</option>
-								<option value="SC은행">SC은행</option>
-								<option value="한국씨티은행">한국씨티은행</option>
-								<option value="우체국">우체국</option>
-								<option value="산업은행">산업은행</option>
-								<option value="부산은행">부산은행</option>
-								<option value="카카오뱅크">카카오뱅크</option>
-								<option value="대구은행">대구은행</option>
-							</select>
-						</div>
-					</div>
-					<div class="input_box">
-						<h3 class="input_title">계좌번호</h3>
-						<div class="input_item">
-							<input type="text" placeholder="- 없이 입력하세요" class="input_txt" id="modal_accNum">
-						</div>
-						<p class="input_error hidden">올바른 계좌번호를 입력해주세요</p>
-					</div>
-					<div class="input_box">
-						<h3 class="input_title">예금주</h3>
-						<div class="input_item">
-							<input type="text" placeholder="예금주명을 정확히 입력하세요" class="input_txt" id="modal_accName">
-						</div>
-						<p class="input_error hidden">올바른 이름을 입력해주세요. (2-50자)</p>
-					</div>
-				</div>
-				<div class="layer_btn">
-					<button disabled="disabled" class="btn solid medium">저장하기</button>
-				</div>
-			</div>
-			<div class="btn_layer_close">X</div>		
 		</div>
 	</div>
 </main>
@@ -589,6 +524,7 @@
 			element.classList.remove('is_active')
 		})
 		event.target.classList.add('is_active')
+		// sellContrller에 존재
 		const url = '${cpath}/deadline/' + event.target.innerText
 		fetch(url,{method:'GET'}).then(resp => resp.text())
 		.then( text => {
@@ -597,78 +533,6 @@
 	}
 </script>
 
-<!-- account -->
-<script>
-	const accountBtn = document.querySelector('.settlement_account').querySelector('.btn')
-	accountBtn.addEventListener('click' , accountModal)
-	
-// 	layer open
-	function accountModal(event) {
-		document.querySelector('.layer').classList.remove('hidden')
-		document.querySelector('.account').classList.remove('hidden')
-	}
-	
-// 	layer close
-	const layer = document.querySelector('.layer')
-	const btnLayerClose = document.querySelector('.btn_layer_close')
-	btnLayerClose.addEventListener('click', accountCloseModal)
-	
-	function accountCloseModal(event) {
-		console.log(event.target)
-		layer.classList.add('hidden')
-	}
-	
-// 	accountBank select
-	const bankList = document.querySelector('select.input_txt')
-	let accBank
-	bankList.addEventListener('change', accountBankSelect)
-	
-	function accountBankSelect(event) {
-		accBank = event.target.value
-	}
-	
-// 	accountNumber check
-	const bankNum = document.getElementById('modal_accNum')
-	let accNum
-	bankNum.addEventListener('change', accountNumberCheck)
-	
-	function accountNumberCheck(event) {
-		accNum = event.target.value
-	}
-	
-// accountName check
-	const bankName = document.getElementById('modal_accName')
-	let accName
-	bankName.addEventListener('change', accountNumberCheck)
-	
-	function accountNameCheck(event) {
-		accName = event.target.value
-	}
-	
-	const layerInputText = layer.querySelectorAll('.input_txt')
-	const layerBtn = document.querySelector('.layer_btn').querySelector('button')
-	layerBtn.addEventListener('click', accountSave)
-	layerInputText.forEach( element => {
-		element.addEventListener('change', btnDisabled)
-	})
-	
-// 	disabled
-	function btnDisabled() {
-		if(accBank != null && accNum != null && accName != null) {
-			layerBtn.disabled = true
-		} else {
-			layerBtn.disabled = false
-		}
-	}
-	
-// 	account save
-	
-	function accountSave(event) {
-		console.log(accBank)
-		console.log(accNum)
-		console.log(accName)
-	}
-</script>
 
 
 </body>
