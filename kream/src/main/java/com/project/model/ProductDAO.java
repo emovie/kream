@@ -18,7 +18,9 @@ public interface ProductDAO {
 	@Select("select * from product where lower(productname) like '%'||lower(#{keyword})||'%' or lower(krname) like '%'||lower(#{keyword})||'%' or lower(model) like '%'||lower(#{keyword})||'%' or lower(category) like '%'||lower(#{keyword})||'%'")
 	List<ProductDTO> search(String keyword);
 
-
+	@Select("select * from product where category = '게임기' or category = '테크/기타' and not brand Like '%Maison%'")
+	List<ProductDTO> Electronics();
+	
 	@Select("select * from (select * from product order by rdate desc) where rownum <= 12")
 	List<ProductDTO> justDropped();
 

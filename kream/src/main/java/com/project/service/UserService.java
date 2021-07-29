@@ -208,8 +208,10 @@ public class UserService {
 		for(BuySellDTO BSdto : list) {
 			int prodIdx = BSdto.getProductIdx();
 			List<ProductImgDTO> imgList = proddao.getImg(prodIdx);
-			if(imgList.size() > 0) {
+			ProductDTO prodDto = proddao.getProdDTO(prodIdx);
+			if(imgList.size() > 0 && prodDto != null) {
 				BSdto.setImgList(imgList);
+				BSdto.setProductDTO(prodDto);
 				newList.add(BSdto);
 			}
 			else {
@@ -227,8 +229,10 @@ public class UserService {
 		for(BuySellDTO BSdto : list) {
 			int prodIdx = BSdto.getProductIdx();
 			List<ProductImgDTO> imgList = proddao.getImg(prodIdx);
-			if(imgList.size() > 0) {
+			ProductDTO prodDto = proddao.getProdDTO(prodIdx);
+			if(imgList.size() > 0 && prodDto != null) {
 				BSdto.setImgList(imgList);
+				BSdto.setProductDTO(prodDto);
 				newList.add(BSdto);
 			}
 			else {
@@ -236,6 +240,32 @@ public class UserService {
 			}
 		}
 		return newList; 
+	}
+
+	public HashMap<String, Object> BuySummary(int idx) {
+		int buyBidCount = dao.BuyBidCount(idx);
+		int buyProceedCount = dao.BuyProceedCount(idx);
+		int buyEndCount = dao.BuyEndCount(idx);
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("buyBidCount", buyBidCount);
+		map.put("buyProceedCount", buyProceedCount);
+		map.put("buyEndCount", buyEndCount);
+		return map;
+	}
+
+	public HashMap<String, Object> SellSummary(int idx) {
+		int sellBidCount = dao.SellBidCount(idx);
+		int sellProceedCount = dao.SellProceedCount(idx);
+		int sellEndCount = dao.SellEndCount(idx);
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("sellBidCount", sellBidCount);
+		map.put("sellProceedCount", sellProceedCount);
+		map.put("sellEndCount", sellEndCount);
+		return map;
 	}
 
 

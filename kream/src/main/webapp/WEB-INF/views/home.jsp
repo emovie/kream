@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="header.jsp" %>
-<link rel="stylesheet" href="${cpath }/resources/css/main.css?ver=1">
+<link rel="stylesheet" href="${cpath }/resources/css/main.css?ver=2">
 	<div class="slideWrapper">
         <ul class="slide">
             <li style="background-color: rgb(235, 235, 223);
@@ -30,7 +30,7 @@
     	</div>
     	<div class="ItemList List1">
     	</div>
-    	<div class="moreBtn">더보기</div>
+    	<div class="moreBtn moreBtn1">더보기</div>
     </div>
     
     <div class="imgBanner img1"></div>
@@ -42,10 +42,24 @@
     	</div>
     	<div class="ItemList List2">
     	</div>
+    	<div class="moreBtn moreBtn2">더보기</div>
+    </div>
+
+    <div class="imgBanner img3"></div>
+    <div class="MainItem Electronics">
+    	<div class="MainItemTitle">
+    		<p>Electronics</p>
+    		<p>추천 상품</p>
+    	</div>
+    	<div class="ItemList List3">
+    	</div>
+    	<div class="moreBtn moreBtn3">더보기</div>
     </div>
     
+
     
-    <script src="${cpath }/resources/js/mainItem.js?ver=1"/></script>
+    
+    <script src="${cpath }/resources/js/mainItem.js?ver=6"/></script>
     <script src="${cpath }/resources/js/slideBanner.js"/></script>
 
 <%@ include file="footer.jsp" %>

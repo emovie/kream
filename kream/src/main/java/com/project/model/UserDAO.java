@@ -88,4 +88,22 @@ public interface UserDAO {
 	@Select("select * from (select * from selling where memberidx = #{memberIdx} and step = #{step}) where startdate between #{startDate} and #{endDate} order by startdate desc")
 	List<BuySellDTO> readSellHistory(BuySellDTO dto);
 
+	@Select("select count(*) from selling where memberidx = #{memberidx} and step='입찰'")
+	int SellBidCount(int memberIdx);
+
+	@Select("select count(*) from selling where memberidx = #{memberidx} and step='진행'")
+	int SellProceedCount(int memberIdx);
+
+	@Select("select count(*) from selling where memberidx = #{memberidx} and step='종료'")
+	int SellEndCount(int memberIdx);
+
+	@Select("select count(*) from buying where memberidx = #{memberidx} and step='입찰'")
+	int BuyBidCount(int memberIdx);
+
+	@Select("select count(*) from buying where memberidx = #{memberidx} and step='진행'")
+	int BuyProceedCount(int memberIdx);
+
+	@Select("select count(*) from buying where memberidx = #{memberidx} and step='종료'")
+	int BuyEndCount(int memberIdx);
+
 }

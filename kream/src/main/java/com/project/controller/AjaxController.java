@@ -67,6 +67,11 @@ public class AjaxController {
 	public List<ProductDTO> mostPopular() {
 		return mainserv.mostPopular();
 	}
+	
+	@GetMapping("/main/Electronics/")
+	public List<ProductDTO> Electronics() {
+		return mainserv.Electronics();
+	}
 
 	// 이메일, 비밀번호 찾기
 	@PostMapping("/login/find_password/")
@@ -258,5 +263,18 @@ public class AjaxController {
 		MemberDTO nowLogin = (MemberDTO)session.getAttribute("login");
 		dto.setMemberIdx(nowLogin.getIdx());
 		return userserv.readSellHistory(dto);
+	}
+	
+	// 구매 입찰 써머리
+	@GetMapping("/my/buying/BuyHistory/Summary/")
+	public HashMap<String, Object> BuySummary(HttpSession session) {
+		MemberDTO nowLogin = (MemberDTO)session.getAttribute("login");
+		return userserv.BuySummary(nowLogin.getIdx());
+	}
+	// 판매 입찰 써머리
+	@GetMapping("/my/selling/SellHistory/Summary/")
+	public HashMap<String, Object> SellSummary(HttpSession session) {
+		MemberDTO nowLogin = (MemberDTO)session.getAttribute("login");
+		return userserv.SellSummary(nowLogin.getIdx());
 	}
 }
