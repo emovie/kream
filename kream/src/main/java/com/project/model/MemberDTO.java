@@ -16,7 +16,7 @@ public class MemberDTO {
 //    profileimage varchar2(255)
 	
 	private int idx;
-	private String email, pw, name, phonenumber,accountname, accountbank, accountnumber, profileimage;
+	private String email, pw, name, phonenumber,accountName, accountBank, accountNumber, profileimage;
 	private char consent;
 	private MultipartFile profileFile;
 	
@@ -51,22 +51,22 @@ public class MemberDTO {
 		this.phonenumber = phonenumber;
 	}
 	public String getAccountname() {
-		return accountname;
+		return accountName;
 	}
 	public void setAccountname(String accountname) {
-		this.accountname = accountname;
+		this.accountName = accountname;
 	}
 	public String getAccountbank() {
-		return accountbank;
+		return accountBank;
 	}
 	public void setAccountbank(String accountbank) {
-		this.accountbank = accountbank;
+		this.accountBank = accountbank;
 	}
 	public String getAccountnumber() {
-		return accountnumber;
+		return accountNumber;
 	}
 	public void setAccountnumber(String accountnumber) {
-		this.accountnumber = accountnumber;
+		this.accountNumber = accountnumber;
 	}
 	
 	public char getConsent() {

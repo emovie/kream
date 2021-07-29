@@ -25,12 +25,15 @@ public interface UserDAO {
 	@Insert("insert into addressbook (memberidx, name, phonenumber, postcode, address, detail, basicck) values (#{memberIdx}, #{name}, #{phoneNumber}, #{postcode}, #{address}, #{detail}, #{basicck})")
 	int regiAddress(AddressDTO dto);
 
-	@Update("update addressbook set basicck = 'n' where basicck = 'y'")
-	int changeBasicck();
+	@Update("update addressbook set basicck = 'n' where memberidx = #{memberidx}")
+	int changeBasicck(int memberidx);
 
 	@Select("select count(*) from addressbook where memberidx = #{memberIdx}")
 	int checkedBasicck(int memberIdx);
 
+	@Delete("delete from addressbook where idx = #{addressIdx}")
+	int deleteAdd(int addressIdx);
+	
 	@Select("select * from addressbook where memberidx = #{loginIdx}")
 	List<AddressDTO> getAddressList(int loginIdx);
 
@@ -64,5 +67,25 @@ public interface UserDAO {
 	@Delete("delete from productwish where idx = #{wishIdx}")
 	int wishItemDelete(int wishIdx);
 
+	@Update("update addressbook set basicck = 'y' where memberidx = #{memberidx} and idx = #{addressIdx}")
+	int changBasicAdd(HashMap<String, Object> map);
+
+	@Update("update addressbook set name = #{name}, phonenumber = #{phoneNumber}, postcode = #{postcode}, address = #{address}, detail = #{detail}, basicck = #{basicck} where idx = #{idx}")
+	int modifyAdd(AddressDTO dto);
+
+	@Select("select * from member where idx = #{idx}")
+	MemberDTO AccountData(int idx);
+
+	@Update("update member set accountbank = #{accountBank}, accountnumber = #{accountNumber}, accountname = #{accountName} where idx = #{idx}")
+	int registerAccount(AccountDTO dto);
+
+	@Select("select idx from addressbook where basicck = 'y' and memberIdx = #{memberIdx}")
+	int checkBasicckIdx(int memberIdx);
+
+	@Select("select * from (select * from buying where memberidx = #{memberIdx} and step = #{step}) where startdate between #{startDate} and #{endDate} order by startdate desc")
+	List<BuySellDTO> readBuyHistory(BuySellDTO dto);
+
+	@Select("select * from (select * from selling where memberidx = #{memberIdx} and step = #{step}) where startdate between #{startDate} and #{endDate} order by startdate desc")
+	List<BuySellDTO> readSellHistory(BuySellDTO dto);
 
 }

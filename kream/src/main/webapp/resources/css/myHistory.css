@@ -1,12 +1,12 @@
 @charset "utf-8";
 
-	.myHistory {
+	.myHistory, .myAccount {
 		width: 1000px;
 		height: auto;
 		padding: 10px 0;
 		margin: 0;
 	}
-	.myHistory h2 {
+	.myHistory h2, .myAccount h2 {
 		font-size: 28px;
 		margin-bottom: 0;
 	}
@@ -59,9 +59,8 @@
 	}
 	.historySorting {
 		width: 100%;
-		height: 60px;
-		display: flex;
-		border-bottom: 1px solid #ebebeb;
+		height: 350px;
+		border-top: 1px solid #ebebeb;
 	}
 	.historyDate {
 		display: flex;
@@ -70,22 +69,20 @@
 	}
 	.DateBtns {
 		display: flex;
-		width: 220px;
+		width: 200px;
 		justify-content: space-between;
 	}
-	.DateBtns div {
+	.historyDateBtn {
+		padding: 7px 17px;		
+		background-color: white;
+		color: black;
 		border: 1px solid #ebebeb;
 		padding: 7px 12px;		
 		font-size: 12px;
 		cursor: pointer;
 	}
-	.DateBtns div:first-child {
+	.checkedDateBtn{
 		background-color: #222;
 	    border-color: #d3d3d3;
 	    color: #fff;
-	}
-	.DateBtns div:not(:nth-child(1)){
-		padding: 7px 17px;		
-		background-color: white;
-		color: black;
 	}

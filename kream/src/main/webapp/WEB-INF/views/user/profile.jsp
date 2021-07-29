@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp" %>
-<link rel="stylesheet" href="${cpath }/resources/css/mypage.css?ver=2" />
+<link rel="stylesheet" href="${cpath }/resources/css/mypage.css?ver=5" />
 <link rel="stylesheet" href="${cpath }/resources/css/modifyProfile.css?ver=1" />
 
 <style>
@@ -39,7 +39,13 @@
 	.ModifyImgBtnWrap div:first-child {
 		margin-right: 5px;	
 	}
-
+	.deleteMember {
+		font-size: 12px;
+		font-weight: 300;
+		color: gray;
+		text-decoration: underline;
+		cursor: pointer;
+	}
 </style>
 <c:if test="${empty login }">
 	<script>
@@ -63,7 +69,7 @@
 				<ul>
 					<li><a href="${cpath }/my/profile" class="menuStrong">프로필 정보</a></li>
 					<li><a href="${cpath }/my/address">주소록</a></li>
-					<li><a href="${cpath }/my/payment">결제 정보</a></li>
+					<!-- <li><a href="${cpath }/my/payment">결제 정보</a></li>  -->
 					<li><a href="${cpath }/my/account">판매 정산 계좌</a></li>
 				</ul>
 			</div>
@@ -182,6 +188,7 @@
 				</div>
 			</div>
 		</div>
+		<div class="deleteMember" onclick="location.href='${cpath}/my/withdrawal'">회원 탈퇴</div>
 	</div>
 </div>
 

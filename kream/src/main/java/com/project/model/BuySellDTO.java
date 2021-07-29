@@ -1,5 +1,7 @@
 package com.project.model;
 
+import java.util.List;
+
 public class BuySellDTO {
 	
 //	IDX        NOT NULL NUMBER        
@@ -16,7 +18,7 @@ public class BuySellDTO {
 	
 	int idx, memberIdx, productIdx, address, price, cnt;
 	String pSize, startDate, endDate, countDate, step;
-	
+	private List<ProductImgDTO> imgList;
 	
 	public int getCnt() {
 		return cnt;
@@ -83,6 +85,12 @@ public class BuySellDTO {
 	}
 	public void setStep(String step) {
 		this.step = step;
+	}
+	public List<ProductImgDTO> getImgList() {
+		return imgList;
+	}
+	public void setImgList(List<ProductImgDTO> imgList) {
+		this.imgList = imgList;
 	}
 	
 }

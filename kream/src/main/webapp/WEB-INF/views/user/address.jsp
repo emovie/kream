@@ -20,6 +20,38 @@
 		text-align: center;
 		padding: 40px 0;
 	}
+	.addressContent > div {
+		display: flex;
+		justify-content: space-between;
+	}
+	.addressContent > div:first-child {
+		border-bottom: 1px solid black;
+	}
+	.addressContent > div:not(.addressContent > div:first-child) {
+		border-bottom: 1px solid #ebebeb;
+		margin-top: 30px;
+	}
+	.addressContent div div:last-child {
+		display: flex;
+		justify-content: space-between;
+	}
+	.addressContent div:first-child .addBtnWrap {
+		padding-top: 40px;
+	}
+	.addBtnWrap {
+		padding-top: 13px;
+		cursor: pointer;
+	}
+	.addBtnWrap div {
+		border: 1px solid #d3d3d3;
+		border-radius: 12px;
+		height: 30px;
+		line-height: 30px;
+		padding: 3px 10px;
+		margin-left: 5px;
+		font-size: 12px;
+		font-weight: 300;
+	}
 	.addTitle {
 		width: inherit;
 		display: flex;
@@ -92,7 +124,7 @@
 		width: 80px;
 		height: 40px;
 	}
-	.myAddressForm div:last-child .myPagebutton:last-child {
+	.addressRegistBtn, .addressModifyBtn {
 		background-color: black;
 		color: white;
 	}
@@ -128,15 +160,33 @@
 		font-size: 13px;
 		padding-bottom: 30px;
 	}
-	.addressListBasic {
-		border-bottom: 1px solid black;
-	}
-	.addressListItem {
-		border-bottom: 1px solid #ebebeb;
-		margin-top: 30px;
-	}
 	.addressListBasic p:first-child {
 		margin-top: 0;
+	}
+	#basicckCheck + .checkBoxLabel {
+		width: 25px;
+		height: 25px;
+		display: inline-block;
+		background: url('https://imgur.com/7iDP3GS.png');
+		background-size: 100%;
+		cursor: pointer;
+		position: relative;
+		top: 6.5px;
+		margin-right: 5px;
+	}
+	#basicckCheck:checked + .checkBoxLabel {
+		width: 25px;
+		height: 25px;
+		display: inline-block;
+		background: url('https://imgur.com/6gofHuf.png');
+		background-size: 100%;
+		position: relative;
+		top: 6.5px;
+		margin-right: 5px;
+	}
+	#basicckCheck {
+		display: none;
+		cursor: pointer;
 	}
 </style>
 <c:if test="${empty login }">
@@ -161,7 +211,7 @@
 				<ul>
 					<li><a href="${cpath }/my/profile">프로필 정보</a></li>
 					<li><a href="${cpath }/my/address" class="menuStrong">주소록</a></li>
-					<li><a href="${cpath }/my/payment">결제 정보</a></li>
+					<!-- <li><a href="${cpath }/my/payment">결제 정보</a></li>  -->
 					<li><a href="${cpath }/my/account">판매 정산 계좌</a></li>
 				</ul>
 			</div>
@@ -217,14 +267,24 @@
 				<p>상세 주소</p>
 				<input type="text" name="detail" id="detailAddress" placeholder="건물, 아파트, 동/호수 입력" onfocus="this.placeholder=''" onblur="this.placeholder='건물, 아파트, 동/호수 입력'">
 			</div>
-			<p><label><input type="checkbox" name="basicck" value="y">기본 배송지로 설정</label></p>
+			<p>
+				<input type="checkbox" id="basicckCheck" name="basicck" value="y">
+				<label class="checkBoxLabel" for="basicckCheck"></label>기본 배송지로 설정
+			</p>
 			<div>
 				<button id="addressCancelBtn"class="myPagebutton" type="button">취소</button>
-				<button id="addressSubmitBtn" class="myPagebutton" type="submit">저장하기</button>
+				<button id="addressSubmitBtn" class="myPagebutton addressRegistBtn" type="button">저장하기</button>
+				<button id="addressSubmitBtn" class="myPagebutton addressModifySubmitBtn" type="button">저장하기</button>
 			</div>
 		</form>
 	</div>
+	
 	<div class="addressOverlay hidden"></div>
+	
+	
+	
+	
+	
 
 <!-- 주소 api -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -298,27 +358,62 @@ const addressCancelBtn = document.querySelector('#addressCancelBtn')
 const addressContent = document.querySelector('.addressContent')
 
 const addressPopOpen = function() {
+	
 	addressPop.classList.remove('hidden')
 	addressOverlay.classList.remove('hidden')
+
 }
 
 const addressPopClose = function() {
 	addressPop.classList.add('hidden')
 	addressOverlay.classList.add('hidden')
-	addressValueReset()
+	
+	const basicckInput = document.querySelector('input[name="basicck"]')
+	basicckInput.disabled = false
+	basicckInput.parentNode.onclick = function() {}
 }
 
-newAddressBtn.onclick = addressPopOpen
 
-addressOverlay.onclick = addressPopClose
-addPopCloseBtn.onclick = addressPopClose
-addressCancelBtn.onclick = addressPopClose
+const addressRegistBtn = document.querySelector('.addressRegistBtn')
+const addressModifySubmitBtn = document.querySelector('.addressModifySubmitBtn')
+
+newAddressBtn.onclick = function() {
+	const addressPopTitle = document.querySelector('.addressPopTitle h3')
+	addressValueReset()
+	addressPopTitle.innerText = ''
+	addressPopTitle.innerText = '새 배송지 등록'
+	addressRegistBtn.classList.remove('hidden')
+	addressModifySubmitBtn.classList.add('hidden')
+	addressPopOpen()
+}
+
 
 /* 주소데이터 전송 */
 const myAddressForm = document.querySelector('.myAddressForm')
 
-const regiAddress = function(event) {
-	event.preventDefault()
+addressRegistBtn.onclick = function() {
+
+	const nameInput = document.querySelector('input[name="name"]')
+	const phoneNumberInput = document.querySelector('input[name="phoneNumber"]')
+	const postcodeInput = document.querySelector('input[name="postcode"]')
+	const addressInput = document.querySelector('input[name="address"]')
+	
+	if(nameInput.value == '') {
+		alert('이름을 입력해주세요')
+		return
+	}
+	if(phoneNumberInput.value == '') {
+		alert('휴대폰 번호를 입력해주세요')
+		return
+	}
+	if(postcodeInput.value == '') {
+		alert('우편번호를 입력해주세요')
+		return
+	}
+	if(addressInput.value == '') {
+		alert('주소를 입력해주세요')
+		return
+	}
 	
 	const formData = new FormData(myAddressForm)
 	
@@ -329,11 +424,16 @@ const regiAddress = function(event) {
 	}
 	fetch(url, opt).then(resp => resp.text())
 	.then(text => {
-		 addressValueReset()
 		 addressContent.innerHTML = ''
 		 loadAddressList()
+		 addressPopClose()
 	 })
 }
+
+addressOverlay.onclick = addressPopClose
+addPopCloseBtn.onclick = addressPopClose
+addressCancelBtn.onclick = addressPopClose
+
 
 /* 인풋 값 비우기 */
 const addressValueReset = function() {
@@ -344,11 +444,6 @@ const addressValueReset = function() {
 		checkBox.checked = false
 	}
 	
-}
-
-myAddressForm.onsubmit = function(event) {
-	regiAddress(event)
-	addressPopClose()
 }
 
 const loginIdx = '${login.idx}'
@@ -370,49 +465,208 @@ function loadAddressList() {
 		}
 	})
 }
-window.onload = loadAddressList		// 페이지가 로딩이 끝나면 바로 호출할 함수
+
 
 function createDiv(dto) {
+	
+	const addressInfoWrap = document.createElement('div')
 	const addressInfo = document.createElement('div')
+	const addName = document.createElement('div')
+	const address = document.createElement('div')
+	const address1 = document.createElement('span')
+	const address2 = document.createElement('span')
+	const phoneNum = document.createElement('div')
+	
+	const addBtnWrap = document.createElement('div') 
+	addBtnWrap.classList.add('addBtnWrap')
+	
+	const basicBtn = document.createElement('div')
+	basicBtn.innerText = '기본 배송지'
+	
+	const addressDelBtn = document.createElement('div')
+	addressDelBtn.innerText = '삭제'
+	
+	const addressModiBtn = document.createElement('div') 
+	addressModiBtn.innerText = '수정'
+	
+	basicBtn.onclick = function(event) {
+		const url = '${cpath}/my/regiAddress/changeBasic/' + dto.idx + '/'
+		const opt = {
+				method: 'GET'
+		}
+		fetch(url, opt)
+		.then(resp => resp.text())
+		.then(text => {
+			if(text == 1) {
+				loadAddressList()
+			}
+			else{
+				console.log('실패')
+			}
+		})
+	}
+	
+	addressDelBtn.onclick = function(event) {
+		const url = '${cpath}/my/regiAddress/deleteAdd/' + dto.idx + '/'
+		const opt = {
+				method: 'GET'
+		}
+		fetch(url, opt)
+		.then(resp => resp.text())
+		.then(text => {
+			if(text == 1) {
+				loadAddressList()
+			}
+			else{
+				console.log('실패')
+			}
+		})
+	}
+	
+	addressModiBtn.onclick = function() {
+		
+		const addressPopTitle = document.querySelector('.addressPopTitle h3')
+		addressPopTitle.innerText = ''
+		addressPopTitle.innerText = '배송지 수정'
+		addressRegistBtn.classList.add('hidden')
+		addressModifySubmitBtn.classList.remove('hidden')
+		addressPopOpen()
+		
+		const nameInput = document.querySelector('input[name="name"]')
+		const phoneNumberInput = document.querySelector('input[name="phoneNumber"]')
+		const postcodeInput = document.querySelector('input[name="postcode"]')
+		const addressInput = document.querySelector('input[name="address"]')
+		const detailInput = document.querySelector('input[name="detail"]')
+		
+		nameInput.value = dto.name
+		phoneNumberInput.value = dto.phoneNumber
+		postcodeInput.value = dto.postcode
+		addressInput.value = dto.address
+		
+		if(dto.detail != null) {
+			detailInput.value = dto.detail
+		}
+		const basicckInput = document.querySelector('input[name="basicck"]')
+		if(dto.basicck == 'y') {
+			basicckInput.checked = true
+			basicckInput.disabled = true
+			basicckInput.value = 'y'
+			basicckInput.parentNode.onclick = function() {
+			alert('다른 주소를 기본 배송지로 변경 후, 수정할 수 있습니다.')
+			}
+		}
+		
+		if(nameInput.value == '') {
+			alert('이름을 입력해주세요')
+			return
+		}
+		if(phoneNumberInput.value == '') {
+			alert('휴대폰 번호를 입력해주세요')
+			return
+		}
+		if(postcodeInput.value == '') {
+			alert('우편번호를 입력해주세요')
+			return
+		}
+		if(addressInput.value == '') {
+			alert('주소를 입력해주세요')
+			return
+		}
+		
+		
+		addressModifySubmitBtn.onclick = function() {
+			
+			const formData = new FormData(myAddressForm)
+			
+			const url = "${cpath}/my/regiAddress/modifyAdd/" + dto.idx + '/'
+			const opt = {
+				method: 'POST',
+				body: formData,
+			}
+			fetch(url, opt).then(resp => resp.text())
+			.then(text => {
+				addressPopClose()
+				addressValueReset()
+				addressContent.innerHTML = ''
+				loadAddressList()
+			})
+		}
+	}
+	
+	
+	
 	if(dto.basicck == 'y') {
 		addressInfo.classList.add('addressListBasic')
 		const basicAdd = document.createElement('p')
 		basicAdd.innerText = '기본 배송지'
 		addressInfo.appendChild(basicAdd)
+		
+		addName.innerText = dto.name
+		addressInfo.appendChild(addName)
+		
+		
+		address1.innerText = '(' + dto.postcode + ')'
+		address.appendChild(address1)
+		
+		address2.innerText = dto.address
+		address.appendChild(address2)
+		
+		phoneNum.innerText = dto.phoneNumber.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3")
+		
+		if(dto.detail != null) {
+			const address3 = document.createElement('span')
+			address3.innerText = ' ' + dto.detail
+			address.appendChild(address3)
+			addressInfo.appendChild(address)
+			addressInfo.appendChild(phoneNum)
+			addressInfoWrap.appendChild(addressInfo)
+		}
+		else {
+			addressInfo.appendChild(address)
+			addressInfo.appendChild(phoneNum)
+			addressInfoWrap.appendChild(addressInfo)
+		}
+		
+		addBtnWrap.appendChild(addressModiBtn)
+		addressInfoWrap.appendChild(addBtnWrap)
+		
 	}
 	else {
-		addressInfo.classList.add('addressListItem')		
+		addressInfo.classList.add('addressListItem')
+		addName.innerText = dto.name
+		addressInfo.appendChild(addName)
+		
+		
+		address1.innerText = '(' + dto.postcode + ')'
+		address.appendChild(address1)
+		
+		address2.innerText = dto.address
+		address.appendChild(address2)
+		
+		phoneNum.innerText = dto.phoneNumber.replace(/(^02.{0}|^01.{1}|[0-9]{3})([0-9]+)([0-9]{4})/, "$1-$2-$3")
+		
+		if(dto.detail != null) {
+			const address3 = document.createElement('span')
+			address3.innerText = ' ' + dto.detail
+			address.appendChild(address3)
+			addressInfo.appendChild(address)
+			addressInfo.appendChild(phoneNum)
+			addressInfoWrap.appendChild(addressInfo)
+		}
+		else {
+			addressInfo.appendChild(address)
+			addressInfo.appendChild(phoneNum)
+			addressInfoWrap.appendChild(addressInfo)
+		}
+		addBtnWrap.appendChild(basicBtn)
+		addBtnWrap.appendChild(addressDelBtn)
+		addBtnWrap.appendChild(addressModiBtn)
+		addressInfoWrap.appendChild(addBtnWrap)
 	}
-	const addName = document.createElement('div')
-	addName.innerText = dto.name
-	addressInfo.appendChild(addName)
-	
-	const address = document.createElement('div')
-	const address1 = document.createElement('span')
-	const address2 = document.createElement('span')
-	
-	address1.innerText = '(' + dto.postcode + ')'
-	address.appendChild(address1)
-	
-	address2.innerText = dto.address
-	address.appendChild(address2)
-	
-	const phoneNum = document.createElement('div')
-	phoneNum.innerText = dto.phoneNumber
-	
-	if(dto.detail != null) {
-		const address3 = document.createElement('span')
-		address3.innerText = ' ' + dto.detail
-		address.appendChild(address3)
-		addressInfo.appendChild(address)
-		addressInfo.appendChild(phoneNum)
-	}
-	else {
-		addressInfo.appendChild(address)
-		addressInfo.appendChild(phoneNum)
-	}
-	return addressInfo
+	return addressInfoWrap
 }
+
+window.onload = loadAddressList		// 페이지가 로딩이 끝나면 바로 호출할 함수
 
 </script>
 

@@ -24,8 +24,6 @@ public class HomeController {
 		return "home";
 	}
 	
-
-	
 	// user 
 	@GetMapping("/my")
 	public String myPage() {
@@ -65,6 +63,11 @@ public class HomeController {
 	@GetMapping("/my/account")
 	public String myAccount() {
 		return "/user/account";
+	}
+	
+	@GetMapping("/my/withdrawal")
+	public String withdrawal() {
+		return "/user/withdrawal";
 	}
 	
 	@GetMapping("/login")
