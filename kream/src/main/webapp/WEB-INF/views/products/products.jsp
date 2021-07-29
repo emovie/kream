@@ -21,7 +21,7 @@
 			list-style: none;
 		}
 		.hidden {
-			display: none;
+			visibility: hidden;
 		}
 		.title {
 			max-width: 320px;
@@ -38,11 +38,12 @@
 		.login_check, .login_check2 {
 			background-color: rgba(255,255,255,0.7);
 			width : 100%;
-			height : 430px;
+			height : 435px;
 			position: absolute;
 			align-items: center;
 			display: flex;
 			justify-content: center;
+			z-index: 1;
 		}
 		.login_check2 {
 			height: 289px;
@@ -71,6 +72,15 @@
 		}
 		
 		/* column_top */
+ 		.img_list {
+			position : absolute; 
+			background-color: rgb(246, 238, 236); 
+			width: 570px; 
+			height: 570px;
+		}
+		.img_box {
+			display: flex;
+		}
 		.slide_box {
 			position : absolute;
 			z-index: 99;
@@ -80,12 +90,19 @@
 			left: 0;
 			right: 0;
 			bottom: 0;
+			padding-top : 50%;
 		}
 		.slide {
 			color: #dad8d8;
-			font-size : 25px;
+			font-size : 30px;
 			height : 44px;
-			margin: 10px;
+			width : 44px;
+			text-align: center;
+			z-index : 2;
+			cursor: pointer;			
+		}
+		.slide_on {
+			z-index : 1;
 		}
 		.top_wrap {
 			width : 1200px;
@@ -105,15 +122,6 @@
 		.product_img {
 			width: 570px;
 			height: 570px;
-		}
-		.img_list {
-			position : absolute;
-			background-color: rgb(246, 238, 236);
-			width: 570px;
-			height: 570px;
-		}
-		.img_box {
-			display: flex;
 		}
 		.banner_method {
 			border : 2px solid black;
@@ -385,10 +393,11 @@
 		table td {
 			padding-top: 12px;
 	   		font-size: 14px;
+	   		font-weight : 500px;
 	   		font-family: -apple-system,BlinkMacSystemFont,Roboto,AppleSDGothicNeo-Regular,NanumBarunGothic,NanumGothic,"나눔고딕","Segoe UI",Helveica,Arial,Malgun Gothic,Dotum,sans-serif;
 	    	color: #222;
 		}
-		.align_rigth {
+		.align_right {
 			text-align: right;
 		}
 		.align_left {
@@ -417,7 +426,8 @@
 			border-radius: 7px;
 		}
 		.empty_content {
-			margin-top : 20px;
+			margin-top : 30px;
+			margin-bottom : 100px;
 			text-align: center;
 		}
 		.empty_img {
@@ -564,6 +574,7 @@
 			display: flex;
 			flex-flow: column;
 			margin-left: 8px;
+			justify-content: center;
 		}
 		.layer_header_info > p {
 			margin : 0;
@@ -609,6 +620,9 @@
 			border-bottom : 1px solid #ebebeb;
 			display: flex;
 			justify-content: space-between;
+		}
+		.layer_product > ul > li {
+			width: 124.8px;
 		}
 		.layer_product > ul > li > a {
 			font-size: 13px;
@@ -661,6 +675,7 @@
 		.size_border {
 			border : 1px solid black;
 		}
+/* 		좋아요 */
 		#layer_wish > div  {
 			width: 440px;
 		}
@@ -758,6 +773,33 @@
 		    border-radius: 12px;
 		    font-size: 14px;
 		}
+		#chart {
+			padding-top : 10px;
+		}
+/* 		modal list */
+		.layer_content_body {
+			overflow-y: auto;
+		    overflow-x: hidden;
+		    max-height: 270px;
+		    display: flex;
+		    flex-flow: column;
+		    align-items: center;
+		}
+		.content_body {
+			margin: 0px;
+		    padding: 0px;
+		    padding-bottom: 8px;
+		    width: 416px;
+		    display: flex;
+		    justify-content: space-between;
+		}
+		.body_data {
+			flex-basis: 30%;
+	    	font-size: 14px;
+		}
+		.is_active {
+			font-weight: 700;
+		}
 	</style>
 </head>
 <body>
@@ -813,21 +855,17 @@
 
 <main>
 	<div class="top_wrap">
-	
 		<div class="column_left">
 			<div class="product_img">
 				<div class="slide_box">
-					<div class="slide"><</div>
-					<div class="slide">></div>
+					<div class="slide preBtn"><</div>
+					<div class="slide nextBtn">></div>
 				</div>
 				<div class="img_box">
 					<c:if test="${not empty product.imgList }">
-						<c:forEach items="${product.imgList }" var="image">
-							<img class="img_list" src="${image.img }">
+						<c:forEach items="${product.imgList }" var="image" varStatus="vs">
+							<img class="img_list" src="${image.img }" id="${vs.index}">
 						</c:forEach>
-					</c:if>
-					<c:if test="${empty product.imgList }">
-						
 					</c:if>
 				</div>
 			</div>
@@ -862,8 +900,7 @@
 					<span class="title_txt">최근 거래가</span>
 					<span class="price">
 						<div class="title_price">
-							<span class="num"></span>
-							<span class="won">원</span>
+							<span class="num">${conclusionPrice }</span><span class="won">원</span>
 						</div>
 						<div>
 							<p class="fluctuation">0원 (0%)</p>
@@ -969,7 +1006,6 @@
 				</div>
 			</div>
 			
-			<!-- right 구매 전 공지 -->
 			<div class="confirm">
 				<h3>구매 전 꼭 확인해주세요!</h3>
 				<div class="confirm_content">
@@ -1039,37 +1075,58 @@
 						<div class="tab_sales">
 							<div class="tab_area">
 								<ul class="tab_list">
-									<li class="item"><a href="#" id="tab_1" class="item_link item_one">1개월</a></li>
-									<li class="item"><a href="#" id="tab_2" class="item_link item_one">3개월</a></li>
-									<li class="item"><a href="#" id="tab_3" class="item_link item_one">6개월</a></li>
-									<li class="item"><a href="#" id="tab_4" class="item_link item_one">1년</a></li>
-									<li class="item"><a href="#" id="tab_5" class="item_link on item_one">전체</a></li>
+									<li class="item"><a href="#" id="chart1m" class="item_link item_one">1개월</a></li>
+									<li class="item"><a href="#" id="chart3m" class="item_link item_one">3개월</a></li>
+									<li class="item"><a href="#" id="chart6m" class="item_link item_one">6개월</a></li>
+									<li class="item"><a href="#" id="chart1Y" class="item_link item_one">1년</a></li>
+									<li class="item"><a href="#" id="chartAll" class="item_link on item_one">전체</a></li>
 								</ul>
 							</div>
 						</div>
-						<!-- 내역 O -->
 						<div class="tab_content">
-							<canvas id="chart" height="136" width="570"></canvas>
-							<div class="table_content">
-								<table>
-									<thead>
-									<tr>
-										<th class="table_th align_left">사이즈</th>
-										<th class="table_th align_rigth">거래가</th>
-										<th class="table_th align_rigth">거래일</th>
-									</tr>
-									</thead>
-									<tbody class="table chart_body"></tbody>
-								</table>
-								<a type="button" href="#" class="btn medium more_all">거래 내역 더보기</a>
+							<div class="chart_div">
+								<canvas id="chart" height="136" width="570"></canvas>
 							</div>
-						</div>
-						<!-- 내역 X -->		
-						<div class="tab_content hidden">
-							<div class="empty_content">
-								<img src="https://i.ibb.co/GRBzMvH/upArrow.png" class="empty_img">
-								<div class="empty_text">체결된 거래가 아직 없습니다.</div>
-							</div>
+							<!-- 내역 X -->
+							<c:if test="${empty conclusionList}">
+								<div class="tab_content empty_conclusion">
+									<div class="empty_content">
+										<img src="https://i.ibb.co/GRBzMvH/upArrow.png" class="empty_img">
+										<div class="empty_text">체결된 거래가 아직 없습니다.</div>
+									</div>
+								</div>
+							</c:if>
+							<!-- 내역 O -->
+							<c:if test="${not empty conclusionList}">
+								<div class="tab_content empty_conclusion hidden">
+									<div class="empty_content">
+										<img src="https://i.ibb.co/GRBzMvH/upArrow.png" class="empty_img">
+										<div class="empty_text">체결된 거래가 아직 없습니다.</div>
+									</div>
+								</div>
+								<div class="table_content content_conclusion">
+									<table>
+										<thead>
+											<tr>
+												<th class="table_th align_left">사이즈</th>
+												<th class="table_th align_right">거래가</th>
+												<th class="table_th align_right">거래일</th>
+											</tr>
+										</thead>
+										<tbody class="table chart_body">
+<!-- 										size 선택 시 내역 출력 -->
+											<c:forEach items="${conclusionList}" var="conclusion" begin="0" end="3" step="1">
+												<tr>
+													<td class="align_left">${conclusion.pSize }</td>
+													<td class="align_right">${conclusion.price }원</td>
+													<td class="align_right">${conclusion.endDate }</td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+									<a type="button" href="#" class="btn medium more_all">거래 내역 더보기</a>
+								</div>
+							</c:if>
 						</div>
 					</div>
 				</div>
@@ -1092,26 +1149,87 @@
 									</ul>
 								</div>
 							</div>
-							<!-- 내역 O -->
-							<div class="table_content">
-								<table>
-									<thead>
-										<tr>
-											<th class="table_th align_left">사이즈</th>
-											<th class="table_th align_rigth">거래가</th>
-											<th class="table_th align_rigth">거래일</th>
-										</tr>
-									</thead>
-									<tbody class="table table_body"></tbody>
-								</table>
-								<a type="button" href="#" class="btn medium" id="">거래 내역 더보기</a>
-							</div>
-						
-							<!-- 내역 X -->		
-							<div class="tab_content hidden">
-								<div class="empty_content">
-									<img src="https://i.ibb.co/GRBzMvH/upArrow.png" class="empty_img">
-									<div class="empty_text">판매 희망가가 아직 없습니다.</div>
+							
+							<div>
+								<!-- sell -->
+								<div class="div_sell">
+									<c:if test="${not empty sellList }">
+										<div class="table_content">
+											<table>
+												<thead>
+													<tr>
+														<th class="table_th align_left">사이즈</th>
+														<th class="table_th align_right">거래가</th>
+														<th class="table_th align_right">수량</th>
+													</tr>
+												</thead>
+												<tbody class="table table_sell">
+													<c:forEach items="${sellList }" var="sell" begin="0" end="3" step="1">
+														<tr>
+															<td class="align_left">${sell.pSize }</td>
+															<td class="align_right">${sell.price }원</td>
+															<td class="align_right">${sell.cnt }</td>
+														</tr>
+													</c:forEach>
+												</tbody>
+											</table>
+											<a type="button" href="#" class="btn medium" id="">거래 내역 더보기</a>
+										</div>
+										<div class="tab_content table_empty hidden">
+											<div class="empty_content">
+												<img src="https://i.ibb.co/GRBzMvH/upArrow.png" class="empty_img">
+												<div class="empty_text">판매 희망가가 아직 없습니다.</div>
+											</div>
+										</div>
+									</c:if>
+									<c:if test="${empty sellList}">		
+										<div class="tab_content table_empty">
+											<div class="empty_content">
+												<img src="https://i.ibb.co/GRBzMvH/upArrow.png" class="empty_img">
+												<div class="empty_text">판매 희망가가 아직 없습니다.</div>
+											</div>
+										</div>
+									</c:if>
+								</div>
+								<!-- buy -->
+								<div class="div_buy hidden">
+									<c:if test="${not empty buyList }">
+										<div class="table_content">
+											<table>
+												<thead>
+													<tr>
+														<th class="table_th align_left">사이즈</th>
+														<th class="table_th align_right">거래가</th>
+														<th class="table_th align_right">수량</th>
+													</tr>
+												</thead>
+													<tbody class="table table_buy">
+														<c:forEach items="${buyList }" var="buy" begin="0" end="3" step="1">
+															<tr>
+																<td class="align_left">${buy.pSize }</td>
+																<td class="align_right">${buy.price }원</td>
+																<td class="align_right">${buy.cnt }</td>
+															</tr>
+														</c:forEach>
+													</tbody>
+											</table>
+											<a type="button" href="#" class="btn medium" id="">거래 내역 더보기</a>
+										</div>
+										<div class="tab_content table_empty hidden">
+											<div class="empty_content">
+												<img src="https://i.ibb.co/GRBzMvH/upArrow.png" class="empty_img">
+												<div class="empty_text">구매 희망가가 아직 없습니다.</div>
+											</div>
+										</div>
+									</c:if>
+									<c:if test="${empty buyList}">		
+										<div class="tab_content table_empty">
+											<div class="empty_content">
+												<img src="https://i.ibb.co/GRBzMvH/upArrow.png" class="empty_img">
+												<div class="empty_text">구매 희망가가 아직 없습니다.</div>
+											</div>
+										</div>
+									</c:if>
 								</div>
 							</div>
 						</div>
@@ -1125,9 +1243,12 @@
 								<div class="layer_header_info">
 									<p>${product.productName }</p>
 									<p class="layer_krName">${product.krName }</p>
-									<select name="size" class="select_size_btn">
-										<option>모든 사이즈</option>
-									</select>
+<!-- 									<select name="size" class="select_size_btn"> -->
+<!-- 										<option class="modal_size modal_size_all">모든 사이즈</option> -->
+<%-- 										<c:forEach items="${categorySize }" var="size"> --%>
+<%-- 											<option class="modal_size modal_size_${size }">${size}</option> --%>
+<%-- 										</c:forEach> --%>
+<!-- 									</select> -->
 								</div>
 							</div>
 						</div>
@@ -1141,35 +1262,68 @@
 									</ul>
 								</div>
 							</div>
+							
+							<div class="layer_content_tab panel0">
+								<div class="empty_content">
+									<img src="https://i.ibb.co/GRBzMvH/upArrow.png" class="empty_img">
+									<div class="empty_text">내역이 아직 없습니다.</div>
+								</div>
+							</div>
+
 							<div class="layer_content_tab panel1">
 								<div class="layer_product">
 									<ul>
-										<li><a href="#" id="size" class="item_link2 a_panel1">사이즈 <span class="icon_order1">▽</span></a></li>
-										<li><a href="#" id="price" class="item_link2 a_panel1">거래가 <span class="icon_order1">▽</span></a></li>
-										<li><a href="#" id="date" class="item_link2 a_panel1">거래일<span class="icon_order1 high">▼</span></a></li>
+										<li><a href="#" id="size" class="item_link2 a_panel1">사이즈 </a></li>
+										<li class="align_right"><a href="#" id="price" class="item_link2 a_panel1">거래가</a></li>
+										<li class="align_right"><a href="#" id="date" class="item_link2 a_panel1">거래일</a></li>
 									</ul>
 								</div>
-								<div class="layer_content_List"></div>
+								<div class="layer_content_body layer_body_conclusion">
+									<c:forEach items="${conclusionList }" var="conclusion">
+										<ul class="content_body">
+											<li class="body_data">${conclusion.pSize}</li>
+											<li class="body_data align_right">${conclusion.price}</li>
+											<li class="body_data align_right is_active">${conclusion.endDate}</li>
+										</ul>
+									</c:forEach>
+								</div>
 							</div>
+							
 							<div class="layer_content_tab panel2">
 								<div class="layer_product">
 									<ul>
-										<li><a href="#" id="size" class="item_link2 a_panel2">사이즈<span class="icon_order2">▽</span></a></li>
-										<li><a href="#" id="price" class="item_link2 a_panel2">거래가<span class="icon_order2 low">▲</span></a></li>
-										<li><span id="date" class="item_link2">수량</span></li>
+										<li><a href="#" id="size" class="item_link2 a_panel2">사이즈</a></li>
+										<li class="align_right"><a href="#" id="price" class="item_link2 a_panel2">판매 희망가</a></li>
+										<li class="align_right"><span id="date" class="item_link2">수량</span></li>
 									</ul>
 								</div>
-								<div class="layer_content_List"></div>
+								<div class="layer_content_body">
+									<c:forEach items="${sellList }" var="sell">
+										<ul class="content_body">
+											<li class="body_data">${sell.pSize}</li>
+											<li class="body_data align_right is_active">${sell.price}</li>
+											<li class="body_data align_right">${sell.cnt}</li>
+										</ul>
+									</c:forEach>
+								</div>
 							</div>
 							<div class="layer_content_tab panel3">
 								<div class="layer_product">
 									<ul>
-										<li><a href="#" id="size" class="item_link2 a_panel3">사이즈<span class="icon_order3">▽</span></a></li>
-										<li><a href="#" id="price" class="item_link2 a_panel3">거래가<span class="icon_order3 high">▼</span></a></li>
-										<li><span id="date" class="item_link2">수량</span></li>
+										<li><a href="#" id="size" class="item_link2 a_panel3">사이즈</a></li>
+										<li class="align_right"><a href="#" id="price" class="item_link2 a_panel3">구매 희망가</a></li>
+										<li class="align_right"><span id="date" class="item_link2">수량</span></li>
 									</ul>
 								</div>
-								<div class="layer_content_List"></div>
+								<div class="layer_content_body">
+									<c:forEach items="${buyList }" var="buy">
+										<ul class="content_body">
+											<li class="body_data">${buy.pSize}</li>
+											<li class="body_data align_right is_active">${buy.price}</li>
+											<li class="body_data align_right">${buy.cnt}</li>
+										</ul>
+									</c:forEach>
+								</div>
 							</div>
 						</div>
 						<a class="btn_layer_close">X</a>
@@ -1226,7 +1380,7 @@
 				<a href="${cpath }/products/${moreDto.idx}">
 					<div class="product_item">
 						<div class="more_product_img"><img src="${moreDto.imgList[0].img}"></div>
-<!-- 						<div class="product_brand"><img src="https://kream-phinf.pstatic.net/MjAyMTAzMTJfMTM5/MDAxNjE1NTE4MjM2NzA5.zSACpHizj3F43ShNk2jRb5T-heUgCIE-jRlqa2vIf7gg.NW_igMJbRCQK0-FSC20_98iw6o8-g0myWOT57hHm-Hgg.PNG/p_daf0e110ace349afb7b14b48faef2c9f.png"></div> -->
+						<div class="product_brand"><img src="https://kream-phinf.pstatic.net/MjAyMTAzMTJfMTM5/MDAxNjE1NTE4MjM2NzA5.zSACpHizj3F43ShNk2jRb5T-heUgCIE-jRlqa2vIf7gg.NW_igMJbRCQK0-FSC20_98iw6o8-g0myWOT57hHm-Hgg.PNG/p_daf0e110ace349afb7b14b48faef2c9f.png"></div>
 						<div class="product_name">${moreDto.productName }</div>
 						<div class="product_price">
 							<div class="amount">
@@ -1242,20 +1396,83 @@
 	</div>
 </main>
 
-<!-- loginCheck -->
+<!-- imgSlider -->
 <script>
-	let login = <%=(String)session.getAttribute("login")%>
-	const loginCheck = document.querySelectorAll('.login_check')
+	const slide = document.querySelectorAll('.slide')
+	const imgList = document.querySelectorAll('.img_list')
+	const imgBox = document.querySelector('.img_box')
+	const imgLastIndex = imgBox.lastChild.previousSibling.id
+	slide.forEach( element => {
+		element.addEventListener('click',slideMove)
+	})
 	
-	function loginPage() {
-		if(login == null) {
-			location.replace("${cpath}/member/login")
+	imgSlideCheck()
+	function imgSlideCheck() {
+		if(imgLastIndex == 0) {
+			slide.forEach( element => {
+				element.classList.add('hidden')
+			})	
+		} else if (imgLastIndex == null) {
+			element.classList.add('hidden')
+			const img = document.createElement('img')
+			img.classList.add('img_list')
+			img.src = 'https://kream.co.kr/images/common_thumbs_blank_L.png?type=l'
+			imgBox.appendChild(img)
+		} else {
+			slide.forEach( element => {
+				element.classList.remove('hidden')
+			})	
+			slideOnOff('0')
 		}
+	}
+	
+	function slideMove(event) {
+		let imgIndex = Number(document.querySelector('.slide_on').id)
+		if(event.target.classList.contains('preBtn')) {
+			imgIndex = ( imgIndex-1 < 0 ? imgLastIndex : imgIndex-1)
+		} else if(event.target.classList.contains('nextBtn')) {
+			imgIndex = ( imgIndex+1 > imgLastIndex ? 0 : imgIndex+1)
+		}
+		slideOnOff(imgIndex)
+	}
+	
+	function slideOnOff(imgIndex) {
+		imgList.forEach( element => {
+			if(element.id == imgIndex) {
+				element.classList.add('slide_on')
+			} else {
+				element.classList.remove('slide_on')
+			}
+		})
 	}
 </script>
 
-<!-- wish -->
+<!-- loginCheck -->
 <script>
+	const login = '${login.idx}'
+	console.log(login == null)
+	console.log(login == '')
+	
+	const loginCheck = document.querySelector('.login_check')
+	const loginCheck2 = document.querySelector('.login_check2')
+	
+	// 로그인이 비었다면 실행 히든을 삭제해서 layer를 보여라
+	if(login == '') {
+		loginCheck.classList.remove('hidden')
+		loginCheck2.classList.remove('hidden')
+	} else {
+		loginCheck.classList.add('hidden')
+		loginCheck2.classList.add('hidden')
+	}
+	
+	function loginPage() {
+		if(login == '') {
+			location.replace('${cpath}/member/login')
+		}
+	}
+
+
+<!-- wish -->
 	const wishIcon = document.querySelector('.icon_wish')
 	const wishBtn = document.querySelector('.interest_close')
 	const btnInterest = document.querySelectorAll('.btn_interest')
@@ -1265,48 +1482,67 @@
 		element.addEventListener('click', wishSelect)
 	})
 	
+	wishCheck()
 	function wishCheck() {
-		const url = '${cpath}/sizeWishList/' + ${product.idx}
-		const opt = {
-				method : 'GET'
-		}
-		fetch(url,opt)
-		.then(resp => resp.json())
-		.then( json => {
-			if(json[0] == null) {
-				wishIcon.src = "https://i.ibb.co/T2pr057/mark.png"
-			} else {
-				wishIcon.src = "https://i.ibb.co/ckMWtxK/mark.png"
+		// 로그인이 있다면 fetch 실행 후 wish가 있는 지 확인
+		if(login != '') {
+			const url = '${cpath}/sizeWishList'
+			const opt = {
+					method : 'POST',
+					body :  JSON.stringify({
+						productIdx : ${product.idx},
+						memberIdx : login }),
+					headers: {
+		                'Content-Type': 'application/json',
+		            },
 			}
-		})
+			fetch(url,opt)
+			.then(resp => resp.json())
+			.then( json => {
+				if(json[0] == null) {
+					wishIcon.src = "https://i.ibb.co/T2pr057/mark.png"
+				} else {
+					wishIcon.src = "https://i.ibb.co/ckMWtxK/mark.png"
+				}
+			})
+		}
 	}
 	
 	function wishModal(event) {
-		loginPage()
-		document.getElementById('layer_wish').classList.remove('hidden')
-		const url = '${cpath}/sizeWishList/' + ${product.idx}
-		const opt = {
-				method : 'GET'
-		}
-		fetch(url,opt)
-		.then(resp => resp.json())
-		.then(json => {
-			const icon = document.querySelectorAll('.interest_icon')
-			icon.forEach( element => {				
-				for(dto in json) {
-					const size = 'interest_' + json[dto]
-					if(element.classList.contains(size)) {
-						element.src = "https://i.ibb.co/ckMWtxK/mark.png";
-						element.parentNode.classList.add('onWish')
+		if(login == '') {
+			location.href = '${cpath}/member/login'
+		} else {
+			document.getElementById('layer_wish').classList.remove('hidden')
+			const url = '${cpath}/sizeWishList'
+			const opt = {
+					method : 'POST',
+					body :  JSON.stringify({
+						productIdx : ${product.idx},
+						memberIdx : login }),
+					headers: {
+		                'Content-Type': 'application/json',
+		            },
+			}
+			fetch(url,opt)
+			.then(resp => resp.json())
+			.then(json => {
+				const icon = document.querySelectorAll('.interest_icon')
+				icon.forEach( element => {				
+					for(dto in json) {
+						const size = 'interest_' + json[dto]
+						if(element.classList.contains(size)) {
+							element.src = "https://i.ibb.co/ckMWtxK/mark.png";
+							element.parentNode.classList.add('onWish')
+						}
 					}
-				}
+				})
 			})
-		})
+		}
 	}
-	
+		
 	function wishSelect(event) {
-		let url
-		let wrap
+		var url
+		var wrap
 		if(event.target.classList.contains('btn_interest')) {
 			wrap = event.target
 		} else if(event.target.classList.contains('info_txt')) {
@@ -1316,17 +1552,37 @@
 		}
 		const wishSize = wrap.querySelector('.info_txt').innerText
 		const wishImg = wrap.querySelector('.interest_icon')
-		
+		let opt
 		if(wrap.classList.contains('onWish')) {
-			url = '${cpath}/sizeWishOff/' + ${product.idx} + '/' + wishSize
+			url = '${cpath}/sizeWishOff'
+			opt = {
+					method : 'POST',
+					body :  JSON.stringify({
+						productIdx : ${product.idx},
+						memberIdx : login,
+						size : wishSize}),
+					headers: {
+		                'Content-Type': 'application/json',
+		            },	
+			}
 			wishImg.src = "https://i.ibb.co/T2pr057/mark.png"
 			wrap.classList.remove('onWish')
 		} else {
-			url = '${cpath}/sizeWishOn/' + ${product.idx} + '/' + wishSize
+			url = '${cpath}/sizeWishOn'
+			opt = {
+				method : 'POST',
+				body :  JSON.stringify({
+					productIdx : ${product.idx},
+					memberIdx : login,
+					size : wishSize}),
+				headers: {
+		            'Content-Type': 'application/json',
+		        },	
+			}	
 			wishImg.src = "https://i.ibb.co/ckMWtxK/mark.png";
 			wrap.classList.add('onWish')
 		}
-		fetch(url,{method:'GET'})
+		fetch(url,opt)
 	}
 	
 	function wishModalClose() {
@@ -1356,69 +1612,68 @@
 <!-- chart.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 <script>
-	const chartX = ["2021/07/05", "2021/07/06", "2021/07/07", "2021/07/08", "2021/07/09", "2021/07/10", "2021/07/11"]
-	const chartY = ['612000', '613000', '550000', '600000', '605000', '430000', '690000']
-	
-	const canvas = document.getElementById('chart');
-    const ctx = canvas.getContext('2d');
-	// getContext : 드로잉에 필요한 속성과 함수를 가진 객체를 생성합니다
-    const grd = ctx.createLinearGradient(0, 0, 0,140);
-    grd.addColorStop(0, 'rgba(247, 181, 173, 1)');
-    grd.addColorStop(1, 'rgba(247, 181, 173, 0)');
-	
-    let data = {
-        // The type of chart we want to create
-        type: 'line',
-        // The data for our dataset
-        data: {
-            labels: chartX,
-            datasets: [{
-                backgroundColor: grd,
-                fill:true, // line의 아래쪽을 색칠할 것인가? 
-                borderColor: 'rgb(255, 99, 132)',
-                lineTension:0.1, // 값을 높이면, line의 장력이 커짐.
-                data: chartY
+	chart(${chartXData}, ${chartYData})
+	function chart(xData,yData) {
+		let chartX = xData
+		let chartY = yData
+		
+		const canvas = document.getElementById('chart');
+	    const ctx = canvas.getContext('2d');
+		// getContext : 드로잉에 필요한 속성과 함수를 가진 객체를 생성합니다
+	    const grd = ctx.createLinearGradient(0, 0, 0,140);
+	    grd.addColorStop(0, 'rgba(247, 181, 173, 1)');
+	    grd.addColorStop(1, 'rgba(247, 181, 173, 0)');
+		
+	    let data = {
+	        type: 'line',
+	        data: {
+	            labels: chartX,
+	            datasets: [{
+	                backgroundColor: grd,
+	                fill:true, // line의 아래쪽을 색칠할 것인가? 
+	                borderColor: 'rgb(255, 99, 132)',
+	                lineTension:0.1, // 값을 높이면, line의 장력이 커짐.
+	                data: chartY
 
-            }]
-        },
-        // Configuration options go here
-        options: {
-        	scales: {
-        		display : 'right',
-                xAxes: [{
-                	ticks : {
-                		display : false
-                	},
-                    gridLines: {
-                        display:false,
-                        drawBorder : false
-                    }
-                }],
-                yAxes: [{
-                	position : 'right',
-                    gridLines: {
-                        display:false,
-                        drawBorder : false
-                    },
-					ticks: {
-						beginAtZero: true,
-						fontSize : 11,
-						fontColor : 'rgba(34,34,34,.5)',
-					}
-                }]
-            },
-            tooltips : {
-            	
-            },
-        	legend : 'false',
-        }
-    }
-    let chart = new Chart(ctx, data);
+	            }]
+	        },
+	        options: {
+	        	scales: {
+	        		display : 'right',
+	                xAxes: [{
+	                	ticks : {
+	                		display : false
+	                	},
+	                    gridLines: {
+	                        display:false,
+	                        drawBorder : false
+	                    }
+	                }],
+	                yAxes: [{
+	                	position : 'right',
+	                    gridLines: {
+	                        display:false,
+	                        drawBorder : false
+	                    },
+						ticks: {
+							beginAtZero: true,
+							fontSize : 11,
+							fontColor : 'rgba(34,34,34,.5)',
+						}
+	                }]
+	            },
+	            tooltips : {
+	            	
+	            },
+	        	legend : 'false',
+	        }
+	    }
+	    var chart = new Chart(ctx, data);
+	}
 </script>
 
 <!-- tab Module -->
 <script>
-
 	function clearTh() {
 		const itemTh = document.querySelectorAll('.item_th')
 		itemTh.forEach( element => {
@@ -1439,7 +1694,14 @@
 		const tabAllBtn = document.getElementById('tab_all')
 		tabAllBtn.classList.add('on')
 		const panel = document.querySelector('.panel1')
-		panel.classList.remove('hidden')
+		if(panel.classList.contains('none')) { 
+			document.querySelector('.panel0').classList.remove('hidden') 
+			panel.classList.add('hidden')	
+		}
+		else {
+			document.querySelector('.panel0').classList.add('hidden')
+			panel.classList.remove('hidden')
+		}
 	}
 	
 	function tabSell(){
@@ -1450,7 +1712,13 @@
 		const modalTabSell = document.querySelector('.modal_tab_sell')
 		modalTabSell.classList.add('on')
 		const panel = document.querySelector('.panel2')
-		panel.classList.remove('hidden')
+		if(panel.classList.contains('none')) { 
+			document.querySelector('.panel0').classList.remove('hidden')
+			panel.classList.add('hidden')
+		} else {
+			panel.classList.remove('hidden')
+			document.querySelector('.panel0').classList.add('hidden')			
+		}
 	}
 	
 	function tabBuy(){
@@ -1461,7 +1729,13 @@
 		const modalTabBuy = document.querySelector('.modal_tab_buy')
 		modalTabBuy.classList.add('on')
 		const panel = document.querySelector('.panel3')
-		panel.classList.remove('hidden')
+		if(panel.classList.contains('none')) { 
+			document.querySelector('.panel0').classList.remove('hidden')
+			panel.classList.add()
+		} else {
+			panel.classList.remove('hidden')
+			document.querySelector('.panel0').classList.add('hidden')
+		}
 	}
 </script>
 
@@ -1485,37 +1759,51 @@
 	})
 	
 	function openLayer(event) {
+		const selectSize = btnSize.innerText.replace(/\s▽$/,'')
 		switch (event.target.className) {
 		case 'division_buy' :
-			loginPage()
-			divisionBuy.classList.remove('hidden')
-			sizePrice.forEach(element => {
-				if(element.innerText != '구매 입찰' && element.innerText != '-' ) {
-					element.style.color = 'red'
+			if(login == '') {
+				location.href = '${cpath}/member/login'
+			} else {
+				if(selectSize == "모든 사이즈") {
+					divisionBuy.classList.remove('hidden')
+					sizePrice.forEach(element => {
+						if(element.innerText != '구매 입찰' && element.innerText != '-' ) {
+							element.style.color = 'red'
+						} else {
+							element.style.color = 'black'
+						}
+					})
 				} else {
-					element.style.color = 'black'
+					location.href = '${cpath}/buy/' + ${product.idx} + '?size=' + selectSize
 				}
-			})
+			}
 			break;
 		case 'division_sell' :
-			loginPage()
-			divisionSell.classList.remove('hidden')
-			sizePrice.forEach(element => {
-				if(element.innerText != '판매 입찰' && element.innerText != '-') {
-					element.style.color = 'green'
+			if(login == '') {
+				location.href = '${cpath}/member/login'				
+			} else {
+				if(selectSize == "모든 사이즈") {
+					divisionSell.classList.remove('hidden')
+					sizePrice.forEach(element => {
+						if(element.innerText != '판매 입찰' && element.innerText != '-') {
+							element.style.color = 'green'
+						} else {
+							element.style.color = 'black'
+						}
+					})
 				} else {
-					element.style.color = 'black'
+					location.href = '${cpath}/sell/' + ${product.idx} + '?size=' + selectSize
 				}
-			})
+			}
 			break;
 		case 'btn medium':
 			event.preventDefault()
 			const itemTwo = document.querySelectorAll('.item_two')
-			let targetTab
+			var targetTab
 			itemTwo.forEach( element => {
 				if(element.className == 'item_link item_two on') { targetTab=element.id }
 			})
-			console.log(targetTab)
 			if(targetTab=='tab_sell'){
 				tabSell()
 			} else {
@@ -1594,18 +1882,31 @@
 			ele.classList.remove('on')	
 		})
 		event.target.classList.add('on')
+		const tabId = event.target.id
+		const url = '${cpath}/chartData/'+${product.idx} + '/' + tabId
+		fetch(url,{method:'GET'}).then(resp => resp.json())
+		.then(json => {
+			document.querySelector('.chart_div').innerHTML = '<canvas id="chart" height="136" width="570"></canvas>'
+			chart(json[0],json[1])
+		})
 	}
 	
 	function tabTwoHandler(event) {
+		const divSell = document.querySelector('.div_sell')
+		const divBuy = document.querySelector('.div_buy')
 		event.preventDefault()
 		if(event.target.id == 'tab_sell'){
 			document.querySelector('.panel1').classList.add('hidden')
 			document.querySelector('.panel2').classList.remove('hidden')
 			document.querySelector('.panel3').classList.add('hidden')
+			divSell.classList.remove('hidden')
+			divBuy.classList.add('hidden')
 		} else if(event.target.id == 'tab_buy') {
 			document.querySelector('.panel1').classList.add('hidden')
 			document.querySelector('.panel2').classList.add('hidden')
 			document.querySelector('.panel3').classList.remove('hidden')
+			divSell.classList.add('hidden')
+			divBuy.classList.remove('hidden')
 		}
 		itemTwo.forEach( (ele) => {
 			ele.classList.remove('on')	
@@ -1620,22 +1921,28 @@
 		})
 		event.target.classList.add('on')
 		const tabId = event.target.id
-		console.log(tabId)
+		clearLayerContentTab()
 		switch (tabId) {
 		case 'tab_all':
+			if(document.querySelector('.panel1').classList.contains('none')) {
+				document.querySelector('.panel0').classList.remove('hidden')
+			} else {
 			document.querySelector('.panel1').classList.remove('hidden')
-			document.querySelector('.panel2').classList.add('hidden')
-			document.querySelector('.panel3').classList.add('hidden')
+			}
 			break;
 		case 'tab_sell':
-			document.querySelector('.panel1').classList.add('hidden')
+			if(document.querySelector('.panel2').classList.contains('none')) {
+				document.querySelector('.panel0').classList.remove('hidden')
+			} else {
 			document.querySelector('.panel2').classList.remove('hidden')
-			document.querySelector('.panel3').classList.add('hidden')
+			}
 			break;
 		case 'tab_buy':
-			document.querySelector('.panel1').classList.add('hidden')
-			document.querySelector('.panel2').classList.add('hidden')
+			if(document.querySelector('.panel3').classList.contains('none')) {
+				document.querySelector('.panel0').classList.remove('hidden')
+			} else {
 			document.querySelector('.panel3').classList.remove('hidden')
+			}
 			break;
 		default:
 			break;
@@ -1644,19 +1951,23 @@
 	
 </script>
 
-<!-- size ajax -->
+<!-- size -->
 <script>
-	
-	// 희망 사이즈 선택 시 필터 추가
 	const sizeList = document.querySelectorAll('.layer_size_content')
 	
 	sizeList.forEach( element => {
 		element.addEventListener('click',sizeFilter)
 	})
 	
+	function clearSizeFilter() {
+		sizeList.forEach( element => {
+			element.classList.remove('size_border')
+		})
+	}
+	
 	function sizeFilter(event) {
-		let box
-		let size
+		var box
+		var size
 		
 		clearSizeFilter()
 		if(event.target.classList.contains('layer_size_size')) {
@@ -1670,10 +1981,8 @@
 			size = box.firstChild.nextSibling.id;
 		}
 		const searchSize = '.size_' + size
-		let sizeClassList = document.querySelectorAll(searchSize)
+		var sizeClassList = document.querySelectorAll(searchSize)
 		
-		console.log('box:',box)
-		console.log('size:',size)
 		sizeClassList.forEach( element => {
 			element.parentNode.classList.add('size_border')
 		})
@@ -1695,9 +2004,130 @@
 			document.querySelector('.buy_num').innerText = json[1]
 			document.querySelector('.sell_num').innerText = json[2]
 		})
+		
+		sizeSelectConclusionList(size)
+		sizeSelectSellList(size)
+		sizeSelectBuyList(size)
 	}
-	// 최초 한번 실행되도록 함
-	sizeSelectPrcie('all')
+	
+	function sizeSelectBuyList(size) {
+		const buyDiv = document.querySelector('.div_buy')
+		const tableBuy = document.querySelector('.table_buy')
+		const url = '${cpath}/buyList/' + ${product.idx} + '/' + size
+		const panel3 = document.querySelector('.panel3')
+		fetch(url,{method:'GET'}).then(resp => resp.json() )
+		.then( json => {
+			if(json.length == 0) {
+				buyDiv.querySelector('.table_content').classList.add('hidden')
+				buyDiv.querySelector('.table_empty').classList.remove('hidden')
+				panel3.classList.add('none')
+			}
+			else {
+				panel3.classList.remove('none')
+				tableBuy.innerHTML = ''
+				buyDiv.querySelector('.table_content').classList.remove('hidden')
+				buyDiv.querySelector('.table_empty').classList.add('hidden')
+				for(let i=0;i<4;i++){
+					const tr = buySellTr(json[i])
+					tableBuy.appendChild(tr)
+				}
+				panel3.querySelector('.layer_content_body').innerHTML = ''
+				for(data in json) {
+					const ul = document.createElement('ul')
+					ul.classList.add('content_body')
+					ul.innerHTML = '<li class="body_data">' + json[data].pSize + '</li>'
+					ul.innerHTML += '<li class="body_data align_right">' + json[data].price + '</li>'
+					ul.innerHTML += '<li class="body_data align_right is_active">' + json[data].cnt + '</li>'
+					panel3.querySelector('.layer_content_body').appendChild(ul)
+				}
+			}
+		})
+	}
+	
+	function sizeSelectSellList(size) {
+		const sellDiv = document.querySelector('.div_sell')
+		const tableSell = document.querySelector('.table_sell')
+		const url = '${cpath}/sellList/' + ${product.idx} + '/' + size
+		const panel2 = document.querySelector('.panel2')
+		fetch(url,{method:'GET'}).then(resp => resp.json() )
+		.then( json => {
+			if(json.length == 0) {
+				sellDiv.querySelector('.table_content').classList.add('hidden')
+				sellDiv.querySelector('.table_empty').classList.remove('hidden')
+				panel2.classList.add('none')
+			}
+			else {
+				panel2.classList.remove('none')
+				tableSell.innerHTML = ''
+				sellDiv.querySelector('.table_content').classList.remove('hidden')
+				sellDiv.querySelector('.table_empty').classList.add('hidden')
+				for(let i=0;i<4;i++){
+					const tr = buySellTr(json[i])
+					tableSell.appendChild(tr)
+				}
+				panel2.querySelector('.layer_content_body').innerHTML = ''
+				for(data in json) {
+					const ul = document.createElement('ul')
+					ul.classList.add('content_body')
+					ul.innerHTML = '<li class="body_data">' + json[data].pSize + '</li>'
+					ul.innerHTML += '<li class="body_data align_right">' + json[data].price + '</li>'
+					ul.innerHTML += '<li class="body_data align_right is_active">' + json[data].cnt + '</li>'
+					panel2.querySelector('.layer_content_body').appendChild(ul)
+				}
+			}
+		})
+	}
+	
+	function buySellTr(data) {
+		const tr = document.createElement('tr')
+		tr.innerHTML = '<td class="align_left">' + (data != null ? data.pSize : '-' ) + '</td>'
+		tr.innerHTML += '<td class="align_right">' + (data != null ? data.price : '-' ) + '</td>'
+		tr.innerHTML += '<td class="align_right">' + (data != null ? data.cnt : '-' ) + '</td>'
+		return tr
+	}
+	
+	function sizeSelectConclusionList(size) {
+		const chartTable = document.querySelector('.chart_body')
+		const url = '${cpath}/conclusionList/' + ${product.idx} + '/' + size
+		const panel1 = document.querySelector('.panel1')
+		fetch(url, {method:'GET'}).then(resp => resp.json())
+		.then(json => {
+			chartTable.innerHTML = ''
+			if(json.length == 0) { 
+				document.querySelector('.content_conclusion').classList.add('hidden')
+				document.querySelector('.empty_conclusion').classList.remove('hidden')
+				panel1.classList.add('none')
+				return
+			}
+			panel1.classList.remove('none')
+			document.querySelector('.content_conclusion').classList.remove('hidden')
+			document.querySelector('.empty_conclusion').classList.add('hidden')
+			for(let i=0;i<4;i++){
+				const tr = conclusionTr(json[i])
+				chartTable.appendChild(tr)
+			}
+			const layerConclusion = document.querySelector('.layer_body_conclusion')
+			layerConclusion.innerHTML = ''
+			for(data in json){
+				const ul = document.createElement('ul')
+				ul.classList.add('content_body')
+				ul.innerHTML = '<li class="body_data">' + json[data].pSize + '</li>'
+				ul.innerHTML += '<li class="body_data align_right">' + json[data].price + '</li>'
+				ul.innerHTML += '<li class="body_data align_right is_active">' + json[data].endDate + '</li>'
+				layerConclusion.appendChild(ul)
+			}
+		})
+	}
+	
+	function conclusionTr(data) {
+		
+		const tr = document.createElement('tr')
+		tr.innerHTML = '<td class="align_left">' + (data != null ? data.pSize : '-' ) + '</td>'
+		tr.innerHTML += '<td class="align_right">' + (data != null ? data.price : '-' ) + '</td>'
+		tr.innerHTML += '<td class="align_right">' + (data != null ? data.endDate : '-' ) + '</td>'
+		
+		return tr
+	}
 	
 	function sizeFocus(size) {
 		if(size == "all") {
@@ -1706,40 +2136,7 @@
 			btnSize.innerText = size + ' ▽'
 		}
 	}
-	
-	function clearSizeFilter() {
-		sizeList.forEach( element => {
-			element.classList.remove('size_border')
-		})
-	}
 </script>
 
-<!-- 미구현 기능 -->
-
-<!-- table -->
-<!-- <script> -->
-<!-- 	addTable(list.total,document.querySelector('.chart_body')) -->
-<!-- 	addTable(list.selling,document.querySelector('.table_body')) -->
-
-	
-<!-- 	function addTable(list,table) { -->
-<!-- 		const length = list.length -->
-<!-- 		for(let i=0;i<4;i++) { -->
-<!-- 			const tr = document.createElement('tr') -->
-<!-- 			const size = document.createElement('td') -->
-<!-- 			const price = document.createElement('td') -->
-<!-- 			const date = document.createElement('td') -->
-<!-- 			size.innerText = (length <= i ? "-" : list[i].size) -->
-<!-- 			tr.appendChild(size) -->
-<!-- 			price.innerText = (length <= i ? "-" : list[i].price+"원") -->
-<!-- 			price.classList.add('align_rigth') -->
-<!-- 			tr.appendChild(price) -->
-<!-- 			date.innerText = (length <= i ? "-" : list[i].date ) -->
-<!-- 			date.classList.add('align_rigth') -->
-<!-- 			tr.appendChild(date) -->
-<!-- 			table.appendChild(tr) -->
-<!-- 		} -->
-<!-- 	} -->
-<!-- </script> -->
 
 <%@ include file="../footer2.jsp" %>

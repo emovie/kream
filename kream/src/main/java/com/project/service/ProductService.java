@@ -1,38 +1,26 @@
 package com.project.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.project.model.BuyingDTO;
+import com.project.model.BuySellDTO;
 import com.project.model.ProductDAO;
 import com.project.model.ProductDTO;
-import com.project.model.SellingDTO;
 
 @Service
 public class ProductService {
 
 	@Autowired private ProductDAO dao;
+	@Autowired ProductProcess process = new ProductProcess();
 	
 	public ProductDTO getProductInfo(int idx) {
 		ProductDTO product = dao.getProduct(idx);
 		product.setImgList(dao.getImg(idx));
 		return product;
-	}
-
-	public List<BuyingDTO> getBuyingList(int idx) {
-		List<BuyingDTO> buyingList = dao.getBuyingListOrigin(idx);
-		return buyingList;
-	}
-
-	public List<SellingDTO> getSellingList(int idx) {
-		List<SellingDTO> sellingList = dao.getSellingListOrigin(idx);
-		return sellingList;
 	}
 
 	public List<ProductDTO> getMoreProduct(ProductDTO dto) {
@@ -119,26 +107,16 @@ public class ProductService {
 		}
 		
 		for(String key : sizeList.keySet()) {
-			Integer price = dao.sellHighSizePrice(dto.getIdx(), key);
-			if(key.equals("모든 사이즈")) { price = dao.sellHighPrice(dto.getIdx()); }
+			Integer price;
+			if(key.equals("모든 사이즈")) { price = dao.buyLowPrice(dto.getIdx()); }
 			else { price = dao.sellHighSizePrice(dto.getIdx(), key); }
 			String value = (price == null ? "판매 입찰" : Integer.toString(price));
 			sizeList.put(key, value);
 		}
 		
-		return sizeListSort(sizeList);
+		return sizeList;
 	}
 	
-	public LinkedHashMap<String,String> sizeListSort(HashMap<String,String> sizeList) {
-		LinkedHashMap<String,String> resultList = new LinkedHashMap<String, String>();
-		List<String>keys = new ArrayList<String>(sizeList.keySet());
-		Collections.sort(keys);
-		for(String key : keys) {
-			resultList.put(key, sizeList.get(key));
-		}
-		return resultList;
-	}
-
 	public String getBuyPrice(int idx) {
 		Integer price = dao.buyLowPrice(idx);
 		return nullCheck(price);
@@ -147,6 +125,10 @@ public class ProductService {
 	public String getSellPrice(int idx) {
 		Integer price = dao.sellHighPrice(idx);
 		return nullCheck(price);
+	}
+	
+	public String getConclusionPrice(int idx) {
+		return nullCheck(dao.latelyPrice(idx));
 	}
 
 	public ArrayList<String> sizeAllPrice(int idx) {
@@ -179,7 +161,7 @@ public class ProductService {
 		return result;
 	}
 
-	public ArrayList<String> getSizeWishList(int productIdx, int memberIdx) {
+	public ArrayList<String> getSizeWishList(String productIdx, String memberIdx) {
 		return dao.getSizeWishList(productIdx,memberIdx);
 	}
 
@@ -211,11 +193,91 @@ public class ProductService {
 		return sizeList;
 	}
 
-	public void deleteProductWish(int productIdx, int memberIdx, String size) {
+	public ArrayList<BuySellDTO> getConclusionList(int productIdx) {
+		return dao.getConclusionList(productIdx);
+	}
+
+	public ArrayList<BuySellDTO> getConclusionList(int productIdx, String size) {
+		return dao.getConclusionSizeList(productIdx,size);
+	}
+
+	public ArrayList<BuySellDTO> getSellList(int idx,String size) {
+		if(size.equals("all") || size.equals("모든 사이즈")) { return dao.getSellList(idx);  }
+		else { return dao.getSizeSellList(idx,size); }
+	}
+
+	public ArrayList<BuySellDTO> getBuyList(int idx,String size) {
+		if(size.equals("all") || size.equals("모든 사이즈")) { return dao.getBuyList(idx);  }
+		else { return dao.getSizeBuyList(idx,size); }
+	}
+	
+	public ArrayList<String> getChartXData(int idx,String tab) {
+		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> Xlist = new ArrayList<String>();
+		
+		if(tab.equals("chartAll")) {
+			list = dao.getChartXData(idx);
+		} else {
+			String date = tabCalendar(tab);
+			list = dao.getChartSelectXData(idx,date);
+		}
+		
+		if(list.size()==0) {
+			for(int i=6;i>0;i--) {
+				list.add(process.addDate(0, 0, -i));
+			}
+		}
+		
+		for(String date : list) {
+			Xlist.add(String.format("\"20%s\"", date));
+		}
+		return Xlist;
+	}
+
+	public ArrayList<String> getChartYData(int idx, String tab) {
+		ArrayList<String> list = new ArrayList<String>();
+		
+		if(tab.equals("chartAll")) {
+			list = dao.getChartYData(idx);
+		} else {
+			String date = tabCalendar(tab);
+			list = dao.getChartSelectYData(idx,date);
+		}
+		
+		if(list.size()==0) {
+			for(int i=6;i>0;i--) {
+				list.add("0");
+			}
+		}
+		
+		return list;
+	}
+	
+	public String tabCalendar(String tab) {
+		String date;
+		switch (tab) {
+		case "chart1Y":
+			date = process.addDate(-1,0,0);
+			break;
+		case "chart6m":
+			date = process.addDate(0,-6,0);
+			break;
+		case "chart3m":
+			date = process.addDate(0,-3,0);
+			break;
+		case "chart1m":
+			date = process.addDate(0,-1,0);
+			break;
+		default:
+			date = null;
+		}
+		return date;
+	}
+	public void deleteProductWish(String productIdx, String memberIdx, String size) {
 		dao.deleteProductWish(productIdx,memberIdx,size);
 	}
 
-	public void insertProductWish(int productIdx, int memberIdx, String size) {
+	public void insertProductWish(String productIdx, String memberIdx, String size) {
 		dao.insertProductWish(productIdx,memberIdx,size);
 	}
 	
