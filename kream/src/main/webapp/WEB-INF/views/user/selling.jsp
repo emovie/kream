@@ -31,7 +31,71 @@
 	    outline: none;
 	    padding: 0 10px;
 	}
-	
+	.historySorting {
+		height: auto;
+		min-height: 600px;
+		margin-bottom: 150px;
+	}
+	.HistoryItemWrap {
+		display: flex;
+		margin: 15px 0;
+		justify-content: space-between;
+		border-bottom: 1px solid #eaeaea;
+		padding-bottom: 15px;
+	}
+	.HistoryItemWrap > div {
+		display: flex;
+	}
+	.HistoryItemWrap > div:nth-child(2) {
+		justify-content: center;
+		line-height: 80px;
+		font-weight: 500;
+	}
+	.HistoryItemWrap > div:nth-child(2) div {
+		width: 125px;
+		text-align: center;
+	}
+	.HistoryItemWrap > div:nth-child(2) div:last-child {
+		font-weight: 400;
+		font-size: 14px;
+	}
+	.HistoryItemThumb {
+		width: 80px;
+		height: 80px;
+		overflow: hidden;
+		border-radius: 10px;
+		background-color: rgb(244, 244, 244);
+	}
+	.HistoryItemThumb img {
+		width: 100%;
+	}
+	.HistoryItemInfo {
+		margin-left: 15px;
+	}
+	.HistoryItemInfo p {
+		margin: 0;
+		font-size: 14px;
+		font-weight: 500;
+	}
+	.HistoryItemInfo p:nth-child(2) {
+		font-weight: 300;
+		margin-bottom: 15px;
+	}
+	.HistoryItemEndDate {
+		width: 150px;
+	}
+	.historySortingHead {
+		display: flex;
+		justify-content: flex-end;
+		margin: 10px 0;
+		margin-bottom: 15px;
+	}
+	.historySortingHead div {
+		width: 125px;
+    	text-align: center;
+    	font-size: 13px;
+    	font-weight: 300;
+	}
 </style>
 <c:if test="${empty login }">
 	<script>
@@ -69,15 +133,15 @@
 			<div class="myHistoryMenu">
 				<!-- 세션 로그인 정보로 구매 내역 데이터 상태별 카운트 체크 -->
 				<div class="HistoryTAB checkedTAB">
-					<p>0</p>
+					<p class="sellBidCount">0</p>
 					<p>판매 입찰</p>
 				</div>
 				<div class="HistoryTAB">
-					<p>0</p>
+					<p class="sellProceedCount">0</p>
 					<p>진행중</p>
 				</div>
 				<div class="HistoryTAB">
-					<p>0</p>
+					<p class="sellEndCount">0</p>
 					<p>종료</p>
 				</div>
 			</div>
@@ -91,7 +155,7 @@
 			<div class="historyCalendar">
 				<form id="sellingHistoryForm">
 					<input type="hidden" id="historyStatus" name="step" value="입찰">
-					<input type="date" id="HistoryStartDate" name="startDate" required><span>~</span><input type="date" id="HistoryEndDate" name="endDate" required>
+					<input type="date" id="SellHistoryStartDate" name="startDate" required><span>~</span><input type="date" id="SellHistoryEndDate" name="endDate" required>
 					<button type="submit" class="historyDateBtn submitDateBtn">조회</button>	
 				</form>
 			</div>
@@ -100,6 +164,10 @@
 			<li>한 번에 조회 가능한 기간은 최대 6개월입니다.</li>
 			<li>기간별 조회 결과는 입찰일 기준으로 노출됩니다.</li>
 		</ul>
+		<div class="historySortingHead">
+			<div>판매 희망가</div>
+			<div>만료일</div>
+		</div>
 		<div class="historySorting">
 			
 		</div>
@@ -134,19 +202,16 @@
 				HistoryTAB[2].classList.add('checkedTAB')
 				historyStatus.value = '종료'
 			}
+			BuyHistoryLoad(event)
 		}
 	}
 </script>
 
 <!-- 캘린더 현재 날짜 지정 -->
 <script>
-	const createHistoryList = function(dto) {
-		
-	}
 
-
-	const HistoryStartDate = document.getElementById('HistoryStartDate')
-	const HistoryEndDate = document.getElementById('HistoryEndDate')
+	const SellHistoryStartDate = document.getElementById('SellHistoryStartDate')
+	const SellHistoryEndDate = document.getElementById('SellHistoryEndDate')
 	const sellingHistoryForm = document.getElementById('sellingHistoryForm')
 	let today = new Date().toISOString().slice(0,10)
 
@@ -154,12 +219,12 @@
 	var fourMonthAgo = new Date(new Date().setMonth(new Date().getMonth() - 4)).toISOString().slice(0,10)	// 네 달 전
 	var sixMonthAgo = new Date(new Date().setMonth(new Date().getMonth() - 6)).toISOString().slice(0,10)	// 여섯 달 전
 
-	HistoryStartDate.value = twoMonthAgo
-	HistoryEndDate.value = today
-	HistoryEndDate.max = today
+	SellHistoryStartDate.value = twoMonthAgo
+	SellHistoryEndDate.value = today
+	SellHistoryEndDate.max = today
 	
 	const historyDateBtn = document.querySelectorAll('.historyDateBtn')
-	const historySorting = document.querySelector('historySorting')
+	const historySorting = document.querySelector('.historySorting')
 	for(let i = 0; i < historyDateBtn.length; i++) {
 		historyDateBtn[i].onclick = function(event) {
 			
@@ -169,8 +234,8 @@
 				historyDateBtn[0].classList.add('checkedDateBtn')
 				historyDateBtn[1].classList.remove('checkedDateBtn')
 				historyDateBtn[2].classList.remove('checkedDateBtn')
-				HistoryEndDate.value = today
-				HistoryStartDate.value = twoMonthAgo
+				SellHistoryEndDate.value = today
+				SellHistoryStartDate.value = twoMonthAgo
 			}
 			// historyDateBtn[1]
 			// 최근 4개월
@@ -178,8 +243,8 @@
 				historyDateBtn[0].classList.remove('checkedDateBtn')
 				historyDateBtn[1].classList.add('checkedDateBtn')
 				historyDateBtn[2].classList.remove('checkedDateBtn')
-				HistoryEndDate.value = today
-				HistoryStartDate.value = fourMonthAgo
+				SellHistoryEndDate.value = today
+				SellHistoryStartDate.value = fourMonthAgo
 			}
 			// historyDateBtn[2]
 			// 최근 6개월
@@ -187,13 +252,14 @@
 				historyDateBtn[0].classList.remove('checkedDateBtn')
 				historyDateBtn[1].classList.remove('checkedDateBtn')
 				historyDateBtn[2].classList.add('checkedDateBtn')
-				HistoryEndDate.value = today
-				HistoryStartDate.value = sixMonthAgo
+				SellHistoryEndDate.value = today
+				SellHistoryStartDate.value = sixMonthAgo
 			}
 			// historyDateBtn[3]
 			// 조회(submit)
 			else if(i == 3) {
 				event.preventDefault()
+				
 				const formData = new FormData(sellingHistoryForm)
 				const url = '${cpath}/my/selling/SellHistory/'
 				const opt = {
@@ -202,28 +268,111 @@
 				}
 				fetch(url, opt)
 				.then(resp => resp.json())
-				.then(json => {})
+				.then(json => {
+					historySorting.innerHTML = ''
+					json.forEach(dto => {
+						createHistoryList(dto)
+					})
+				})
 			}
 		}
 	}
 	
-/* window.onload = function(event){
-	
-	event.preventDefault()
-	const formData = new FormData(sellingHistoryForm)
-	const url = '${cpath}/my/selling/SellHistory/'
-	const opt = {
-			method: 'POST',
-			body: formData
+	function createHistoryList(dto) {
+		const HistoryItemWrap = document.createElement('div')
+		HistoryItemWrap.classList.add('HistoryItemWrap')
+
+		const firstWrapDiv = document.createElement('div')
+		
+		const HistoryItemThumb = document.createElement('div')
+		HistoryItemThumb.classList.add('HistoryItemThumb')
+		const HistoryItemThumbImg = document.createElement('img')
+		
+		HistoryItemThumbImg.src = dto.imgList[0].img
+		HistoryItemThumb.appendChild(HistoryItemThumbImg)
+		
+		firstWrapDiv.appendChild(HistoryItemThumb)
+		
+		const HistoryItemInfo = document.createElement('div')
+		HistoryItemInfo.classList.add('HistoryItemInfo')
+		
+		const HistoryItemInfoBrand = document.createElement('p')
+		HistoryItemInfoBrand.innerText = dto.productDTO.brand
+		
+		const HistoryItemInfoName = document.createElement('p')
+		HistoryItemInfoName.innerText = dto.productDTO.productName
+		
+		const HistoryItemInfosize = document.createElement('p')
+		HistoryItemInfosize.innerText = dto.pSize
+
+		HistoryItemInfo.appendChild(HistoryItemInfoBrand)
+		HistoryItemInfo.appendChild(HistoryItemInfoName)
+		HistoryItemInfo.appendChild(HistoryItemInfosize)
+		
+		firstWrapDiv.appendChild(HistoryItemInfo)
+		
+		
+		
+		const lastWrapDiv = document.createElement('div')
+		
+		const HistoryItemPrice = document.createElement('div')
+		HistoryItemPrice.classList.add('HistoryItemPrice')
+		HistoryItemPrice.innerText = dto.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + '원'
+
+		lastWrapDiv.appendChild(HistoryItemPrice)
+		const HistoryItemEndDate = document.createElement('div')
+		HistoryItemEndDate.classList.add('HistoryItemEndDate')
+		HistoryItemEndDate.innerText = dto.endDate
+		lastWrapDiv.appendChild(HistoryItemEndDate)
+		
+		HistoryItemWrap.appendChild(firstWrapDiv)
+		HistoryItemWrap.appendChild(lastWrapDiv)
+		
+		historySorting.appendChild(HistoryItemWrap)
+		
+		return
 	}
-	fetch(url, opt)
-	.then(resp => resp.json())
-	.then(json => {
-		if(json.length > 0) {
-			
+	
+	function BuyHistoryLoad(event){
+		event.preventDefault()
+		
+		const formData = new FormData(sellingHistoryForm)
+		const url = '${cpath}/my/selling/SellHistory/'
+		const opt = {
+				method: 'POST',
+				body: formData
 		}
-	})
-} */
+		fetch(url, opt)
+		.then(resp => resp.json())
+		.then(json => {
+			historySorting.innerHTML = ''
+			json.forEach(dto => {
+				createHistoryList(dto)
+			})
+		})
+	}
+
+	function getSummaryCount(event) {
+		const url = '${cpath}/my/selling/SellHistory/Summary/'
+		const opt = {
+			method: 'GET',
+		}
+		fetch(url, opt)
+		.then(resp => resp.json())
+		.then(json => {
+			const sellBidCount = document.querySelector('.sellBidCount')
+			const sellProceedCount = document.querySelector('.sellProceedCount')
+			const sellEndCount = document.querySelector('.sellEndCount')
+			
+			sellBidCount.innerText = json.sellBidCount
+			sellProceedCount.innerText = json.sellProceedCount
+			sellEndCount.innerText = json.sellEndCount
+		})
+	}
+	window.onload = function(event) {
+		BuyHistoryLoad(event)
+		getSummaryCount(event)
+	}
 </script>
 
 

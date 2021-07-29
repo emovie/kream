@@ -15,10 +15,12 @@ public class BuySellDTO {
 //	COUNTDATE           VARCHAR2(200) 
 //	STEP                VARCHAR2(200) 
 //	cnt			: 수량 출력을 위해 추가
+// 내역출력용 : imgList, productDTO, bidCount, proceedCount, endCount
 	
-	int idx, memberIdx, productIdx, address, price, cnt;
-	String pSize, startDate, endDate, countDate, step;
+	private int idx, memberIdx, productIdx, address, price, cnt, bidCount, proceedCount, endCount;
+	private String pSize, startDate, endDate, countDate, step;
 	private List<ProductImgDTO> imgList;
+	private ProductDTO productDTO;
 	
 	public int getCnt() {
 		return cnt;
@@ -91,6 +93,30 @@ public class BuySellDTO {
 	}
 	public void setImgList(List<ProductImgDTO> imgList) {
 		this.imgList = imgList;
+	}
+	public ProductDTO getProductDTO() {
+		return productDTO;
+	}
+	public void setProductDTO(ProductDTO productDTO) {
+		this.productDTO = productDTO;
+	}
+	public int getBidCount() {
+		return bidCount;
+	}
+	public void setBidCount(int bidCount) {
+		this.bidCount = bidCount;
+	}
+	public int getProceedCount() {
+		return proceedCount;
+	}
+	public void setProceedCount(int proceedCount) {
+		this.proceedCount = proceedCount;
+	}
+	public int getEndCount() {
+		return endCount;
+	}
+	public void setEndCount(int endCount) {
+		this.endCount = endCount;
 	}
 	
 }

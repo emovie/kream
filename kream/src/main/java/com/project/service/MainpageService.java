@@ -46,11 +46,17 @@ public class MainpageService {
 	}
 
 	public List<ProductDTO> mostPopular() {
-		return dao.mostPopular();
+		return getImgList(dao.mostPopular());
+	}
+	
+	public List<ProductDTO> Electronics() {
+		return getImgList(dao.Electronics());
 	}
 
 	public ProductDTO getProdDTO(int productIdx) {
 		return dao.getProdDTO(productIdx);
 	}
+
+	
 
 }

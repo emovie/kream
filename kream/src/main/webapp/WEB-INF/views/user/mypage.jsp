@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../header.jsp" %>
-<link rel="stylesheet" href="${cpath }/resources/css/mypage.css?ver=5" />
+<link rel="stylesheet" href="${cpath }/resources/css/mypage.css?ver=1" />
 <c:if test="${empty login }">
 	<script>
 		location.href = '${cpath }/login'; 

@@ -68,6 +68,14 @@
         	background-image: url('https://kream-phinf.pstatic.net/MjAyMTA3MDlfNDkg/MDAxNjI1ODE3MjA0Mzk4.a171UxZnexspaYZh0961GLWd-GyKW5L4M2H7AEAbWl0g.N-ru_KQhOpBOFyiU6XzamsW-jYz76f6tmwhCq_uIPq8g.PNG/p_b38cf48683a6400da25e902205da4006.png');
         	background-color: #159198;
         }
+        .img2 {
+        	background-image: url('https://kream-phinf.pstatic.net/MjAyMTA3MjdfMjQx/M…PNG/p_f984d88abe5146bf998ead06a380ad64.png');
+        	background-color: #ffb84e;
+        }
+        .img3 {
+        	background-image: url('https://kream-phinf.pstatic.net/MjAyMTA3MjNfMjk1/MDAxNjI3MDI3MDY2ODE5.h6S0aXreAwUualBnZla1REmMsX3Onc-I_z36hlmcEMEg._4nskoDJyAWsVGGO9zIy5nHcg8o6-MHAKTAwZxPb-sMg.PNG/p_3072e367ea43449d8d7597aa92c53f3b.png?type=l');
+        	background-color: #3381a2;
+        }
         
         /* main items */
         
@@ -98,6 +106,7 @@
 			width: 100%;
 			height: auto;
 			flex-wrap: wrap;
+			margin-bottom: 20px;
 		}
 		.ItemList > div {
 			cursor: pointer;
@@ -158,5 +167,5 @@
 			line-height: 40px;
 			cursor: pointer;
 		}
-        
+		
         
