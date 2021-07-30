@@ -243,12 +243,14 @@ public class UserService {
 	}
 
 	public HashMap<String, Object> BuySummary(int idx) {
+		int buyAllCount = dao.BuyAllCount(idx);
 		int buyBidCount = dao.BuyBidCount(idx);
 		int buyProceedCount = dao.BuyProceedCount(idx);
 		int buyEndCount = dao.BuyEndCount(idx);
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
+		map.put("buyAllCount", buyAllCount);
 		map.put("buyBidCount", buyBidCount);
 		map.put("buyProceedCount", buyProceedCount);
 		map.put("buyEndCount", buyEndCount);
@@ -256,12 +258,14 @@ public class UserService {
 	}
 
 	public HashMap<String, Object> SellSummary(int idx) {
+		int sellAllCount = dao.SellAllCount(idx);
 		int sellBidCount = dao.SellBidCount(idx);
 		int sellProceedCount = dao.SellProceedCount(idx);
 		int sellEndCount = dao.SellEndCount(idx);
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
+		map.put("sellAllCount", sellAllCount);
 		map.put("sellBidCount", sellBidCount);
 		map.put("sellProceedCount", sellProceedCount);
 		map.put("sellEndCount", sellEndCount);
