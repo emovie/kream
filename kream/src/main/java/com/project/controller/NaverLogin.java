@@ -44,8 +44,10 @@ public class NaverLogin {
 	@RequestMapping(value = "/member/naver_login", method= {RequestMethod.GET, RequestMethod.POST})
 	public String naver_login(HttpServletRequest request, HttpServletResponse response,Model model, HttpSession session) { 
 	
-		String serverUrl = request.getScheme() + "://"+request.getServerName();
 	
+
+		
+		String serverUrl = request.getScheme() + "://"+request.getServerName();
 		if(request.getServerPort() != 80) {
 			serverUrl = serverUrl + ":" + request.getServerPort();
 		}
@@ -70,6 +72,9 @@ public class NaverLogin {
 		if(request.getServerPort() != 80) {
 			serverUrl = serverUrl + ":" + request.getServerPort();
 		}
+		
+		
+
 		
 		System.out.println("serverUrl: " + serverUrl);
 		OAuth2AccessToken oauthToken;
@@ -158,6 +163,20 @@ public class NaverLogin {
     	dto.setIdx(memberIdx);
     	
     	
+    	
+    	
+    	String redirectUrl = (String) session.getAttribute("prevPage");
+		System.out.println("리다이렉트 주소 : "+redirectUrl);
+		
+		if (redirectUrl == null || redirectUrl.contains("loginPost"))  {
+			response.sendRedirect("../");
+			System.out.println("메인으로 이동");
+			
+		}
+		else {				
+			response.sendRedirect(redirectUrl);
+			System.out.println("전 주소로 이동");
+		}
 	    session.setAttribute("login", dto);
 	    System.out.println("dto.getIdx():" + dto.getIdx());
 	    model.addAttribute("result", apiResult);
