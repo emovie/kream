@@ -164,15 +164,15 @@
 			color ='#f15746';
 			idpass = false;
 			// judgeSubmit();
-			$('#checkEmailMsg').text(ans);
-			$('#checkEmailMsg').css('color', color);
-			$('input[name=email]').css('border-bottom-color', color);
 			
 		}else {
 			ans = '';
 			color = 'black';
 			idpass = true;
 		}
+			$('#checkEmailMsg').text(ans);
+			$('#checkEmailMsg').css('color', color);
+			$('input[name=email]').css('border-bottom-color', color);
 			judgeSubmit();
 			
 			
@@ -190,9 +190,6 @@
 			ans = '영문, 숫자, 특수문자를 조합하여 입력해주세요 (8~16자)';
 			color ='#f15746';
 			pwpass = false;
-			$('#checkPwMsg').text(ans);
-			$('#checkPwMsg').css('color', color);
-			$('input[name=pw]').css('border-bottom-color', color);
 		}
 		else {
 			ans = '';
@@ -201,6 +198,9 @@
 			
 		}
 		
+			$('#checkPwMsg').text(ans);
+			$('#checkPwMsg').css('color', color);
+			$('input[name=pw]').css('border-bottom-color', color);
 		judgeSubmit();
 	}
 	

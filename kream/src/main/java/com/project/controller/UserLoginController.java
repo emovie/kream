@@ -1,6 +1,7 @@
 package com.project.controller;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -28,17 +29,21 @@ public class UserLoginController {
 	
 	// 로그인 페이지
 	@RequestMapping(value="/login", method = RequestMethod.GET)
-	public String loginGET(@ModelAttribute("dto") LoginDTO dto) {
+	public String loginGET(@ModelAttribute("dto") LoginDTO dto, HttpServletRequest request) {
+		String referer = request.getHeader("Referer");
+		System.out.println("referer" + referer);
+		request.getSession().setAttribute("prevPage", referer);
+
 		return "/member/login";
 	}
 	
 	
 	// 로그인 처리
 	@RequestMapping(value="/loginPost", method = RequestMethod.POST)
-	public void loginPOST(LoginDTO logindto, HttpSession session, Model model) throws Exception {
+	public void loginPOST(LoginDTO logindto, HttpSession session, Model model )
+			throws Exception {
 		
-		if(ms.checkEmail(logindto.getEmail()) == 0 )
-			return;
+		
 		
 		MemberDTO dto = ms.login(logindto);
 
@@ -46,9 +51,12 @@ public class UserLoginController {
 	
 		System.out.println(hashedPw.equals(dto.getPw()));
 		
-		if (dto == null || !Hash.getHash(logindto.getPw()).equals(dto.getPw()))
+		if (dto == null || !Hash.getHash(logindto.getPw()).equals(dto.getPw()) || ms.checkEmail(logindto.getEmail()) == 0 )
 			return;
+	    
 		
+
+	    
 		model.addAttribute("member", dto);
 	}
 	

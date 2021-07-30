@@ -21,7 +21,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 		
 		HttpSession session = request.getSession();
 		ModelMap modelmap = mav.getModelMap();
-		
+		String redirectUrl = " ";
 		Object dto = modelmap.get("member");
 		
 		System.out.println("dto: " + dto);
@@ -30,7 +30,20 @@ public class LoginInterceptor extends HandlerInterceptorAdapter{
 		if (dto != null) {
 			logger.info("new login success");
 			session.setAttribute(LOGIN, dto);
-			response.sendRedirect("../");
+			
+			redirectUrl = (String) session.getAttribute("prevPage");
+			System.out.println("리다이렉트 주소 : "+redirectUrl);
+			
+			if (redirectUrl == null || redirectUrl.contains("loginPost"))  {
+				response.sendRedirect("../");
+				System.out.println("메인으로 이동");
+				
+			}
+			else {				
+				response.sendRedirect(redirectUrl);
+				System.out.println("전 주소로 이동");
+			}
+				
 		}
 		
 		System.out.println(session.getAttribute(LOGIN));
