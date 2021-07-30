@@ -97,6 +97,9 @@ public interface UserDAO {
 	@Select("select count(*) from selling where memberidx = #{memberidx} and step='종료'")
 	int SellEndCount(int memberIdx);
 
+	@Select("select count(*) from selling where memberidx = #{memberidx}")
+	int SellAllCount(int memberIdx);
+
 	@Select("select count(*) from buying where memberidx = #{memberidx} and step='입찰'")
 	int BuyBidCount(int memberIdx);
 
@@ -105,5 +108,8 @@ public interface UserDAO {
 
 	@Select("select count(*) from buying where memberidx = #{memberidx} and step='종료'")
 	int BuyEndCount(int memberIdx);
+
+	@Select("select count(*) from buying where memberidx = #{memberidx}")
+	int BuyAllCount(int memberIdx);
 
 }
