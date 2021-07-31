@@ -45,16 +45,16 @@ public interface ProductDAO {
 	@Select("select * from product where idx<>#{idx} AND brand=#{Brand} AND category=#{category} FETCH FIRST 5 ROWS ONLY")
 	List<ProductDTO> getMoreProduct(ProductDTO dto);
 
-	@Select("select MIN(price) from buying where productidx=#{idx} AND step='입찰'")
+	@Select("select MAX(price) from buying where productidx=#{idx} AND step='입찰'")
 	Integer buyLowPrice(@Param("idx") int idx);
 	
-	@Select("select MIN(price) from buying where productidx=#{idx} AND psize=#{size} AND step='입찰'")
+	@Select("select MAX(price) from buying where productidx=#{idx} AND psize=#{size} AND step='입찰'")
 	Integer buyLowSizePrice(@Param("idx") int idx,@Param("size") String size);
 	
-	@Select("select MAX(price) from selling where productidx=#{idx} AND step='입찰'")
+	@Select("select MIN(price) from selling where productidx=#{idx} AND step='입찰'")
 	Integer sellHighPrice(@Param("idx") int idx);
 	
-	@Select("select MAX(price) from selling where productidx=#{idx} AND psize=#{size} AND step='입찰'")
+	@Select("select MIN(price) from selling where productidx=#{idx} AND psize=#{size} AND step='입찰'")
 	Integer sellHighSizePrice(@Param("idx") int idx,@Param("size") String key);
 	
 	@Select("select price from buying where step='배송완료' and productidx=#{idx} order by endDate desc FETCH FIRST 1 ROWS ONLY")
@@ -101,5 +101,5 @@ public interface ProductDAO {
 	
 	@Select("select MAX(price) from buying where productidx=${idx} and step='배송완료' and endDate>'${date}' group by endDate order by endDate")
 	ArrayList<String> getChartSelectYData(@Param("idx") int idx,@Param("date") String tab);
-
+	
 }

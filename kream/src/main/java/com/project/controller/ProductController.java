@@ -36,10 +36,9 @@ public class ProductController {
 		mav.addObject("conclusionPrice", conclusionPrice);
 		
 		String buyPrice = ps.getBuyPrice(idx);
-		mav.addObject("buyPrice", buyPrice);
-		
 		String sellPrice = ps.getSellPrice(idx);
-		mav.addObject("sellPrice", sellPrice);
+		mav.addObject("buyPrice", sellPrice);
+		mav.addObject("sellPrice", buyPrice);
 		
 		List<ProductDTO> moreProduct = ps.getMoreProduct(product);
 		mav.addObject("moreProduct", moreProduct);

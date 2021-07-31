@@ -71,7 +71,7 @@ public class ProductService {
 		for(String key : sizeList.keySet()) {
 			Integer price;
 			if(key.equals("모든 사이즈")) { price = dao.buyLowPrice(dto.getIdx()); }
-			else { price = dao.buyLowSizePrice(dto.getIdx(), key); }
+			else { price = dao.sellHighSizePrice(dto.getIdx(), key); }
 			String value = (price == null ? "구매 입찰" : Integer.toString(price));
 			sizeList.put(key, value);
 		}
@@ -109,7 +109,7 @@ public class ProductService {
 		for(String key : sizeList.keySet()) {
 			Integer price;
 			if(key.equals("모든 사이즈")) { price = dao.buyLowPrice(dto.getIdx()); }
-			else { price = dao.sellHighSizePrice(dto.getIdx(), key); }
+			else { price = dao.buyLowSizePrice(dto.getIdx(), key); }
 			String value = (price == null ? "판매 입찰" : Integer.toString(price));
 			sizeList.put(key, value);
 		}
@@ -121,9 +121,19 @@ public class ProductService {
 		Integer price = dao.buyLowPrice(idx);
 		return nullCheck(price);
 	}
+	
+	public String getBuySizePrice(int idx,String size) {
+		Integer price = dao.buyLowSizePrice(idx, size);
+		return nullCheck(price);
+	}
 
 	public String getSellPrice(int idx) {
 		Integer price = dao.sellHighPrice(idx);
+		return nullCheck(price);
+	}
+	
+	public String getSellSizePrice(int idx,String size) {
+		Integer price = dao.sellHighSizePrice(idx, size);
 		return nullCheck(price);
 	}
 	
