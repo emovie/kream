@@ -9,6 +9,9 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 public interface ProductDAO {
+	// 김희준
+	@Select("select product.productname ,product.brand ,product.price,product.category ,productimg.img from product join productimg on product.idx = productimg.productidx")
+	List<ProductDTO> selectList();
 
 	// 안희경
 //	@Select("select * from product order by idx asc")
