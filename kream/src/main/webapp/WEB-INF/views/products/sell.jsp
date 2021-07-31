@@ -1,12 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="cpath" value="${pageContext.request.contextPath }"/>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8" />
-<title>Insert title here</title>
+<%@ include file="../header.jsp" %>
+<c:if test="${empty login}" >
+	<script>location.href = '${cpath}'</script>
+</c:if>
+
 <style>
 	main {
 		background : #FAFAFA;
@@ -464,11 +462,6 @@
 		cursor: pointer;
 	}
 </style>
-</head>
-<body>
-<c:if test="${empty login}" >
-	<script>location.href = '${cpath}'</script>
-</c:if>
 
 <main>
 	<div class="container">
@@ -1078,5 +1071,4 @@
 	}
 
 </script>
-</body>
-</html>
+<%@ include file="../footer2.jsp" %>
