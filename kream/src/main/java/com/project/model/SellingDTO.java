@@ -2,17 +2,8 @@ package com.project.model;
 
 public class SellingDTO {
 	
-//	IDX        NOT NULL NUMBER        
-//	MEMBERIDX           NUMBER        
-//	PRODUCTIDX          NUMBER        
-//	ADDRESS             VARCHAR2(500) 
-//	PRICE               NUMBER        
-//	PSIZE               VARCHAR2(200) 
-//	SDATE               VARCHAR2(200) 
-//	STEP                VARCHAR2(200) 
-	
-	private int idx, memberIdx, productIdx, price;
-	private String address, pSize, sDate, step;
+	private int idx, memberIdx, productIdx, price, addressIdx;
+	private String pSize, startDate, endDate, countDate, step;
 	
 	public int getIdx() {
 		return idx;
@@ -38,11 +29,11 @@ public class SellingDTO {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	public String getAddress() {
-		return address;
+	public int getAddressIdx() {
+		return addressIdx;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+	public void setAddressIdx(int addressIdx) {
+		this.addressIdx = addressIdx;
 	}
 	public String getpSize() {
 		return pSize;
@@ -50,16 +41,29 @@ public class SellingDTO {
 	public void setpSize(String pSize) {
 		this.pSize = pSize;
 	}
-	public String getsDate() {
-		return sDate;
-	}
-	public void setsDate(String sDate) {
-		this.sDate = sDate;
-	}
 	public String getStep() {
 		return step;
 	}
 	public void setStep(String step) {
 		this.step = step;
 	}
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+	public String getCountDate() {
+		return countDate;
+	}
+	public void setCountDate(String countDate) {
+		this.countDate = countDate;
+	}
+	
 }

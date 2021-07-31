@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
 <title>Insert title here</title>
 <style>
 	main {
@@ -24,6 +24,9 @@
 		margin: 0px;
 	}
 	h3 {
+		margin: 0px;
+	}
+	h4 {
 		margin: 0px;
 	}
 	.content {
@@ -46,11 +49,11 @@
 	.column {
 		align-items : center;
 		box-sizing: border-box;
-		height: 950px;
+		height: auto;
 	}
 	.column:nth-child(1) {
 		position : sticky;
-		top : 100px;
+		top : 50px;
 		height : 590px;
 		display: flex;
 		width : 500px;
@@ -108,6 +111,9 @@
 	    border: 1px solid #ebebeb;
 	    margin-bottom: 30px;
 	}
+	.tab_list > ul {
+		padding: 2px;
+	}
 	.tab {
 		width: 50%;
 		cursor: pointer;
@@ -139,7 +145,6 @@
 		margin-top: 19px;
 	}
 	.price > span {
-		font-size: 24px;
 		font-weight: 600;
    		letter-spacing: normal;
 	}
@@ -186,6 +191,7 @@
 	    vertical-align: middle;
 	    text-align: center;
 	    background-color: #fff;
+	    width: 100%;
 	}
 	.outlinegrey {
 		border: 1px solid #d3d3d3;
@@ -194,7 +200,6 @@
 	.medium {
 		width : 78px;
 	    padding: 0 18px;
-	    height: 42px;
 	    line-height: 40px;
 	    border-radius: 12px;
 	    font-size: 14px;
@@ -243,7 +248,7 @@
 	}
 	.buy_check {
 		border-top: 8px solid #f4f4f4;
-		width: 100%;
+		width: 660px;
 	}
 	.confirm {
 		width: 100%;
@@ -335,12 +340,128 @@
 		display: flex;
 		justify-content: center;
 	}
-	.layer_btn > button {
+	.delivery_tab > .tab_list {
+		display: flex;
+		justify-content : space-around;
+		border : none;
+		border-radius: 3px;
+		margin : 0px;
+	}
+	.on {
+		background-color: white;
+		border-bottom-color: rgba(0,0,0,0) !important;
+		color: black !important;
+		font-weight: 700;
+	}
+	.delivery_tab > .tab_list > .item {
+		padding : 11px 0 11px;
+		box-sizing: border-box;
+		border-top : 1px solid #ebebeb;
+		border-bottom : 1px solid #ebebeb;
+		width: 50%;
+		text-align: center;
+		font-size : 13px;
+		letter-spacing: -.07px;
+    	color: rgba(34,34,34,.5);
+    	cursor: pointer;
+	}
+	.delivery_tab > .tab_list > .item:nth-child(1) {
+		border-right: 1px solid #ebebeb;
+	}
+	.address_list {
+		display: flex;
+		position: relative;
+    	padding: 12px 50px 12px 0;
+    	border-bottom: 1px solid #ebebeb;
+    	cursor: pointer;
+    	justify-content: space-between;
+	}
+	.radio_item {
+	    position: absolute;
+	    top: 50%;
+	    right: 4%;
+	    font-size: 0;
+	}
+	.icon {
+		width: 24px;
+		height: 24px;
+	}
+	.delivery_input {
+		padding-top: 16px;
+	}
+	.input_error {
+		display: block;
+	    position: absolute;
+	    line-height: 20px;
+	    font-size: 11px;
+	    color: #F15746;
+	}
+	.price_now > .input_error {
+		line-height: 150px;
+	}
+	.outline {
+		border: 1px solid black;
+	}
+	.small {
+		font-size : 12px;
+		padding: 0 14px;
+	    height: 34px;
+	    line-height: 32px;
+	    border-radius: 10px;
+	}
+	.input_item {
+		position: relative;
+	}
+	.check_label {
+		cursor: pointer;
+	}
+	.label_txt {
+		font-size: 13px;
+    	letter-spacing: -.07px;
+	}
+	.address_input {
+		width: 85%;
+	}
+	.show {
+		background-color: #ef6253;
+		font-weight: 700;
+		color: white;
+	}
+	.input_amount {
+		font-size: 20px;
+		font-weight: 600;
+		max-width: 200px;
+		text-align: right;
+	}
+	input::placeholder {
+		color: #BCBCBC;
+	}
+	.unit, .price {
+		font-size: 20px;
+	}
+	.hidden {
+		display: none;
+	}
+	.accountBtnOff {
+		background-color : #ebebeb;
+		border: none;
+	    width: 120px;
+	    box-sizing: border-box;
+	}
+	.accountBtnOn {
 		background-color: #222;
     	color: #fff;
 		border : none;
 		width: 120px;
 		box-sizing: border-box;
+		cursor: pointer;
+	}
+	.confirmBtnOff {
+		background-color: #ebebeb;
+	}
+	.confirmBtnOn {
+		background-color: black;
+		cursor: pointer;
 	}
 </style>
 </head>
@@ -381,15 +502,18 @@
 						<div class="instant_group">
 							<div class="tab_list">
 								<ul>
-									<li class="tab">
-										<a href="#" class="item_link">구매 입찰</a>
-									</li>
-									<li class="tab">
-										<a href="#" class="item_link">즉시 구매</a>
-									</li>
+									<li class="tab show">구매 입찰</li>
+									<li class="tab">즉시 구매</li>
 								</ul>
 							</div>
 							<div class="price_now">
+								<span class="price_now_title">구매 희망가</span>
+								<span class="price">
+									<input class="input_amount" type="text" placeholder="희망가 입력"><span class="unit">원</span>
+								</span>
+								<p class="input_error hidden">3만원 이상 입력하세요</p>
+							</div>
+							<div class="price_now hidden">
 								<span class="price_now_title">즉시 구매가</span>
 								<span class="price">
 									<span class="amount">${buyPrice }</span><span class="unit">원</span>
@@ -402,13 +526,13 @@
 								</div>
 								<div class="price_addition">
 									<span class="price_title">배송비</span>
-									<span class="price_text">무료 이벤트</span>
+									<span class="price_text">무료 배송</span>
 								</div>
 							</div>
 							<div class="price_total">
 								<span class="price_title">총 결제금액</span>
 								<span class="price">
-									<span class="amount">${buyPrice }</span><span class="unit">원</span>
+									<span class="amount">- </span><span class="unit">원</span>
 								</span>
 							</div>
 						</div>
@@ -433,64 +557,100 @@
 							<div class="delivery_info">
 								<div class="address_info">
 									<div class="name_box">
-										<span class="name">00</span><span class="mark">기본 배송지</span>
+										<span class="name">${basicAddress.name }</span>
+										<c:if test="${basicAddress.basicck eq 'y' }">
+											<span class="mark">기본 배송지</span>
+										</c:if>
 									</div>									
 									<div class="address_box">
-										<span class="zipcode">(06313)</span>
-										<span class="address">서울 강남구 양재대로 333(개포동)</span>
+										<span class="zipcode">${basicAddress.postcode }</span>
+										<span class="address">${basicAddress.address } ${basicAddress.detail }</span>
 									</div>
-									<p class="phone">010-****-1111</p>
+									<p class="phone">${basicAddress.phoneNumber}</p>
 								</div>
 								<button class="btn outlinegrey medium">변경</button>
 							</div>
 							<!-- delivery_list -->
-							<div class="tab_area delivery_tab">
-								<ul class="tab_list"></ul>
-								<div class="tab_content"></div>
+							<div class="tab_area delivery_tab hidden">
+								<ul class="tab_list">
+									<li class="item on">내 주소록</li>
+									<li class="item">새로 입력</li>
+								</ul>
 								<div class="tab_content">
+									<div class="address_book">
+										<div class="address_list_wrap">
+											<c:forEach items="${addressList}" var="item">
+												<div class="address_list">
+													<div class="address_info">
+														<input type="hidden" class="addressIdx" value="${item.idx }">
+														<div class="name_box">
+															<span class="name">${item.name }</span>
+															<c:if test="${item.basicck eq 'y' }">
+																<span class="mark">기본 배송지</span>
+															</c:if>
+														</div>
+														<div class="address_box">
+															<span class="zipcode">${item.postcode }</span>
+															<span class="address">${item.address } ${item.detail }</span>
+														</div>
+														<p class="phone">${item.phoneNumber}</p>
+													</div>
+													<c:if test="${item.basicck eq 'y'}">
+													<div class="radio_item type_check">
+															<img src="https://i.ibb.co/yqLFf8K/check-mark-icon.jpg" class="icon icon_check">
+													</div>
+													</c:if>
+													<c:if test="${item.basicck eq 'n'}">
+													<div class="radio_item type_check hidden">
+															<img src="https://i.ibb.co/yqLFf8K/check-mark-icon.jpg" class="icon icon_check">
+													</div>
+													</c:if>
+												</div>
+											</c:forEach>
+										</div>
+									</div>
+								</div>
+								<div class="tab_content hidden">
 									<div class="register_address_wrap">
 										<div class="delivery_input">
 											<div class="input_box">
 												<h4 class="input_title">이름</h4>
 												<div class="input_item">
-													<input class="input_txt" placeholder="수령인의 이름">
+													<input type="text" name="name" class="input_txt" placeholder="수령인의 이름">
 												</div>
-												<p class="input_error">올바른 이름을 입력해주세요. (2 - 50자)</p>
+												<p class="input_error hidden">올바른 이름을 입력해주세요. (2 - 50자)</p>
 											</div>
 											<div class="input_box">
 												<h4 class="input_title">휴대폰 번호</h4>
 												<div class="input_item">
-													<input class="input_txt" placeholder="- 없이 입력">
+													<input type="text" name="phoneNumber" class="input_txt" placeholder="- 없이 입력">
 												</div>
-												<p class="input_error">정확한 휴대폰 번호를 입력해주세요.</p>
+												<p class="input_error hidden">정확한 휴대폰 번호를 입력해주세요.</p>
 											</div>
 											<div class="input_box">
 												<h4 class="input_title">우편번호</h4>
 												<div class="input_item">
-													<input class="input_txt" placeholder="우편 번호를 검색하세요">
-													<a type="button" class="btn outline small btn_zipcode">우편번호</a>
+													<input type="text" name="postcode" class="input_txt address_input" placeholder="우편 번호를 검색하세요">
+													<input type="button" class="btn outline small btn_zipcode" value="우편번호">
 												</div>
-												<p class="input_error"></p>
 											</div>
 											<div class="input_box">
 												<h4 class="input_title">주소</h4>
 												<div class="input_item">
-													<input class="input_txt" placeholder="우편 번호 검색 후, 자동 입력 됩니다">
+													<input type="text" name="address" class="input_txt" placeholder="우편 번호 검색 후, 자동 입력 됩니다">
 												</div>
-												<p class="input_error"></p>
 											</div>
 											<div class="input_box">
 												<h4 class="input_title">상세 주소</h4>
 												<div class="input_item">
-													<input class="input_txt" placeholder="건물, 아파트, 동/호수 입력">
+													<input type="text" name="detail" class="input_txt" placeholder="건물, 아파트, 동/호수 입력">
 												</div>
-												<p class="input_error"></p>
 											</div>
 										</div>
 										<div class="delivery_check">
 											<div class="checkbox_item">
 												<label class="check_label">
-													<input type="checkbox" class="blind">
+													<input type="checkbox" class="blind" name="basicck">
 													<span class="label_txt">기본 배송지로 설정</span>
 												</label>
 											</div>
@@ -502,7 +662,7 @@
 					</section>
 					<div class="buy_check">
 						<div class="btn confirm">
-							<a type="button" class="btn solid">구매 입찰 계속</a>
+							<a type="button" disabled class="confirmBtnOff btn solid">구매 계속</a>
 						</div>
 					</div>
 				</div>
@@ -511,8 +671,75 @@
 	</div>
 </main>
 
-<!-- DeadLine -->
 <script>
+	const tab = document.querySelectorAll('.tab')
+	const priceNowList = document.querySelectorAll('.price_now')
+	const columnBoxList = document.querySelectorAll('.column_box')
+	const inputAmount = document.querySelector('.input_amount')
+	const amountList = document.querySelectorAll('.amount')
+	const inputErrorList = document.querySelectorAll('.input_error')
+	const priceNowTitleList = document.querySelectorAll('.price_now_title')
+	const priceList = document.querySelectorAll('.price')
+	
+	tab.forEach( element => {
+		element.addEventListener('click', tabHandler)
+	})
+	function tabHandler(event) {
+		if('${buyPrice}' == '-' && event.target.innerText =='즉시 구매') {
+			return
+		}
+		
+		priceList[2].style.color = 'black'
+		tab.forEach( element => {
+			element.classList.remove('show')
+		})
+		event.target.classList.add('show')
+		
+		priceNowList.forEach( ele => ele.classList.add('hidden') )
+		if(event.target.innerText == '구매 입찰') {
+			inputErrorList[0].classList.add('hidden')
+			priceNowTitleList[0].style.color = 'black'
+			priceNowList[0].style.borderBottom = '2px solid #ebebeb'
+			amountList[1].innerText = '- '
+			inputAmount.value = ''
+			priceNowList[0].classList.remove('hidden')
+			columnBoxList[2].classList.remove('hidden')
+		} else {
+			priceList[2].style.color = '#ef6253'
+			amountList[1].innerText = ${buyPrice}
+			priceNowList[1].classList.remove('hidden')
+			columnBoxList[2].classList.add('hidden')
+		}
+		avtiveConfirmBtn()
+	}
+	
+	inputAmount.addEventListener('focus' , borderBottom)
+	inputAmount.addEventListener('change', priceTotal)
+	function borderBottom() {
+		if(priceNowList[0].style.borderBottom == '2px solid rgb(241, 87, 70)') return
+		priceNowList[0].style.borderBottom = '2px solid black'
+	}
+	function priceTotal(event) {
+		if(event.target.value < 30000) {
+			event.target.value = ''
+			priceNowList[0].style.borderBottom = '2px solid #F15746'
+			priceList[2].style.color = 'black'
+			inputErrorList[0].classList.remove('hidden')
+			priceNowTitleList[0].style.color = '#F15746'
+			amountList[1].innerText = '- '
+			avtiveConfirmBtn()
+			return
+		}
+		
+		inputErrorList[0].classList.add('hidden')
+		priceNowTitleList[0].style.color = 'black'
+		priceNowList[0].style.borderBottom = '2px solid #ebebeb'
+		amountList[1].innerText = event.target.value
+		priceList[2].style.color = '#ef6253'
+		avtiveConfirmBtn()
+	}
+
+
 	const btnAll = document.querySelector('.deadline_tab').querySelectorAll('.btn')
 	btnAll.forEach( element => {
 		element.addEventListener('click',active)
@@ -524,16 +751,114 @@
 			element.classList.remove('is_active')
 		})
 		event.target.classList.add('is_active')
-		// sellContrller에 존재
-		const url = '${cpath}/deadline/' + event.target.innerText
+		const url = '${cpath}/deadlineBuy/' + event.target.innerText
 		fetch(url,{method:'GET'}).then(resp => resp.text())
 		.then( text => {
 			deadlineTxt.innerText = text
 		})
 	}
+
+	function check(reg, val) {
+		if(reg.test(val)){
+			return true
+		}
+		else {
+			return false
+		}
+	}	
+
+	
+	const addressList = document.querySelectorAll('.address_list')
+	const deliveryInfo = document.querySelector('.delivery_info')
+	const addressBtn = document.querySelector('.delivery_info').querySelector('.btn')
+	const deliveryTab = document.querySelector('.delivery_tab')
+	const deliveryItem = document.querySelector('.delivery_tab').querySelectorAll('.item')
+	const tabContentList = document.querySelectorAll('.tab_content')
+	const radioItem = document.querySelectorAll('.radio_item')
+	let addressIdx
+	
+	addressBtn.addEventListener('click', showDeliveryList)
+	function showDeliveryList() {
+		deliveryInfo.classList.add('hidden')
+		deliveryTab.classList.remove('hidden')
+	}
+	
+	deliveryItem.forEach( ele => { ele.addEventListener('click', deliveryTabContent)})
+	function deliveryTabContent(event) {
+		deliveryItem.forEach(ele => {ele.classList.remove('on')})
+		event.target.classList.add('on')
+		
+		tabContentList.forEach(ele => {ele.classList.add('hidden')})
+		if(event.target.innerText == '내 주소록') {
+			tabContentList[0].classList.remove('hidden')	
+		} else {
+			tabContentList[1].classList.remove('hidden')
+		}
+	}
+
+	addressList.forEach( ele => { ele.addEventListener('click', selectAddress )})
+	function selectAddress(event) {
+		if(event.target.classList == 'address_list') {
+			radioItem.forEach(ele => {
+				ele.classList.add('hidden')
+			})
+			event.target.querySelector('.radio_item').classList.remove('hidden')
+			addressIdx = event.target.querySelector('.addressIdx').value
+		}
+	}
+	
+	const confirmBtn = document.querySelector('.confirm').querySelector('.btn')
+	let tabSelect = document.querySelector('.show').innerText
+	let totalPrice = document.querySelector('.price_total').querySelector('.amount').innerText
+	let deadlineTxt = document.querySelector('.deadline_txt').innerText
+	
+	function confirmInputCheck() {
+		tabSelect = document.querySelector('.show').innerText
+		totalPrice = document.querySelector('.price_total').querySelector('.amount').innerText
+		addressIdx = document.querySelector('.addressIdx').value
+		deadlineTxt = document.querySelector('.deadline_txt').innerText
+		console.log(tabSelect)
+		console.log(totalPrice)
+		console.log(deadlineTxt)
+		
+		if(tabSelect == '구매 입찰') {
+			if(totalPrice != '- ' && deadlineTxt != '' && addressIdx != null) {
+				return true
+			}
+		} else if(tabSelect == '즉시 구매') {
+			if(totalPrice != '- ' && addressIdx != null) {
+				return true
+			}
+		}
+		return false
+	}
+	
+	function avtiveConfirmBtn() {
+		if(confirmInputCheck()){
+			confirmBtn.disabled = false
+			confirmBtn.classList.remove('confirmBtnOff')
+			confirmBtn.classList.add('confirmBtnOn')
+		}
+		else {
+			confirmBtn.disabled = true
+			confirmBtn.classList.add('confirmBtnOff')
+			confirmBtn.classList.remove('confirmBtnOn')
+		}
+	}
+	
+	confirmBtn.addEventListener('click', nextPage)
+	function nextPage() {
+		
+		if(confirmInputCheck()) {
+			location.href='${cpath}/buy/confirm/' + ${product.idx} + '?size=' + ${size} 
+							+  '&addressIdx=' + addressIdx + '&tabSelect=' + tabSelect
+							+ '&total=' + totalPrice + '&deadline=' + deadlineTxt
+		} else {
+			console.log('buy 실패')
+		}
+		
+	}
+
 </script>
-
-
-
 </body>
 </html>

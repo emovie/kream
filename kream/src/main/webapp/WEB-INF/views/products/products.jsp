@@ -2000,8 +2000,8 @@
 		fetch(url,opt).then (resp => resp.json())
 		.then( json => {
 			document.querySelector('.title_price').firstChild.nextSibling.innerText = json[0]
-			document.querySelector('.buy_num').innerText = json[1]
-			document.querySelector('.sell_num').innerText = json[2]
+			document.querySelector('.buy_num').innerText = json[2]
+			document.querySelector('.sell_num').innerText = json[1]
 		})
 		
 		sizeSelectConclusionList(size)
