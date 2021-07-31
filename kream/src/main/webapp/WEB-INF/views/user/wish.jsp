@@ -73,6 +73,29 @@
 		height: 60px;
 		background-color: #ef6253;
 		border-radius: 10px;
+		display: flex;
+		align-items: center;
+		color: white;
+	}
+	.WishBuyBtn div:first-child {
+		height: inherit;
+		border-right: 1px solid #da5b4e;
+		line-height: 60px;
+	}
+	.WishBuyBtn div:last-child {
+		padding-bottom: 5px;
+	}
+	.WishBuyBtn div	{
+		padding: 0 10px;
+	}
+	.WishBuyBtn p {
+		color: white !important;
+		margin: 0 !important;
+		text-align: left;
+	}
+	.WishBuyBtn p:last-child {
+		font-size: 11px;
+		font-weight: 300 !important;
 	}
 	.WishDeleteBtn {
 		text-align: right;
@@ -197,6 +220,18 @@ function LoadWishList() {
 				BuyADeleteBtn.classList.add('BuyADeleteBtn')
 				const WishBuyBtn = document.createElement('div')
 				WishBuyBtn.classList.add('WishBuyBtn')
+				
+				const buyText = document.createElement('div')
+				buyText.innerText = '구매'
+				WishBuyBtn.appendChild(buyText)
+				const buyPriceText = document.createElement('div')
+				const PriceText = document.createElement('p')
+				const nowPriceText = document.createElement('p')
+				PriceText.innerText = '-'
+				nowPriceText.innerText = '즉시구매가'
+				buyPriceText.appendChild(PriceText)
+				buyPriceText.appendChild(nowPriceText)
+				WishBuyBtn.appendChild(buyPriceText)
 
 				const WishDeleteBtn = document.createElement('div')
 				WishDeleteBtn.classList.add('WishDeleteBtn')
