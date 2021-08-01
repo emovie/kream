@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+		<context:property-placeholder location="WEB-INF//config/*.properties" /> 
+		<context:component-scan base-package="com.project.service" />
+		<mybatis-spring:scan base-package="com.project.model"/>
+		<bean id="dataSource"
+			class="com.mchange.v2.c3p0.ComboPooledDataSource"
+			destroy-method="close">
+		<!-- 스프링 빈으로 객체를 선언하고, property 태그로 setter를 통해 값을 지정할 수 있다 -->
+		<property name="driverClass" value="${spring.datasource.driverClassName}" />		
+		<property name="jdbcUrl" value="${spring.datasource.url}" />		
+		<property name="user" value="${spring.datasource.username}" />		
+		<property name="password" value="${spring.datasource.password}" />		
+		<property name="maxPoolSize" value="100" />		
+		<property name="maxIdleTime" value="600" />		
+		<property name="idleConnectionTestPeriod" value="300" />		
+	</bean>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:config/mybatis.xml" />
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:config/mapper-member.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="sqlSessionTemplate"
+			class="org.mybatis.spring.SqlSessionTemplate"
+			destroy-method="close">
+		<constructor-arg ref="sqlSessionFactory" />
+	</bean>	
+	
+	<!-- 파일 업로드 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10485760" />
+		<property name="maxInMemorySize" value="10485760" />
+		<property name="defaultEncoding" value="utf-8" />
+	</bean>		
+</beans>
