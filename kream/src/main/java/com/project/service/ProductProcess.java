@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class ProductProcess {
 	
 	public String addDate(int year, int month, int day) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar cal = Calendar.getInstance();
 		
 		cal.add(Calendar.YEAR, year);
@@ -23,9 +23,8 @@ public class ProductProcess {
 		String today = "";
 		
 		Date date = new Date(System.currentTimeMillis());
-		SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		today = sdf.format(date);
-		System.out.println(today);
 		return today;
 	}
 

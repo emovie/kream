@@ -35,6 +35,7 @@ public class BuyController{
 	public ModelAndView buy(@PathVariable("productIdx")int productIdx,@RequestParam("size") String size,HttpSession session) {
 		ModelAndView mav;
 		MemberDTO login = (MemberDTO) session.getAttribute("login");
+		System.out.println(login.getIdx());
 		
 		if(login == null) {
 			mav = new ModelAndView("home");
@@ -56,6 +57,7 @@ public class BuyController{
 		mav.addObject("priceList", priceList);
 		
 		String deadlineTxt = bss.getDeadlineTxt("30일");
+		System.out.println(deadlineTxt);
 		mav.addObject("deadlineTxt", deadlineTxt);
 
 		List<AddressDTO>addressList = us.getAddressList(login.getIdx());
@@ -100,7 +102,7 @@ public class BuyController{
 			buying.setCountDate(deadlineTxt);
 			buying.setStep("입찰");
 		} else {
-			buying.setStep("결제 완료");
+			buying.setStep("진행");
 		}
 		mav.addObject("buying", buying);
 		
