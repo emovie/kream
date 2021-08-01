@@ -18,7 +18,7 @@ public class FileUploadService {
 
 	@Autowired private UserDAO userdao;
 	
-	private final String uploadPath = "D:\\kreamUpload";
+	private final String uploadPath = "C:\\kreamUpload";
 	
 	public FileUploadService() {
 		File dir = new File(uploadPath);
