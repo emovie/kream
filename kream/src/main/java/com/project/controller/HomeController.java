@@ -9,9 +9,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.model.ProductDTO;
+import com.project.service.ListService;
 import com.project.service.MainpageService;
 
 @Controller
@@ -123,6 +127,23 @@ public class HomeController {
 		mav.addObject("keyword",keyword);
 		mav.addObject("productCount",list.size());
 		return mav;
+	}
+	
+	private ObjectMapper mapper = new ObjectMapper();
+	
+	@Autowired private ListService ks;
+	
+	@GetMapping("/list")
+	public String aaa() {
+		return "list";
+	}
+	
+	@PostMapping(value="/list", produces="application/json;charset=utf-8")
+	@ResponseBody
+	public String list() throws JsonProcessingException {
+		List<ProductDTO> list = ks.selectList();
+		String result = mapper.writeValueAsString(list);
+		return result;
 	}
 	
 }
