@@ -49,7 +49,7 @@ public class UserLoginController {
 
 		String hashedPw = Hash.getHash(logindto.getPw());
 	
-		System.out.println(hashedPw.equals(dto.getPw()));
+		// System.out.println(hashedPw.equals(dto.getPw()));
 		
 		if (dto == null || !Hash.getHash(logindto.getPw()).equals(dto.getPw()) || ms.checkEmail(logindto.getEmail()) == 0 )
 			return;
