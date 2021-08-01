@@ -4,7 +4,6 @@
 <c:if test="${empty login}" >
 	<script>location.href = '${cpath}'</script>
 </c:if>
-
 <style>
 	main {
 		background : #FAFAFA;
@@ -421,7 +420,7 @@
 		width: 85%;
 	}
 	.show {
-		background-color: #41b979;
+		background-color: #ef6253;
 		font-weight: 700;
 		color: white;
 	}
@@ -495,21 +494,21 @@
 						<div class="instant_group">
 							<div class="tab_list">
 								<ul>
-									<li class="tab show">판매 입찰</li>
-									<li class="tab">즉시 판매</li>
+									<li class="tab show">구매 입찰</li>
+									<li class="tab">즉시 구매</li>
 								</ul>
 							</div>
 							<div class="price_now">
-								<span class="price_now_title">판매 희망가</span>
+								<span class="price_now_title">구매 희망가</span>
 								<span class="price">
 									<input class="input_amount" type="text" placeholder="희망가 입력"><span class="unit">원</span>
 								</span>
 								<p class="input_error hidden">3만원 이상 입력하세요</p>
 							</div>
 							<div class="price_now hidden">
-								<span class="price_now_title">즉시 판매가</span>
+								<span class="price_now_title">즉시 구매가</span>
 								<span class="price">
-									<span class="amount">${sellPrice }</span><span class="unit">원</span>
+									<span class="amount">${buyPrice }</span><span class="unit">원</span>
 								</span>
 							</div>
 							<div class="price_bind">
@@ -518,16 +517,12 @@
 									<span class="price_text">무료</span>
 								</div>
 								<div class="price_addition">
-									<span class="price_title">판매 수수료</span>
-									<span class="price_text">무료 이벤트</span>
-								</div>
-								<div class="price_addition">
 									<span class="price_title">배송비</span>
-									<span class="price_text">선불・판매자 부담</span>
+									<span class="price_text">무료 배송</span>
 								</div>
 							</div>
 							<div class="price_total">
-								<span class="price_title">총 정산금액</span>
+								<span class="price_title">총 결제금액</span>
 								<span class="price">
 									<span class="amount">- </span><span class="unit">원</span>
 								</span>
@@ -549,19 +544,7 @@
 						</div>					
 					</section>
 					<section class="column_box">
-						<div class="section_title">판매 정산 계좌</div>
-						<div class="setion_content">
-							<div class="settlement_account">
-								<div class="account_box">
-									<span class="acc_bank"></span>
-									<span class="acc_number"></span>								
-								</div>
-								<button class="btn outlinegrey medium">변경</button>
-							</div>
-						</div>					
-					</section>
-					<section class="column_box">
-						<div class="section_title">반송 주소</div>
+						<div class="section_title">배송 주소</div>
 						<div class="setion_content">
 							<div class="delivery_info">
 								<div class="address_info">
@@ -671,79 +654,11 @@
 					</section>
 					<div class="buy_check">
 						<div class="btn confirm">
-							<a type="button" disabled class="confirmBtnOff btn solid">판매 계속</a>
+							<a type="button" disabled class="confirmBtnOff btn solid">구매 계속</a>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	<!-- modal -->
-	<div class="layer hidden">
-		<div class="modal account">
-			<div class="modal_header title">정산 계좌 변경</div>
-			<div class="modal_content">
-				<form id="accountForm">
-					<div class="account_registration">
-						<div class="input_box">
-							<h3 class="input_title">은행명</h3>
-							<div class="input_item">
-								<select class="input_txt" name="accountBank">
-									<option>은행을 선택하세요</option>
-									<option value="국민은행">국민은행</option>
-									<option value="신한은행">신한은행</option>
-									<option value="우리은행">우리은행</option>
-									<option value="하나은행">하나은행</option>
-									<option value="기업은행">기업은행</option>
-									<option value="농협은행">농협은행</option>
-									<option value="SC은행">SC은행</option>
-									<option value="한국씨티은행">한국씨티은행</option>
-									<option value="우체국">우체국</option>
-									<option value="산업은행">산업은행</option>
-									<option value="부산은행">부산은행</option>
-									<option value="카카오뱅크">카카오뱅크</option>
-									<option value="케이뱅크">케이뱅크</option>
-									<option value="광주은행">광주은행</option>
-									<option value="제주은행">제주은행</option>
-									<option value="수협중앙회">수협중앙회</option>
-									<option value="전북은행">전북은행</option>
-									<option value="지역농축협">지역농축협</option>
-									<option value="경남은행">경남은행</option>
-									<option value="새마을금고연합회">새마을금고연합회</option>
-									<option value="신협">신협</option>
-									<option value="저축은행">저축은행</option>
-									<option value="HSBC은행">HSBC은행</option>
-									<option value="도이치은행">도이치은행</option>
-									<option value="제이피모간체이스은행">제이피모간체이스은행</option>
-									<option value="BOA은행">BOA은행</option>
-									<option value="비엔피파리바은행">비엔피파리바은행</option>
-									<option value="중국공상은행">중국공상은행</option>
-									<option value="산림조합">산림조합</option>
-									<option value="중국건설은행">중국건설은행</option>
-								</select>
-							</div>
-						</div>
-						<div class="input_box">
-							<h3 class="input_title">계좌번호</h3>
-							<div class="input_item">
-								<input type="text" name="accountNumber" placeholder="- 없이 입력하세요" class="input_txt" id="modal_accNum">
-							</div>
-							<p class="input_error hidden">올바른 계좌번호를 입력해주세요</p>
-						</div>
-						<div class="input_box">
-							<h3 class="input_title">예금주</h3>
-							<div class="input_item">
-								<input type="text" name="accountName" placeholder="예금주명을 정확히 입력하세요" class="input_txt" id="modal_accName">
-							</div>
-							<p class="input_error hidden">올바른 이름을 입력해주세요. (2-50자)</p>
-						</div>
-					</div>
-					<div class="layer_btn">
-						<button type="submit" disabled class="accountBtnOff btn solid medium">저장하기</button>
-					</div>
-				</form>
-			</div>
-			<div class="btn_layer_close">X</div>		
 		</div>
 	</div>
 </main>
@@ -762,7 +677,7 @@
 		element.addEventListener('click', tabHandler)
 	})
 	function tabHandler(event) {
-		if('${sellPrice}' == '-' && event.target.innerText =='즉시 판매') {
+		if('${buyPrice}' == '-' && event.target.innerText =='즉시 구매') {
 			return
 		}
 		
@@ -773,7 +688,7 @@
 		event.target.classList.add('show')
 		
 		priceNowList.forEach( ele => ele.classList.add('hidden') )
-		if(event.target.innerText == '판매 입찰') {
+		if(event.target.innerText == '구매 입찰') {
 			inputErrorList[0].classList.add('hidden')
 			priceNowTitleList[0].style.color = 'black'
 			priceNowList[0].style.borderBottom = '2px solid #ebebeb'
@@ -782,8 +697,8 @@
 			priceNowList[0].classList.remove('hidden')
 			columnBoxList[2].classList.remove('hidden')
 		} else {
-			priceList[2].style.color = '#41b979'
-			amountList[1].innerText = ${sellPrice}
+			priceList[2].style.color = '#ef6253'
+			amountList[1].innerText = ${buyPrice}
 			priceNowList[1].classList.remove('hidden')
 			columnBoxList[2].classList.add('hidden')
 		}
@@ -812,7 +727,7 @@
 		priceNowTitleList[0].style.color = 'black'
 		priceNowList[0].style.borderBottom = '2px solid #ebebeb'
 		amountList[1].innerText = event.target.value
-		priceList[2].style.color = '#41b979'
+		priceList[2].style.color = '#ef6253'
 		avtiveConfirmBtn()
 	}
 
@@ -828,7 +743,7 @@
 			element.classList.remove('is_active')
 		})
 		event.target.classList.add('is_active')
-		const url = '${cpath}/deadlineSell/' + event.target.innerText
+		const url = '${cpath}/deadlineBuy/' + event.target.innerText
 		fetch(url,{method:'GET'}).then(resp => resp.text())
 		.then( text => {
 			deadlineTxt.innerText = text
@@ -844,139 +759,6 @@
 		}
 	}	
 
-
-	const accountBtn = document.querySelector('.settlement_account').querySelector('.btn')
-	const layer = document.querySelector('.layer')
-	const btnLayerClose = document.querySelector('.btn_layer_close')
-	const bankList = document.querySelector('select.input_txt')
-	const accountSelect = document.querySelector('select')
-	let bankNum = document.getElementById('modal_accNum')
-	let bankName = document.getElementById('modal_accName')
-	const layerInputText = layer.querySelectorAll('.input_txt')
-	const layerBtn = document.querySelector('.layer_btn').querySelector('button')
-	const accountErrorList = document.querySelector('.account').querySelectorAll('.input_error')
-	
-	// 	layer open
-	accountBtn.addEventListener('click' , accountModal)
-	function accountModal(event) {
-		document.querySelector('.layer').classList.remove('hidden')
-		document.querySelector('.account').classList.remove('hidden')
-	}
-
-	// 	layer close
-	btnLayerClose.addEventListener('click', accountCloseModal)
-	function accountCloseModal(event) {
-		layer.classList.add('hidden')
-	}
-
-	// 	accountBank select
-	bankList.addEventListener('change', accountBankSelect)
-	function accountBankSelect(event) {
-		avtiveAccountBtn()
-	}
-
-	// 	accountNumber check
-	bankNum.addEventListener('change', accountNumberCheck)
-	function accountNumberCheck(event) {
-		let reg_AccountNum = /^[0-9]{10,50}$/
-		
-		if(!check(reg_AccountNum,bankNum.value)){
-			accountErrorList[0].classList.remove('hidden')
-			bankNum.value = ''
-		}
-		else if(check(reg_AccountNum,bankNum.value)) {
-			accountErrorList[0].classList.add('hidden')
-		}
-		avtiveAccountBtn()
-	}
-	
-// accountName check
-	bankName.addEventListener('change', accountNameCheck)
-	function accountNameCheck(event) {
-		let reg_name = /^[가-힣]{2,50}$/
-		if(!check(reg_name,bankName.value)){
-			accountErrorList[1].classList.remove('hidden')
-			bankName.value = ''
-		}
-		else if(check(reg_name,bankName.value)) {
-			accountErrorList[1].classList.add('hidden')
-		}
-		avtiveAccountBtn()
-	}
-	
-	function accountInputCheck() {
-		if(accountSelect.value != '' && accountSelect.value != null) {
-			if(bankNum.value != '' && bankNum.value != null) {
-				if(bankName.value != '' && bankName.value != null) {
-					return true
-				}
-			}
-		}
-		return false
-	}
-	
-// 	accountBtn disabled
-	function avtiveAccountBtn() {
-		if(accountInputCheck()){
-			layerBtn.disabled = false
-			layerBtn.classList.remove('accountBtnOff')
-			layerBtn.classList.add('accountBtnOn')
-		}
-		else {
-			layerBtn.disabled = true
-			layerBtn.classList.add('accountBtnOff')
-			layerBtn.classList.remove('accountBtnOn')
-		}
-	}
-	
-// 	account save
-	const accountForm = document.getElementById('accountForm')
-	
-	accountForm.onsubmit = function() {
-		
-		event.preventDefault()
-		
-		const formData = new FormData(accountForm) 
-		
-		const url = '${cpath}/my/account/register/'
-		const opt = {
-				method: 'POST',
-				body: formData,
-		}
-		fetch(url, opt)
-		.then(resp => resp.text())
-		.then(text => {
-			if(text == 1) {
-				location.reload(true)
-			}
-			else {
-				alert('계좌 등록에 실패했습니다')
-			}
-		})
-	}
-	
-	window.onload = function() {
-		const url = '${cpath}/my/account/read/'
-			const opt = {
-					method: 'GET'
-			}
-			fetch(url, opt)
-			.then(resp => resp.json())
-			.then(json => {
-				if(json != null) {
-					const sub = json.accountNumber.substr(0,7)
-					const tmpAccount = json.accountNumber.replace(sub,"********")
-				
-					document.querySelector('.acc_bank').innerText = json.accountBank
-					document.querySelector('.acc_number').innerText = tmpAccount
-					accountSelect.value = json.accountBank
-					bankNum.value = json.accountNumber
-					bankName.value = json.accountName
-				}
-			})
-	}
-
-	
 	
 	const addressList = document.querySelectorAll('.address_list')
 	const deliveryInfo = document.querySelector('.delivery_info')
@@ -1017,7 +799,6 @@
 		}
 	}
 	
-// 	confirm
 	const confirmBtn = document.querySelector('.confirm').querySelector('.btn')
 	let tabSelect = document.querySelector('.show').innerText
 	let totalPrice = document.querySelector('.price_total').querySelector('.amount').innerText
@@ -1032,11 +813,11 @@
 		console.log(totalPrice)
 		console.log(deadlineTxt)
 		
-		if(tabSelect == '판매 입찰') {
+		if(tabSelect == '구매 입찰') {
 			if(totalPrice != '- ' && deadlineTxt != '' && addressIdx != null) {
 				return true
 			}
-		} else if(tabSelect == '즉시 판매') {
+		} else if(tabSelect == '즉시 구매') {
 			if(totalPrice != '- ' && addressIdx != null) {
 				return true
 			}
@@ -1061,11 +842,11 @@
 	function nextPage() {
 		
 		if(confirmInputCheck()) {
-			location.href='${cpath}/sell/confirm/' + ${product.idx} + '?size=' + ${size} 
+			location.href='${cpath}/buy/confirm/' + ${product.idx} + '?size=' + ${size} 
 							+  '&addressIdx=' + addressIdx + '&tabSelect=' + tabSelect
 							+ '&total=' + totalPrice + '&deadline=' + deadlineTxt
 		} else {
-			console.log('sell 실패')
+			console.log('buy 실패')
 		}
 		
 	}

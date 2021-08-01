@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.project.service.FileUploadService;
 import com.project.service.Hash;
+import com.project.model.AccountDTO;
 import com.project.model.AddressDTO;
+import com.project.model.BuySellDTO;
 import com.project.model.MemberDTO;
 import com.project.model.ProductDAO;
 import com.project.model.ProductDTO;
@@ -65,6 +67,11 @@ public class AjaxController {
 	public List<ProductDTO> mostPopular() {
 		return mainserv.mostPopular();
 	}
+	
+	@GetMapping("/main/Electronics/")
+	public List<ProductDTO> Electronics() {
+		return mainserv.Electronics();
+	}
 
 	// 이메일, 비밀번호 찾기
 	@PostMapping("/login/find_password/")
@@ -85,7 +92,8 @@ public class AjaxController {
 	// 마이페이지 주소등록
 	@PostMapping("/my/regiAddress/")
 	public int addressBook(AddressDTO dto) {
-		System.out.println(dto.getMemberIdx());
+		System.out.println("address req member IDX: " + dto.getMemberIdx());
+		System.out.println("address req checkBox: " + dto.getBasicck());
 		return userserv.regiAddress(dto);
 	}
 	
@@ -94,6 +102,27 @@ public class AjaxController {
 	public List<AddressDTO> getAddressList(@PathVariable int loginIdx) {
 		return userserv.getAddressList(loginIdx);
 	}
+	
+	// 마이페이지 기본 배송지 변경
+	@GetMapping("/my/regiAddress/changeBasic/{addressIdx}")
+	public int changBasicAdd(@PathVariable int addressIdx,HttpSession session) {
+		MemberDTO sessionLogin = (MemberDTO)session.getAttribute("login");
+		return userserv.changBasicAdd(addressIdx,sessionLogin.getIdx());
+	}
+	
+	// 마이페이지 배송지 삭제
+	@GetMapping("/my/regiAddress/deleteAdd/{addressIdx}")
+	public int deleteAdd(@PathVariable int addressIdx) {
+		return userserv.deleteAdd(addressIdx);
+	}
+	
+	// 마이페이지 배송지 수정
+	@PostMapping("/my/regiAddress/modifyAdd/{addressIdx}")
+	public int modifyAdd(AddressDTO dto, @PathVariable int addressIdx, HttpSession session) {
+		MemberDTO sessionLogin = (MemberDTO)session.getAttribute("login");
+		return userserv.modifyAdd(dto, addressIdx, sessionLogin.getIdx());
+	}
+	
 	
 	// 마이페이지 관심 상품
 	@GetMapping("/my/wish/{loginIdx}/")
@@ -206,4 +235,46 @@ public class AjaxController {
 		return 0;
 	}
 	
+	// 판매 정산 계좌 등록
+	@PostMapping("/my/account/register/")
+	public int registerAccount(AccountDTO dto, HttpSession session) {
+		MemberDTO nowLogin = (MemberDTO)session.getAttribute("login");
+		return userserv.registerAccount(dto, nowLogin.getIdx());
+	}
+	
+	// 판매 정산 계좌 가져오기
+	@GetMapping("/my/account/read/")
+	public AccountDTO readAccount(HttpSession session) {
+		MemberDTO nowLogin = (MemberDTO)session.getAttribute("login");
+		return userserv.readAccount(nowLogin.getIdx());
+	}
+	
+	// 구매입찰 내역 조회
+	@PostMapping("/my/buying/BuyHistory/")
+	public List<BuySellDTO> readBuyHistory(BuySellDTO dto, HttpSession session) {
+		MemberDTO nowLogin = (MemberDTO)session.getAttribute("login");
+		dto.setMemberIdx(nowLogin.getIdx());
+		return userserv.readBuyHistory(dto);
+	}
+
+	// 판매입찰 내역 조회
+	@PostMapping("/my/selling/SellHistory/")
+	public List<BuySellDTO> readSellHistory(BuySellDTO dto, HttpSession session) {
+		MemberDTO nowLogin = (MemberDTO)session.getAttribute("login");
+		dto.setMemberIdx(nowLogin.getIdx());
+		return userserv.readSellHistory(dto);
+	}
+	
+	// 구매 입찰 써머리
+	@GetMapping("/my/buying/BuyHistory/Summary/")
+	public HashMap<String, Object> BuySummary(HttpSession session) {
+		MemberDTO nowLogin = (MemberDTO)session.getAttribute("login");
+		return userserv.BuySummary(nowLogin.getIdx());
+	}
+	// 판매 입찰 써머리
+	@GetMapping("/my/selling/SellHistory/Summary/")
+	public HashMap<String, Object> SellSummary(HttpSession session) {
+		MemberDTO nowLogin = (MemberDTO)session.getAttribute("login");
+		return userserv.SellSummary(nowLogin.getIdx());
+	}
 }

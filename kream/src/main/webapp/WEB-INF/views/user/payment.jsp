@@ -24,7 +24,7 @@
 				<ul>
 					<li><a href="${cpath }/my/profile">프로필 정보</a></li>
 					<li><a href="${cpath }/my/address">주소록</a></li>
-					<li><a href="${cpath }/my/payment" class="menuStrong">결제 정보</a></li>
+					<!-- <li><a href="${cpath }/my/payment">결제 정보</a></li>  -->
 					<li><a href="${cpath }/my/account">판매 정산 계좌</a></li>
 				</ul>
 			</div>

@@ -76,13 +76,13 @@
         }
         .searchBtn {
             background-image: url('https://i.imgur.com/Av9j7SQ.png');
+            cursor: pointer;
             background-repeat: no-repeat;
             background-size: 55%;
             background-position: center;
             width: 50px;
             height: 50px;
             margin: auto;
-            cursor: pointer;
         }
         
         /* search */

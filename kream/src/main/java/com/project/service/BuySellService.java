@@ -3,10 +3,17 @@ package com.project.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.model.AddressDTO;
+import com.project.model.BuySellDAO;
+import com.project.model.BuyingDTO;
+import com.project.model.MemberDTO;
+import com.project.model.SellingDTO;
+
 @Service
 public class BuySellService {
 	
 	@Autowired ProductProcess process = new ProductProcess();
+	@Autowired BuySellDAO bsdao;
 
 	public String getDeadlineTxt(String day) {
 		String deadline = "";
@@ -30,9 +37,51 @@ public class BuySellService {
 		default:
 			break;
 		}
-		deadline = String.format("%s (20%s 마감)", day, date);
+		deadline = String.format("%s (%s 마감)", day, date);
 		return deadline;
 	}
+
+	public AddressDTO getAddress(int addressIdx) {
+		return bsdao.getAddress(addressIdx);
+	}
+
+	public MemberDTO getMember(int loginIdx) {
+		return bsdao.getMember(loginIdx);
+	}
+
+	public int insertSelling(SellingDTO sell) {
+		if(sell.getCountDate().length() != 0) {
+			String cntDate = sell.getCountDate();
+			int length = cntDate.length();
+			cntDate = cntDate.substring(length-14, length-3);
+			sell.setCountDate(cntDate);
+			sell.setEndDate(null);
+		} else {
+			sell.setEndDate(process.nowToday());
+			sell.setCountDate(null);
+		}
+		
+		int ck = bsdao.insertSelling(sell);
+		return ck;
+	}
+
+	public int insertBuying(BuyingDTO buy) {
+		if(buy.getCountDate().length() != 0) {
+			String cntDate = buy.getCountDate();
+			int length = cntDate.length();
+			cntDate = cntDate.substring(length-14, length-3);
+			buy.setCountDate(cntDate);
+			buy.setEndDate(null);
+		} else {
+			buy.setEndDate(process.nowToday());
+			buy.setCountDate(null);
+		}
+		
+		int ck = bsdao.insertBuying(buy);
+		return ck;
+	}
+	
+
 
 	
 	

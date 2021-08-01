@@ -9,7 +9,9 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.project.model.AccountDTO;
 import com.project.model.AddressDTO;
+import com.project.model.BuySellDTO;
 import com.project.model.MemberDTO;
 import com.project.model.ProductDAO;
 import com.project.model.ProductDTO;
@@ -56,7 +58,7 @@ public class UserService {
 	public int regiAddress(AddressDTO dto) {
 		
 		int basicckCount = dao.checkedBasicck(dto.getMemberIdx());
-		System.out.println(dto.getBasicck());
+		System.out.println("dto.getBasicck(): " + dto.getBasicck());
 		// 로그인 유저의 주소록이 1개 이상인지 확인한다
 		if(basicckCount > 0) {
 			// 주소록이 1개 이상이고 서브밋하는 기본 배송지 값이 null인 경우 그냥 'n' 입력
@@ -69,7 +71,7 @@ public class UserService {
 			// 기존에  basicck 값이 'y'인 컬럼을 'n'으로 교체한다.
 			else {
 				dto.setBasicck("y");
-				dao.changeBasicck();
+				dao.changeBasicck(dto.getMemberIdx());
 				return dao.regiAddress(dto);
 			}
 		}
@@ -147,6 +149,127 @@ public class UserService {
 
 	public int wishItemDelete(int wishIdx) {
 		return dao.wishItemDelete(wishIdx);
+	}
+
+	public int changBasicAdd(int addressIdx, int memberidx) {
+		// 기존 기본배송지를 'n'으로 변경
+		dao.changeBasicck(memberidx);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("addressIdx", addressIdx);
+		map.put("memberidx", memberidx);
+		return dao.changBasicAdd(map);
+	}
+
+	public int deleteAdd(int addressIdx) {
+		return dao.deleteAdd(addressIdx);
+	}
+
+	public int modifyAdd(AddressDTO dto, int addressIdx, int memberIdx) {
+		
+		dto.setIdx(addressIdx);
+		
+		int BasicckIdx = dao.checkBasicckIdx(memberIdx);
+		
+		// 기본 배송지 체크가 null인 경우 
+		// dto 기본배송지 값을 n으로 입력 후 디비에 전송
+		if(dto.getBasicck() == null && addressIdx != BasicckIdx) {
+			dto.setBasicck("n");
+			return dao.modifyAdd(dto);
+		}
+		// 기본 배송지 체크가 y인 경우
+		// dto 기본배송지 값을 y로 입력 후 
+		// 기존 디비의 basicck 값을 모두 n으로 변경 후 dto 전송
+		else {
+			dto.setBasicck("y");
+			dao.changeBasicck(dto.getMemberIdx());
+			return dao.modifyAdd(dto);
+		}
+	
+	}
+
+	public int registerAccount(AccountDTO dto, int idx) {
+		dto.setIdx(idx);
+		return dao.registerAccount(dto);
+	}
+
+	public AccountDTO readAccount(int idx) {
+		MemberDTO memberDto = dao.AccountData(idx);
+		AccountDTO accountDto = new AccountDTO();
+		accountDto.setAccountBank(memberDto.getAccountbank());
+		accountDto.setAccountNumber(memberDto.getAccountnumber());
+		accountDto.setAccountName(memberDto.getAccountname());
+		return accountDto;
+	}
+
+	public List<BuySellDTO> readBuyHistory(BuySellDTO dto) {
+		List<BuySellDTO> list = dao.readBuyHistory(dto);
+		List<BuySellDTO> newList = new ArrayList<BuySellDTO>();
+		
+		for(BuySellDTO BSdto : list) {
+			int prodIdx = BSdto.getProductIdx();
+			List<ProductImgDTO> imgList = proddao.getImg(prodIdx);
+			ProductDTO prodDto = proddao.getProdDTO(prodIdx);
+			if(imgList.size() > 0 && prodDto != null) {
+				BSdto.setImgList(imgList);
+				BSdto.setProductDTO(prodDto);
+				newList.add(BSdto);
+			}
+			else {
+				newList.add(BSdto);
+			}
+		}
+		return newList;
+	}
+
+	public List<BuySellDTO> readSellHistory(BuySellDTO dto) {
+		
+		List<BuySellDTO> list = dao.readSellHistory(dto);
+		List<BuySellDTO> newList = new ArrayList<BuySellDTO>();
+		
+		for(BuySellDTO BSdto : list) {
+			int prodIdx = BSdto.getProductIdx();
+			List<ProductImgDTO> imgList = proddao.getImg(prodIdx);
+			ProductDTO prodDto = proddao.getProdDTO(prodIdx);
+			if(imgList.size() > 0 && prodDto != null) {
+				BSdto.setImgList(imgList);
+				BSdto.setProductDTO(prodDto);
+				newList.add(BSdto);
+			}
+			else {
+				newList.add(BSdto);
+			}
+		}
+		return newList; 
+	}
+
+	public HashMap<String, Object> BuySummary(int idx) {
+		int buyAllCount = dao.BuyAllCount(idx);
+		int buyBidCount = dao.BuyBidCount(idx);
+		int buyProceedCount = dao.BuyProceedCount(idx);
+		int buyEndCount = dao.BuyEndCount(idx);
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("buyAllCount", buyAllCount);
+		map.put("buyBidCount", buyBidCount);
+		map.put("buyProceedCount", buyProceedCount);
+		map.put("buyEndCount", buyEndCount);
+		return map;
+	}
+
+	public HashMap<String, Object> SellSummary(int idx) {
+		int sellAllCount = dao.SellAllCount(idx);
+		int sellBidCount = dao.SellBidCount(idx);
+		int sellProceedCount = dao.SellProceedCount(idx);
+		int sellEndCount = dao.SellEndCount(idx);
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+		map.put("sellAllCount", sellAllCount);
+		map.put("sellBidCount", sellBidCount);
+		map.put("sellProceedCount", sellProceedCount);
+		map.put("sellEndCount", sellEndCount);
+		return map;
 	}
 
 

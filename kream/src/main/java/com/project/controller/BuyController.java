@@ -15,32 +15,33 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.project.model.AddressDTO;
+import com.project.model.BuyingDTO;
 import com.project.model.MemberDTO;
 import com.project.model.ProductDTO;
-import com.project.model.SellingDTO;
 import com.project.service.BuySellService;
 import com.project.service.ProductProcess;
 import com.project.service.ProductService;
 import com.project.service.UserService;
 
 @Controller
-public class SellController {
+public class BuyController{
 	
 	@Autowired private ProductService ps;
 	@Autowired private BuySellService bss;
 	@Autowired private UserService us;
 	@Autowired private ProductProcess process;
 
-	@GetMapping("/sell/{productIdx}")
-	public ModelAndView sell(@PathVariable("productIdx")int productIdx,@RequestParam("size") String size,HttpSession session) {
+	@GetMapping("/buy/{productIdx}")
+	public ModelAndView buy(@PathVariable("productIdx")int productIdx,@RequestParam("size") String size,HttpSession session) {
 		ModelAndView mav;
 		MemberDTO login = (MemberDTO) session.getAttribute("login");
+		System.out.println(login.getIdx());
 		
 		if(login == null) {
 			mav = new ModelAndView("home");
 			return mav;
 		}
-		mav = new ModelAndView("/products/sell");
+		mav = new ModelAndView("/products/buy");
 		
 		mav.addObject("size", size);
 
@@ -52,10 +53,11 @@ public class SellController {
 		String sellPrice = ps.getSellSizePrice(productIdx,size);
 		priceList.put("즉시 구매가", sellPrice);
 		priceList.put("즉시 판매가", buyPrice);
-		mav.addObject("sellPrice", buyPrice);
+		mav.addObject("buyPrice", sellPrice);
 		mav.addObject("priceList", priceList);
 		
 		String deadlineTxt = bss.getDeadlineTxt("30일");
+		System.out.println(deadlineTxt);
 		mav.addObject("deadlineTxt", deadlineTxt);
 
 		List<AddressDTO>addressList = us.getAddressList(login.getIdx());
@@ -71,38 +73,38 @@ public class SellController {
 		return mav;
 	}
 	
-	@GetMapping(value="/deadlineSell/{day}", produces = "application/json; charset=utf-8")
+	@GetMapping(value="/deadlineBuy/{day}", produces = "application/json; charset=utf-8")
 	@ResponseBody
 	public String deadlineText(@PathVariable("day") String day) {
 		return bss.getDeadlineTxt(day);
 	}
 	
-	@GetMapping("/sell/confirm/{productIdx}")
+	@GetMapping("/buy/confirm/{productIdx}")
 	public ModelAndView confirm(@PathVariable int productIdx,@RequestParam("tabSelect")String tabSelect,@RequestParam("size") String size,@RequestParam("addressIdx") int addressIdx,@RequestParam("total") int totalPrice,@RequestParam("deadline")String deadlineTxt,HttpSession session) {
-		ModelAndView mav = new ModelAndView("/products/sellConfirm");
-		SellingDTO selling = new SellingDTO();
+		ModelAndView mav = new ModelAndView("/products/buyConfirm");
+		BuyingDTO buying = new BuyingDTO();
 		
 		MemberDTO login = (MemberDTO) session.getAttribute("login");
 		if(login == null) {
 			mav = new ModelAndView("home");
 			return mav;
 		}
-		mav = new ModelAndView("/products/sellConfirm");
+		mav = new ModelAndView("/products/buyConfirm");
 		
-		selling.setStartDate(process.nowToday());
-		selling.setMemberIdx(login.getIdx());
-		selling.setProductIdx(productIdx);
-		selling.setpSize(size);
-		selling.setAddressIdx(addressIdx);
-		selling.setPrice(totalPrice);
+		buying.setStartDate(process.nowToday());
+		buying.setMemberIdx(login.getIdx());
+		buying.setProductIdx(productIdx);
+		buying.setpSize(size);
+		buying.setAddressIdx(addressIdx);
+		buying.setPrice(totalPrice);
 		
-		if(tabSelect.equals("판매 입찰")) {
-			selling.setCountDate(deadlineTxt);
-			selling.setStep("입찰");
+		if(tabSelect.equals("구매 입찰")) {
+			buying.setCountDate(deadlineTxt);
+			buying.setStep("입찰");
 		} else {
-			selling.setStep("진행");
+			buying.setStep("진행");
 		}
-		mav.addObject("selling", selling);
+		mav.addObject("buying", buying);
 		
 		MemberDTO member = bss.getMember(login.getIdx());
 		mav.addObject("member", member);
@@ -110,8 +112,8 @@ public class SellController {
 		ProductDTO product = ps.getProductInfo(productIdx);
 		mav.addObject("product", product);
 		
-		String sellPrice = ps.getSellSizePrice(productIdx,size);
-		mav.addObject("sellPrice", sellPrice);
+		String buyPrice = ps.getBuySizePrice(productIdx,size);
+		mav.addObject("buyPrice", buyPrice);
 		
 		AddressDTO address = bss.getAddress(addressIdx);
 		mav.addObject("address", address);
@@ -121,14 +123,15 @@ public class SellController {
 		return mav;
 	}
 
-	@PostMapping("/products/sellThx")
-	public String thanks(SellingDTO sell) {
+	@PostMapping("/products/buyThx")
+	public String thanks(BuyingDTO buy) {
 		
-		int ck = bss.insertSelling(sell);
+		int ck = bss.insertBuying(buy);
 //		if(ck == 0) {
 //			return "/products/fail";
 //		}
 //		return "/products/thx";
+		
 		return "home";
 		
 	}
