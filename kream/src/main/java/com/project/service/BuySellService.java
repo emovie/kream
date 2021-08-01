@@ -37,7 +37,7 @@ public class BuySellService {
 		default:
 			break;
 		}
-		deadline = String.format("%s (20%s 마감)", day, date);
+		deadline = String.format("%s (%s 마감)", day, date);
 		return deadline;
 	}
 
@@ -50,10 +50,10 @@ public class BuySellService {
 	}
 
 	public int insertSelling(SellingDTO sell) {
-		if(sell.getCountDate() != null || !sell.getCountDate().equals("")) {
+		if(sell.getCountDate().length() != 0) {
 			String cntDate = sell.getCountDate();
 			int length = cntDate.length();
-			cntDate = cntDate.substring(length-12, length-3);
+			cntDate = cntDate.substring(length-14, length-3);
 			sell.setCountDate(cntDate);
 			sell.setEndDate(null);
 		} else {
@@ -66,10 +66,10 @@ public class BuySellService {
 	}
 
 	public int insertBuying(BuyingDTO buy) {
-		if(buy.getCountDate() != null) {
+		if(buy.getCountDate().length() != 0) {
 			String cntDate = buy.getCountDate();
 			int length = cntDate.length();
-			cntDate = cntDate.substring(length-12, length-3);
+			cntDate = cntDate.substring(length-14, length-3);
 			buy.setCountDate(cntDate);
 			buy.setEndDate(null);
 		} else {

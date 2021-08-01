@@ -9,9 +9,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 public interface ProductDAO {
-	// 김희준
-	@Select("select product.productname ,product.brand ,product.price,product.category ,productimg.img from product join productimg on product.idx = productimg.productidx")
-	List<ProductDTO> selectList();
 
 	// 안희경
 //	@Select("select * from product order by idx asc")
@@ -60,10 +57,10 @@ public interface ProductDAO {
 	@Select("select MIN(price) from selling where productidx=#{idx} AND psize=#{size} AND step='입찰'")
 	Integer sellHighSizePrice(@Param("idx") int idx,@Param("size") String key);
 	
-	@Select("select price from buying where step='배송완료' and productidx=#{idx} order by endDate desc FETCH FIRST 1 ROWS ONLY")
+	@Select("select price from buying where step='종료' and productidx=#{idx} order by endDate desc FETCH FIRST 1 ROWS ONLY")
 	Integer latelyPrice(@Param("idx") int idx);
 	
-	@Select("select price from buying where step='배송완료' and productidx=#{idx} and psize=#{size} order by endDate desc FETCH FIRST 1 ROWS ONLY")
+	@Select("select price from buying where step='종료' and productidx=#{idx} and psize=#{size} order by endDate desc FETCH FIRST 1 ROWS ONLY")
 	Integer sizelatelyPrice(@Param("idx") int idx,@Param("size") String size);
 	
 	@Select("select psize from productwish where productidx=#{productIdx} and memberidx=#{memberIdx}")
@@ -75,10 +72,10 @@ public interface ProductDAO {
 	@Insert("insert into productwish values (productwish_seq.nextval,#{productIdx},#{memberIdx},#{size})")
 	void insertProductWish(@Param("productIdx") String productIdx,@Param("memberIdx") String memberIdx,@Param("size") String size);
 
-	@Select("select pSize, price, endDate from buying where productidx=#{productIdx} and step='배송완료' order by endDate desc FETCH FIRST 30 ROWS ONLY")
+	@Select("select pSize, price, endDate from buying where productidx=#{productIdx} and step='종료' order by endDate desc FETCH FIRST 30 ROWS ONLY")
 	ArrayList<BuySellDTO> getConclusionList(@Param("productIdx") int productIdx);
 	
-	@Select("select pSize, price, endDate from buying where productidx=#{productIdx} and step='배송완료' and psize=#{size} order by endDate desc FETCH FIRST 30 ROWS ONLY")
+	@Select("select pSize, price, endDate from buying where productidx=#{productIdx} and step='종료' and psize=#{size} order by endDate desc FETCH FIRST 30 ROWS ONLY")
 	ArrayList<BuySellDTO> getConclusionSizeList(@Param("productIdx") int productIdx,@Param("size") String size);
 
 	@Select("select psize, price, count(*) as cnt from selling where productidx=#{idx} group by psize, price order by price")
@@ -93,16 +90,16 @@ public interface ProductDAO {
 	@Select("select psize, price, count(*) as cnt from buying where productidx=#{idx} and psize=#{size} group by psize, price order by price desc")
 	ArrayList<BuySellDTO> getSizeBuyList(@Param("idx") int idx,@Param("size") String size);
 	
-	@Select("select endDate from buying where productidx=${idx} and step='배송완료' order by endDate")
+	@Select("select endDate from buying where productidx=${idx} and step='종료' order by endDate")
 	ArrayList<String> getChartXData(@Param("idx") int idx);
 
-	@Select("select price from buying where productidx=${idx} and step='배송완료' order by endDate")
+	@Select("select price from buying where productidx=${idx} and step='종료' order by endDate")
 	ArrayList<String> getChartYData(@Param("idx") int idx);
 
-	@Select("select endDate from buying where productidx=${idx} and step='배송완료' and endDate>'${date}' group by endDate order by endDate")
+	@Select("select endDate from buying where productidx=${idx} and step='종료' and endDate>'${date}' group by endDate order by endDate")
 	ArrayList<String> getChartSelectXData(@Param("idx") int idx,@Param("date") String date);
 	
-	@Select("select MAX(price) from buying where productidx=${idx} and step='배송완료' and endDate>'${date}' group by endDate order by endDate")
+	@Select("select MAX(price) from buying where productidx=${idx} and step='종료' and endDate>'${date}' group by endDate order by endDate")
 	ArrayList<String> getChartSelectYData(@Param("idx") int idx,@Param("date") String tab);
 	
 }

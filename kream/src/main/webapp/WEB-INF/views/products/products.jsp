@@ -1388,8 +1388,6 @@
 <!-- loginCheck -->
 <script>
 	const login = '${login.idx}'
-	console.log(login == null)
-	console.log(login == '')
 	
 	const loginCheck = document.querySelector('.login_check')
 	const loginCheck2 = document.querySelector('.login_check2')

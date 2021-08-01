@@ -100,7 +100,7 @@ public class SellController {
 			selling.setCountDate(deadlineTxt);
 			selling.setStep("입찰");
 		} else {
-			selling.setStep("결제 완료");
+			selling.setStep("진행");
 		}
 		mav.addObject("selling", selling);
 		

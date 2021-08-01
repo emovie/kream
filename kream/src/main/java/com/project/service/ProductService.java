@@ -224,7 +224,6 @@ public class ProductService {
 	public ArrayList<String> getChartXData(int idx,String tab) {
 		ArrayList<String> list = new ArrayList<String>();
 		ArrayList<String> Xlist = new ArrayList<String>();
-		
 		if(tab.equals("chartAll")) {
 			list = dao.getChartXData(idx);
 		} else {
